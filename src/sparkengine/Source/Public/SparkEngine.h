@@ -1,8 +1,9 @@
 #include<iostream>
+#include"sparkengine.api.gen.h"
 
 namespace Spark
 {
-    class SparkEngine
+    class SPARKENGINE_API SparkEngine
     {
         public:
         

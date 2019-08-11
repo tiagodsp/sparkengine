@@ -39,10 +39,15 @@ function(sbs_add_module)
     get_filename_component(SBS_MODULE_NAME ${CMAKE_CURRENT_LIST_DIR} NAME)
     set(SBS_MODULE_DIR ${CMAKE_CURRENT_LIST_DIR})
     set(SBS_MODULE_SOURCE_DIR ${SBS_MODULE_DIR}/Source)
+    string(TOUPPER ${SBS_MODULE_NAME} SBS_MODULE_NAME_UPPER)
+    set(SBS_MODULE_INTERMEDIATE_DIR ${SBS_MODULE_DIR}/intermediate)
+
     message("Adding ${SBS_MODULE_NAME} module (${SBS_MODULE_DIR}).")
     
+    #Configure intermediates
+    configure_file(${CMAKE_SOURCE_DIR}/sbs/templates/api.gen.h.in ${SBS_MODULE_INTERMEDIATE_DIR}/${SBS_MODULE_NAME}.api.gen.h)
     
-    
+    include_directories(${SBS_MODULE_INTERMEDIATE_DIR})
     include_directories(${SBS_MODULE_SOURCE_DIR}/Public)
     include_directories(${SBS_MODULE_SOURCE_DIR}/Private)
     
@@ -57,10 +62,25 @@ function(sbs_add_module)
         add_executable(${SBS_MODULE_NAME} ${module_source_files})
     endif()
 
+    # Let's set compiler-specific flags
+    if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+        # G++
+        target_compile_options(${SBS_MODULE_NAME} PRIVATE -Wall -Wextra -fvisibility=hidden)
+    elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "LLVM")
+        #Clang
+        target_compile_options(${SBS_MODULE_NAME} PRIVATE -Wall -Wextra -fvisibility=hidden)    
+    elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
+        # MSVC
+        target_compile_options(${SBS_MODULE_NAME} PRIVATE /EHsc /MTd /W2 /c)
+        # Set the DLLEXPORT variable to export symbols
+        target_compile_definitions(${SBS_MODULE_NAME} PRIVATE WIN_EXPORT)
+    endif()
+
     #Add module dependencies;
     foreach(dependency ${sbs_add_module_DEPENDS})
         message("Module depends on ${dependency}")
         target_include_directories(${SBS_MODULE_NAME} PUBLIC ${SPARKBUILDSYSTEM_SOURCE_DIR}/${dependency}/Source/Public)
+        target_include_directories(${SBS_MODULE_NAME} PUBLIC ${SPARKBUILDSYSTEM_SOURCE_DIR}/${dependency}/intermediate)
         #target_include_directories(${SBS_MODULE_NAME} PRIVATE ${BANKRUPT_SOURCE_DIR}/${dependency}/Source/Private)
         target_link_libraries(${SBS_MODULE_NAME} ${dependency})
     endforeach()
