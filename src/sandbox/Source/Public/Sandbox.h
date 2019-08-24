@@ -1,5 +1,6 @@
 #include "Spark.h"
 #include <iostream>
+#include "Spark/Events/ApplicationEvent.h"
 #include "sandbox.api.gen.h"
 
 namespace SandboxApp
@@ -9,6 +10,8 @@ namespace SandboxApp
         public:
         Sandbox();
         ~Sandbox();
+
+        void Run() override;
     };
 }
 

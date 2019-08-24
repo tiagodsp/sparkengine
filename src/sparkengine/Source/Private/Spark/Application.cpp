@@ -15,7 +15,7 @@ namespace Spark
 
     void Application::Run()
     {
-        while(true);
+        
     }
 
 }
