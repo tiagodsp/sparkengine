@@ -6,7 +6,7 @@ namespace Spark
 {
     Application::Application()
     {
-
+        m_PlatformWindow = std::unique_ptr<IPlatformWindow>(IPlatformWindow::Create());
     }
 
     Application::~Application()
@@ -17,7 +17,10 @@ namespace Spark
 
     void Application::Run()
     {
-        
+        while(m_Running)
+        {
+            m_PlatformWindow->OnUpdate();
+        }
     }
 
 }

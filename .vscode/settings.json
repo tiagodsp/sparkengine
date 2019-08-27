@@ -50,6 +50,14 @@
         "utility": "cpp",
         "algorithm": "cpp",
         "map": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "bitset": "cpp",
+        "iterator": "cpp",
+        "memory_resource": "cpp",
+        "random": "cpp",
+        "regex": "cpp",
+        "future": "cpp",
+        "shared_mutex": "cpp",
+        "cinttypes": "cpp"
     }
 }
