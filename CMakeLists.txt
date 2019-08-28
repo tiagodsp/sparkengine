@@ -34,7 +34,7 @@ endmacro()
 
 function(sbs_add_module)
     set(options LIBRARY PROGRAM USE_PCH)
-    set(dependencies DEPENDS EXTERNAL)
+    set(dependencies DEPENDS EXTERNAL FLAGS)
     cmake_parse_arguments(sbs_add_module "${options}" "${onevalue}" "${dependencies}" ${ARGN})
 
     
@@ -59,6 +59,8 @@ function(sbs_add_module)
         message("Building mode of module ${SBS_MODULE_NAME} set as Program")
         add_executable(${SBS_MODULE_NAME} ${module_source_files})
     endif()
+
+    target_link_libraries(${SBS_MODULE_NAME} ${sbs_add_module_FLAGS})
 
     target_include_directories(${SBS_MODULE_NAME}
         PUBLIC ${SBS_MODULE_INTERMEDIATE_DIR}

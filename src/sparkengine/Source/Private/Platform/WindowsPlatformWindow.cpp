@@ -31,7 +31,7 @@ namespace Spark
 
         SC_LOG_INFO("Creating window {0} {1}, {2}", props.Title, props.Width, props.Height);
 
-        if(is_GLFWInitialized)
+        if(!is_GLFWInitialized)
         {
             // TODO: glfwTerminate on system shutdown
             int success = glfwInit();
