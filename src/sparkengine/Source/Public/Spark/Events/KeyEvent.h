@@ -11,7 +11,7 @@ namespace Spark
     {
     public:
         inline int GetKeyCode() const { return m_KeyCode; }
-        EVENT_CLASS_CATEGORY(EventCategory::Keyboard | EventCategory::Input)
+        EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
     protected:
         KeyEvent(int keycode)
             : m_KeyCode(keycode) {}

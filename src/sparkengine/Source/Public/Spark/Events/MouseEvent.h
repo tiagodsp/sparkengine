@@ -29,7 +29,7 @@ namespace Spark
         }
 
         EVENT_CLASS_TYPE(EventType::MouseMoved)
-        EVENT_CLASS_CATEGORY(EventCategory::EventCategoryMouse | EventCategory::EventCategoryInput)
+        EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 
     private:
         float m_MouseX, m_MouseY;
@@ -41,8 +41,8 @@ namespace Spark
         MouseScrollEvent(float xOffset, float yOffset)
             : m_XOffset(xOffset), m_YOffset(yOffset) {}
         
-        inline float GetXOffset() const { return xOffset; }
-        inline float GetYOffset() const { return yOffset; }
+        inline float GetXOffset() const { return m_XOffset; }
+        inline float GetYOffset() const { return m_YOffset; }
         inline void GetXYOffset(float& x, float& y)
         {
             x = m_XOffset;
@@ -52,12 +52,12 @@ namespace Spark
         std::string ToString() const override
         {
             std::stringstream ss;
-            ss << "MouseScrollEvent: " << xOffset << ", " << yOffset;
+            ss << "MouseScrollEvent: " << m_XOffset << ", " << m_YOffset;
             return ss.str();
         }
 
         EVENT_CLASS_TYPE(EventType::MouseScrolled)
-        EVENT_CLASS_CATEGORY(EventCategory::EventCategoryMouse | EventCategory::EventCategoryInput)
+        EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 
     private:
         float m_XOffset, m_YOffset;
@@ -68,7 +68,7 @@ namespace Spark
     public:
         inline int GetMouseButton() const { return m_Button; }
         
-        EVENT_CLASS_CATEGORY(EventCategory::EventCategoryMouse | EventCategory::EventCategoryInput)
+        EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
     protected:
         MouseButtonEvent(int button)
             : m_Button(button) {}
@@ -76,7 +76,7 @@ namespace Spark
         int m_Button;        
     };
 
-    class SPARKENGINE_API MouseButtonPressedEvent : public Event
+    class SPARKENGINE_API MouseButtonPressedEvent : public MouseButtonEvent
     {
     public:
         MouseButtonPressedEvent(int button)
@@ -92,7 +92,7 @@ namespace Spark
         EVENT_CLASS_TYPE(EventType::MouseButtonPressed)    
     };
 
-    class SPARKENGINE_API MouseButtonReleasedEvent : public Event
+    class SPARKENGINE_API MouseButtonReleasedEvent : public MouseButtonEvent
     {
     public:
         MouseButtonReleasedEvent(int button)

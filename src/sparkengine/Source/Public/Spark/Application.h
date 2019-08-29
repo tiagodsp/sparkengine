@@ -10,7 +10,9 @@ namespace Spark
         Application();
         virtual ~Application();
 
-        virtual void Run();
+        void Run();
+
+        void OnEvent(Event& e);
     private:
         std::unique_ptr<IPlatformWindow> m_PlatformWindow;
         bool m_Running = true;

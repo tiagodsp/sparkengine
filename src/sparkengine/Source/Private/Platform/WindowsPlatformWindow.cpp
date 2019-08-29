@@ -2,6 +2,10 @@
 
 #include "Spark/Log.h"
 
+#include "Spark/Events/ApplicationEvent.h"
+#include "Spark/Events/KeyEvent.h"
+#include "Spark/Events/MouseEvent.h"
+
 #include "Platform/WindowsPlatformWindow.h"
 
 namespace Spark
@@ -37,7 +41,9 @@ namespace Spark
             int success = glfwInit();
 
             SC_ASSERT(success, "Could not initialize GLFW");
-
+            glfwSetErrorCallback([](int error, const char* description){
+                SC_LOG_ERROR("GLFW Error ({0}): {1}", error, description);
+            });
             is_GLFWInitialized = true;
         }
 
@@ -45,6 +51,87 @@ namespace Spark
         glfwMakeContextCurrent(m_Window);
         glfwSetWindowUserPointer(m_Window, &m_Data);
         SetVSync(true);
+
+        //Set GLFW callbacks ---------
+        glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window,int width,int height){
+            WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+            data.Width = width;
+            data.Height = height;
+            WindowResizeEvent event(width, height);
+            data.EventCallback(event);
+        });
+
+        glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
+        {
+            WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));            
+            WindowCloseEvent event;
+            data.EventCallback(event);
+        });
+
+        glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
+        {
+            WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));            
+            
+            switch (action)
+            {
+                case GLFW_RELEASE:
+                {
+                    KeyReleasedEvent event(key);
+                    data.EventCallback(event);
+                    break;
+                }
+                case GLFW_PRESS:
+                {
+                    KeyPressedEvent event(key, 0);
+                    data.EventCallback(event);
+                    break;
+                }
+                case GLFW_REPEAT:
+                {
+                    KeyPressedEvent event(key, 1);
+                    data.EventCallback(event);
+                    break;
+                }
+            }
+        });
+
+        glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mode)
+        {
+            WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));             
+
+            switch (action)
+            {
+                case GLFW_PRESS:
+                {
+                    MouseButtonPressedEvent event(button);
+                    data.EventCallback(event);
+                    break;
+                }
+                case GLFW_RELEASE:
+                {
+                    MouseButtonReleasedEvent event(button);
+                    data.EventCallback(event);
+                    break;
+                }
+            }
+        });
+
+        glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xoffset, double yoffset)
+        {
+            WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));             
+
+            MouseScrollEvent event((float)xoffset, (float)yoffset);
+            data.EventCallback(event);
+        });
+
+        glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos)
+        {
+            WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));             
+
+            MouseMovedEvent event((float)xpos, (float)ypos);
+            data.EventCallback(event);
+        });
+
     }
 
     void WindowsPlatformWindow::Shutdown()
