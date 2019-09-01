@@ -1,5 +1,7 @@
 #pragma once
 
+#include "sparkengine.PCH.h"
+
 #include "Spark/CoreTypes.h"
 #include "Spark/Application.h"
 #include "Spark/Log.h"

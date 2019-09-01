@@ -44,6 +44,8 @@ namespace Spark
         virtual unsigned char GetCategoryFlags() const = 0;
         virtual std::string ToString() const { return GetName(); }
 
+        inline bool isHandled() { return m_Handled; }
+
         inline bool IsInCategory(EventCategory category)
         {
             return GetCategoryFlags() & static_cast<unsigned char>(category);
