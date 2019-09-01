@@ -24,7 +24,7 @@ namespace Spark
         }
 
         EVENT_CLASS_TYPE(EventType::WindowResize)
-        EVENT_CLASS_CATEGORY(EventCategoryApplication)
+        EVENT_CLASS_CATEGORY(EventCategory::Application)
 
     private:
         unsigned int m_Width, m_Height; 
@@ -36,7 +36,7 @@ namespace Spark
         WindowCloseEvent() {}
 
         EVENT_CLASS_TYPE(EventType::WindowClose)
-        EVENT_CLASS_CATEGORY(EventCategoryApplication)
+        EVENT_CLASS_CATEGORY(EventCategory::Application)
     };
 
     class SPARKENGINE_API AppTickEvent : public Event
@@ -45,7 +45,7 @@ namespace Spark
         AppTickEvent() {}
 
         EVENT_CLASS_TYPE(EventType::AppTick)
-        EVENT_CLASS_CATEGORY(EventCategoryApplication)
+        EVENT_CLASS_CATEGORY(EventCategory::Application)
     };
 
     class SPARKENGINE_API AppUpdateEvent : public Event
@@ -54,7 +54,7 @@ namespace Spark
         AppUpdateEvent() {}
 
         EVENT_CLASS_TYPE(EventType::AppUpdate)
-        EVENT_CLASS_CATEGORY(EventCategoryApplication)
+        EVENT_CLASS_CATEGORY(EventCategory::Application)
     };
 
     class SPARKENGINE_API AppRenderEvent : public Event
@@ -63,7 +63,7 @@ namespace Spark
         AppRenderEvent() {}
 
         EVENT_CLASS_TYPE(EventType::AppRender)
-        EVENT_CLASS_CATEGORY(EventCategoryApplication)
+        EVENT_CLASS_CATEGORY(EventCategory::Application)
     };
 
 } // namespace Spark

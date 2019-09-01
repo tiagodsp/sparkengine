@@ -17,21 +17,17 @@ namespace Spark
         MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
     };
    
-    enum EventCategory
+    enum class EventCategory : unsigned
     {
-        EventCategoryNone = 0,
-        EventCategoryApplication    = BIT(0),
-        EventCategoryInput          = BIT(1),
-        EventCategoryKeyboard       = BIT(2),
-        EventCategoryMouse          = BIT(3),
-        EventCategoryMouseButton    = BIT(4)
+        None = 0,
+        Application    = BIT(0),
+        Input          = BIT(1),
+        Keyboard       = BIT(2),
+        Mouse          = BIT(3),
+        MouseButton    = BIT(4),
+
     };
-    // EventCategory operator|(EventCategory lhs, EventCategory rhs)
-    // {
-    //     return static_cast<EventCategory>(
-    //         static_cast<unsigned char>(lhs) | static_cast<unsigned char>(rhs)
-    //     );
-    // }
+    ENUM_ENABLE_BITMASK_OPERATORS(Spark::EventCategory)
 
 #define EVENT_CLASS_TYPE(type)  static EventType GetStaticType() { return type; }\
                                 virtual EventType GetEventType() const override { return GetStaticType(); }\

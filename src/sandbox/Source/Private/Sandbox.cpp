@@ -1,4 +1,6 @@
 #include "Sandbox.h"
+#include <string>
+
 
 namespace SandboxApp
 {

@@ -58,6 +58,8 @@
         "regex": "cpp",
         "future": "cpp",
         "shared_mutex": "cpp",
-        "cinttypes": "cpp"
+        "cinttypes": "cpp",
+        "set": "cpp",
+        "unordered_set": "cpp"
     }
 }
