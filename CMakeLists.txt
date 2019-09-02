@@ -86,38 +86,16 @@ function(sbs_add_module)
 
     #Add module dependencies;
     foreach(dependency ${sbs_add_module_DEPENDS})
-        message("Module depends on ${dependency}")
-        target_include_directories(${SBS_MODULE_NAME} PUBLIC ${SPARKBUILDSYSTEM_SOURCE_DIR}/${dependency}/Source/Public)
-        target_include_directories(${SBS_MODULE_NAME} PUBLIC ${SPARKBUILDSYSTEM_SOURCE_DIR}/${dependency}/intermediate)
-        #target_include_directories(${SBS_MODULE_NAME} PRIVATE ${BANKRUPT_SOURCE_DIR}/${dependency}/Source/Private)
         target_link_libraries(${SBS_MODULE_NAME} ${dependency})
     endforeach()
-    
 
     #Add ThirdParty dependencies;
     if(EXISTS ${SBS_MODULE_DIR}/ThirdParty)
         message("Third party folder for module ${SBS_MODULE_NAME} found. Checking...")
         file(GLOB folders RELATIVE ${SBS_MODULE_DIR}/ThirdParty ${SBS_MODULE_DIR}/ThirdParty/*)
         foreach(folder ${folders})
-            message("Adding include directory: ${SBS_MODULE_DIR}/ThirdParty/${folder}/include}")
-            include_directories(${SBS_MODULE_DIR}/ThirdParty/${folder}/include)
-            target_include_directories(${SBS_MODULE_NAME} PUBLIC ${SBS_MODULE_DIR}/ThirdParty/${folder}/include/)
-
-            if(UNIX)
-            message("Importing libraries for LINUX platform.")
-                set(platform "linux")
-                set(extensions "a;so")
-            elseif(WIN32)
-                message("Importing libraries for WINDOWS platform.")
-                set(platform "win64")
-                set(extensions "lib;dll")
-            endif()
-
-            foreach(extension ${extensions})
-                file(GLOB_RECURSE libraries ${SBS_MODULE_DIR}/ThirdParty/${folder}/lib/${platform}/ "*.${extension}" NAME)
-                message("Found pre-built libraries (*.${extension}): ${libraries}")
-                target_link_libraries(${SBS_MODULE_NAME} ${libraries})
-            endforeach()
+            add_subdirectory(${SBS_MODULE_DIR}/ThirdParty/${folder})
+            target_link_libraries(${SBS_MODULE_NAME} ${folder})
         endforeach()
     endif()
     

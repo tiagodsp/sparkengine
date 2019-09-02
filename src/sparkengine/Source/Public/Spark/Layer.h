@@ -2,6 +2,8 @@
 
 #include "Spark/CoreTypes.h"
 
+#include "Events/Event.h"
+
 #include "sparkengine.api.gen.h"
 
 namespace Spark
