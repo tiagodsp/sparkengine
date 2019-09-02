@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.11)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/sbs/cmake/cmakepch)
 
-project(sparkengine CXX CXXPCH)
+project(sparkengine C CXX CXXPCH)
 
 set(CMAKE_CXX_FLAGS "-std=c++17")
 
@@ -34,7 +34,7 @@ endmacro()
 
 function(sbs_add_module)
     set(options LIBRARY PROGRAM USE_PCH)
-    set(dependencies DEPENDS EXTERNAL FLAGS)
+    set(dependencies DEPENDS EXTERNAL DEFINITIONS)
     cmake_parse_arguments(sbs_add_module "${options}" "${onevalue}" "${dependencies}" ${ARGN})
 
     
@@ -60,7 +60,8 @@ function(sbs_add_module)
         add_executable(${SBS_MODULE_NAME} ${module_source_files})
     endif()
 
-    target_link_libraries(${SBS_MODULE_NAME} ${sbs_add_module_FLAGS})
+    
+    target_compile_definitions(${SBS_MODULE_NAME} PRIVATE ${sbs_add_module_FLAGS})
 
     target_include_directories(${SBS_MODULE_NAME}
         PUBLIC ${SBS_MODULE_INTERMEDIATE_DIR}
@@ -69,18 +70,19 @@ function(sbs_add_module)
     )
 
     # Let's set compiler-specific flags
-    if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+    if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
         # G++
-        target_compile_options(${SBS_MODULE_NAME} PRIVATE -Wall -Wextra -fvisibility=hidden)
-    elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "LLVM")
+        target_compile_options(${SBS_MODULE_NAME} PRIVATE -Wall -Wextra -fvisibility=hidden -Wno-unused-parameter -Wno-unused-variable)
+    elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "LLVM")
         #Clang
-        target_compile_options(${SBS_MODULE_NAME} PRIVATE -Wall -Wextra -fvisibility=hidden)    
-    elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
+        target_compile_options(${SBS_MODULE_NAME} PRIVATE -Wall -Wextra -fvisibility=hidden -Wno-unused-parameter -Wno-unused-variable)    
+    elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
         # MSVC
         target_compile_options(${SBS_MODULE_NAME} PRIVATE /EHsc /MTd /W2 /c)
         # Set the DLLEXPORT variable to export symbols
-        target_compile_definitions(${SBS_MODULE_NAME} PRIVATE WIN_EXPORT)
     endif()
+    
+    target_compile_definitions(${SBS_MODULE_NAME} PRIVATE WIN_EXPORT)
 
   
 

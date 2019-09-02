@@ -3,7 +3,7 @@
 #include "Spark/CoreTypes.h"
 #include "Spark/PlatformWindow.h"
 
-#include "GLFW/glfw3.h"
+struct GLFWwindow;
 
 namespace Spark
 {

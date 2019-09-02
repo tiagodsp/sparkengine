@@ -1,6 +1,6 @@
 sbs_add_module(
     LIBRARY
     USE_PCH
-    EXTERNAL spdlog glfw
-    #FLAGS "-lX11 -lpthread"
+    EXTERNAL spdlog glfw glad
+    DEFINITIONS "GLFW_INCLUDE_NONE"
 )

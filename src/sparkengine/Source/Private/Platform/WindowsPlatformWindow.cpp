@@ -1,4 +1,5 @@
 #include "sparkengine.PCH.h"
+#include "Platform/WindowsPlatformWindow.h"
 
 #include "Spark/Log.h"
 
@@ -6,7 +7,8 @@
 #include "Spark/Events/KeyEvent.h"
 #include "Spark/Events/MouseEvent.h"
 
-#include "Platform/WindowsPlatformWindow.h"
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
 
 namespace Spark
 {
@@ -49,6 +51,8 @@ namespace Spark
 
         m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
         glfwMakeContextCurrent(m_Window);
+        int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+        SC_ASSERT(status, "Failed to initialize GLAD.");
         glfwSetWindowUserPointer(m_Window, &m_Data);
         SetVSync(true);
 
