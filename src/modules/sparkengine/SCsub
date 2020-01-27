@@ -1,0 +1,10 @@
+#!/usr/bin/env python
+
+from buildsystem.targetrules import TargetRules, TargetType, setup_target
+
+class SparkengineTargetRules(TargetRules):
+    def __init__(self):
+        super(SparkengineTargetRules, self).__init__()
+
+Import('env')  
+setup_target(env, SparkengineTargetRules())

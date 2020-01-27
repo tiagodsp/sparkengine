@@ -1,0 +1,17 @@
+#!/usr/bin/env python
+
+import os
+
+#Search and Build modules
+
+modules_dir = os.path.join(os.path.curdir, "modules")
+modules = os.listdir(modules_dir)
+for module in modules:
+    scsub_file = os.path.join(modules_dir, module, "SCsub")
+    if(os.path.exists(scsub_file)):
+        SConscript(
+            os.path.join(modules_dir, module, "SCsub")
+            # variant_dir=os.path.join(modules_dir, module, "Binaries"),
+            # duplicate=0
+        )
+
