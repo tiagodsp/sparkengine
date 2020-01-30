@@ -1,7 +1,6 @@
 // #include "Sandbox.h"
 // #include <string>
 
-
 // namespace SandboxApp
 // {
 //     Sandbox::Sandbox()
@@ -20,8 +19,10 @@
 //     // }
 // }
 #include <iostream>
+#include <MyLib.h>
 int main()
 {
     std::cout << "TEST" << std::endl;
+    MyLib::MyLibClass::saysomething();
     return 0;
 }
