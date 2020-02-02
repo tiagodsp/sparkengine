@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.11)
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/sbs/cmake/cmakepch)
+#list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/sbs/cmake/cmakepch)
 
-project(sparkengine C CXX CXXPCH)
+project(sparkengine C CXX)
 
 set(CMAKE_CXX_FLAGS "-std=c++17")
 
@@ -54,7 +54,7 @@ function(sbs_add_module)
     #Set modules type;
     if(sbs_add_module_LIBRARY)
         message("Building mode of module ${SBS_MODULE_NAME} set as Library")
-        add_library(${SBS_MODULE_NAME} SHARED ${module_source_files})
+        add_library(${SBS_MODULE_NAME} STATIC ${module_source_files})
     elseif(sbs_add_module_PROGRAM)
         message("Building mode of module ${SBS_MODULE_NAME} set as Program")
         add_executable(${SBS_MODULE_NAME} ${module_source_files})
@@ -88,7 +88,7 @@ function(sbs_add_module)
 
     #Add module dependencies;
     foreach(dependency ${sbs_add_module_DEPENDS})
-        target_link_libraries(${SBS_MODULE_NAME} ${dependency})
+        target_link_libraries(${SBS_MODULE_NAME} PUBLIC ${dependency})
     endforeach()
 
     #Add ThirdParty dependencies;
@@ -124,4 +124,4 @@ function(sbs_add_module)
 endfunction()
 
 
-add_subdirectory(${SPARKBUILDSYSTEM_SOURCE_DIR})
+add_subdirectory(${SPARKBUILDSYSTEM_SOURCE_DIR}/modules)
