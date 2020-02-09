@@ -1,7 +1,13 @@
 sbs_add_module(
-    PROGRAM
+    LIBRARY
     USE_PCH
-    DEPENDS sparkengine
+    EXTERNAL
+        "spdlog"
+        "glfw"
+        "glad"
+        #"imgui"
+    DEFINITIONS
+        "GLFW_INCLUDE_NONE"
     SOURCE_PATHS
         "Source/Public/"
         "Source/Private/"

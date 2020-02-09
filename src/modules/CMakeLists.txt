@@ -1,13 +1,18 @@
 message("============================")
 message("Scanning Modules...")
+message("============================")
 
 sbs_subdirlist(modules ${CMAKE_CURRENT_LIST_DIR})
 
 foreach(module ${modules})
     #message(${module})
     if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/${module}/CMakeLists.txt")
-        message("Scanning ${module}/CMakeLists.txt")
+        message("-------------------------------------------------------")
+        message("-- Scanning ${module}/CMakeLists.txt")
+        message("-------------------------------------------------------")
         add_subdirectory(${module})
     endif()
 endforeach()
-
+message("============================")
+message("Finished")
+message("============================")

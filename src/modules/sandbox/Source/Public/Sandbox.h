@@ -1,21 +1,22 @@
-// #include "Spark.h"
-// #include <iostream>
-// #include "Spark/Events/ApplicationEvent.h"
-// #include "sandbox.api.gen.h"
+#include "Spark.h"
+#include <iostream>
+#include "Spark/Application.h"
+#include "Spark/Events/ApplicationEvent.h"
+//#include "sandbox.api.gen.h"
 
-// namespace SandboxApp
-// {
-//     class SANDBOX_API Sandbox : public Spark::Application
-//     {
-//         public:
-//         Sandbox();
-//         ~Sandbox();
+namespace SandboxApp
+{
+    class Sandbox : public Spark::Application
+    {
+        public:
+        Sandbox();
+        ~Sandbox();
 
-//         //void Run() override;
-//     };
-// }
+        //void Run() override;
+    };
+}
 
-// Spark::Application* Spark::CreateApplication()
-// {
-//     return new SandboxApp::Sandbox();
-// }
+Spark::Application* Spark::CreateApplication()
+{
+    return new SandboxApp::Sandbox();
+}

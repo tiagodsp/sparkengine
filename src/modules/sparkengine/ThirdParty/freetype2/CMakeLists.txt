@@ -22,3 +22,4 @@ add_library(${LIBRARY_NAME} STATIC null.cpp)
 target_include_directories(${LIBRARY_NAME} PUBLIC "./include")
 target_link_libraries(${LIBRARY_NAME} PRIVATE ${libraries})
 
+set_target_properties(${LIBRARY_NAME} PROPERTIES FOLDER "ThirdParty")

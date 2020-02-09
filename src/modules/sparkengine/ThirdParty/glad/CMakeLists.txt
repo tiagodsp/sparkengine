@@ -14,3 +14,4 @@ add_library(${LIBRARY_NAME} STATIC ${sources})
 target_include_directories(${LIBRARY_NAME} PUBLIC "./include")
 set_target_properties(${LIBRARY_NAME} PROPERTIES LINKER_LANGUAGE C)
 
+set_target_properties(${LIBRARY_NAME} PROPERTIES FOLDER "ThirdParty")

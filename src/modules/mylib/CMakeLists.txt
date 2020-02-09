@@ -1,4 +1,11 @@
 sbs_add_module(
     LIBRARY
     USE_PCH
+    SOURCE_PATHS
+        "Source/Public/"
+        "Source/Private/"
+    PUBLIC_INCLUDE_PATHS
+        "Source/Public/"
+    PRIVATE_INCLUDE_PATHS
+        "Source/Private/"
 )

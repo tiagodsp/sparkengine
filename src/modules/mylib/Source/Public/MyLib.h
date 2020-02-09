@@ -2,7 +2,7 @@
 
 namespace MyLib
 {
-    class MyLibClass
+    class MYLIB_API MyLibClass
     {
     private:
         /* data */

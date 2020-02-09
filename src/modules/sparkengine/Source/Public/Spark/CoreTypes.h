@@ -13,10 +13,10 @@
 
 #define BIT(x) (1 << x)
 
-typedef unsigned char       BYTE;
-typedef unsigned short      WORD;
-typedef unsigned int        DWORD;
-typedef int                 BOOL;
+//typedef unsigned char       BYTE;
+//typedef unsigned short      WORD;
+//typedef unsigned int        DWORD;
+//typedef int                 BOOL;
 
 typedef signed char         int8_t;
 typedef signed short int    int16_t;
