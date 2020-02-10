@@ -2,6 +2,11 @@
 #include "Spark/Log.h"
 #include "Spark/Events/ApplicationEvent.h"
 
+// TEMPORARY!!! --------------
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
+// ---------------------------
+
 #include"Spark/Application.h"
 
 namespace Spark
@@ -25,6 +30,9 @@ namespace Spark
     {
         while(m_Running)
         {
+            glClearColor(0,0,0,0);
+            glClear(GL_COLOR_BUFFER_BIT);
+            
             for(Layer* layer : m_LayerStack)
             {
                 layer->OnUpdate();

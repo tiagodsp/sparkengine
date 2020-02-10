@@ -139,6 +139,14 @@ namespace Spark
             data.EventCallback(event);
         });
 
+        glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int keycode)
+        {
+            WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+
+            KeyTypedEvent event(keycode);
+            data.EventCallback(event);
+        });
+
     }
 
     void WindowsPlatformWindow::Shutdown()
