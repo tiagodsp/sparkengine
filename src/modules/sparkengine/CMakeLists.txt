@@ -5,7 +5,7 @@ sbs_add_module(
         "spdlog"
         "glfw"
         "glad"
-        #"imgui"
+        "imgui"
     DEFINITIONS
         "GLFW_INCLUDE_NONE"
     SOURCE_PATHS

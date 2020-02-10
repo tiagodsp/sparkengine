@@ -99,15 +99,15 @@ function(sbs_add_module)
     endif()
 
     # Add include paths
-    foreach(inc_path ${sbs_add_module_PUBLIC_INCLUDE_PATHS})
+    foreach(public_inc_path ${sbs_add_module_PUBLIC_INCLUDE_PATHS})
         target_include_directories(${SBS_MODULE_NAME} BEFORE
-            PUBLIC ${SBS_MODULE_DIR}/${inc_path}
+            PUBLIC ${SBS_MODULE_DIR}/${public_inc_path}
         )
     endforeach()
 
-    foreach(public_inc_path ${sbs_add_module_PRIVATE_INCLUDE_PATHS})
+    foreach(private_inc_path ${sbs_add_module_PRIVATE_INCLUDE_PATHS})
         target_include_directories(${SBS_MODULE_NAME} BEFORE
-            PRIVATE ${SBS_MODULE_DIR}/${inc_path}
+            PRIVATE ${SBS_MODULE_DIR}/${private_inc_path}
         )
     endforeach()
 

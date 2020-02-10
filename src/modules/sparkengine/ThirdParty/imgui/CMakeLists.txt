@@ -11,7 +11,7 @@ endforeach()
 
 add_library(${LIBRARY_NAME} STATIC ${sources})
 target_include_directories(${LIBRARY_NAME} PUBLIC "./src")
-target_link_libraries(${LIBRARY_NAME} PRIVATE freetype2)
+#target_link_libraries(${LIBRARY_NAME} PRIVATE freetype2)
 set_target_properties(${LIBRARY_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 
 set_target_properties(${LIBRARY_NAME} PROPERTIES FOLDER "ThirdParty")

@@ -13,8 +13,6 @@ namespace Spark
 
     void Log::Init()
     {
-        std::cout << "Hue";
-        //spdlog::sinks::sink
         spdlog::set_pattern("[%H:%M:%S %z] [%n] [%^---%L---%$] [thread %t] %v");
         s_CoreLogger = spdlog::stdout_color_mt("SPARK");
         s_CoreLogger->set_level(spdlog::level::trace);

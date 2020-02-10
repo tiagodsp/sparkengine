@@ -17,7 +17,14 @@ namespace Spark
 
         void PushLayer(Layer* layer);
         void PushOverlay(Layer* overlay);
+
+        inline IPlatformWindow& GetWindow() {return *m_PlatformWindow; }
+
+        inline static Application& Get() { return *s_Instance; }
+
     private:
+        static Application* s_Instance;
+        
         std::unique_ptr<IPlatformWindow> m_PlatformWindow;
         bool m_Running = true;
 
