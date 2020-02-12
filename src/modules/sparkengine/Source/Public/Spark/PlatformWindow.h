@@ -41,6 +41,8 @@ namespace Spark
         virtual void SetVSync(bool enabled) = 0;
         virtual bool IsVSync() const = 0;
 
+        virtual void* GetNativeWindow() const = 0;
+
         static IPlatformWindow* Create(const WindowProps& props = WindowProps());
     };
 }

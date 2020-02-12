@@ -1,6 +1,7 @@
 #include "sparkengine.PCH.h"
 #include "Spark/Log.h"
 #include "Spark/Events/ApplicationEvent.h"
+#include "Spark/Input.h"
 
 // TEMPORARY!!! --------------
 #include "glad/glad.h"

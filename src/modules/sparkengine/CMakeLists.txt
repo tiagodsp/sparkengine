@@ -6,8 +6,9 @@ sbs_add_module(
         "glfw"
         "glad"
         "imgui"
+        "glm"
     DEFINITIONS
-        "GLFW_INCLUDE_NONE"
+        
     SOURCE_PATHS
         "Source/Public/"
         "Source/Private/"

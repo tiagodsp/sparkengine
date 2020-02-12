@@ -16,5 +16,6 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     # Set the DLLEXPORT variable to export symbols
 endif()
 
+target_compile_definitions(glfw PUBLIC "GLFW_INCLUDE_NONE")
 
 set_target_properties(${LIBRARY_NAME} PROPERTIES FOLDER "ThirdParty")
