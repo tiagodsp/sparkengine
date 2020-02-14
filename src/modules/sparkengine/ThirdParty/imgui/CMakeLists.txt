@@ -5,7 +5,7 @@ message("Importing library: ${LIBRARY_NAME}")
 set(extensions "c;cpp")
 
 foreach(extension ${extensions})
-    file(GLOB_RECURSE files ${CMAKE_CURRENT_LIST_DIR}/src/ "*.${extension}" NAME)
+    file(GLOB files "${CMAKE_CURRENT_LIST_DIR}/src/*.${extension}")
     list(APPEND sources "${files}")
 endforeach()
 

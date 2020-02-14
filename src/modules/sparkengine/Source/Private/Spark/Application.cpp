@@ -2,6 +2,7 @@
 #include "Spark/Log.h"
 #include "Spark/Events/ApplicationEvent.h"
 #include "Spark/Input.h"
+#include "Spark/ImGui/ImGuiLayer.h"
 
 // TEMPORARY!!! --------------
 #include "glad/glad.h"
@@ -20,6 +21,8 @@ namespace Spark
         s_Instance = this;
         m_PlatformWindow = std::unique_ptr<IPlatformWindow>(IPlatformWindow::Create());        
         m_PlatformWindow->SetEventCallback([&](Event& e){this->OnEvent(e);});
+
+        this->PushOverlay(new Spark::ImGuiLayer());
     }
 
     Application::~Application()
@@ -52,7 +55,6 @@ namespace Spark
             return true;
         });
         
-        //SC_LOG_INFO("{0}", e);
 
         for(auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
         {

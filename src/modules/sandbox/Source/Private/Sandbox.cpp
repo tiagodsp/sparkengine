@@ -8,7 +8,6 @@ namespace SandboxApp
     Sandbox::Sandbox()
     {
         this->PushLayer(new LayerTest());
-        this->PushLayer(new Spark::ImGuiLayer());
     }
 
     Sandbox::~Sandbox()
