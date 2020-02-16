@@ -7,7 +7,8 @@
 #include "Spark/Events/KeyEvent.h"
 #include "Spark/Events/MouseEvent.h"
 
-#include "glad/glad.h"
+#include "Platform/OpenGL/OpenGLGraphicsContext.h"
+
 #include "GLFW/glfw3.h"
 
 namespace Spark
@@ -38,7 +39,8 @@ namespace Spark
         m_Data.Width = props. Width;
         m_Data.Height = props.Height;
 
-        SC_LOG_INFO("Creating window {0} {1}, {2}", props.Title, props.Width, props.Height);
+        CORE_LOGI("Creating window {0} {1}, {2}", props.Title, props.Width, props.Height);
+
 
         if(!is_GLFWInitialized)
         {
@@ -47,15 +49,16 @@ namespace Spark
 
             SC_ASSERT(success, "Could not initialize GLFW");
             glfwSetErrorCallback([](int error, const char* description){
-                SC_LOG_ERROR("GLFW Error ({0}): {1}", error, description);
+                CORE_LOGF("GLFW Error ({0}): {1}", error, description);
             });
             is_GLFWInitialized = true;
         }
 
         m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
-        glfwMakeContextCurrent(m_Window);
-        int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-        SC_ASSERT(status, "Failed to initialize GLAD.");
+        
+        m_GraphicsContext = new OpenGLGraphicsContext(m_Window);
+        m_GraphicsContext->Init();
+        
         glfwSetWindowUserPointer(m_Window, &m_Data);
         SetVSync(true);
 
@@ -157,7 +160,7 @@ namespace Spark
     void WindowsPlatformWindow::OnUpdate()
     {
         glfwPollEvents();
-        glfwSwapBuffers(m_Window);
+        m_GraphicsContext->SwapBuffers();
     }
 
     void WindowsPlatformWindow::SetVSync(bool enabled)

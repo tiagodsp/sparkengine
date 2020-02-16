@@ -4,6 +4,40 @@ cmake_minimum_required(VERSION 3.11)
 
 project(sparkengine C CXX)
 
+if(CMAKE_CXX_COMPILER MATCHES "em\\+\\+(-[a-zA-Z0-9.])?(.[a-zA-Z0-9.]*)?$")
+  message(" * C++ compiler: Emscripten")
+  set(CMAKE_CXX_COMPILER_ID "Emscripten")
+else()
+  message(" * C++ compiler: ${CMAKE_CXX_COMPILER}")
+endif()
+
+# Let's set compiler-specific flags
+message("[${SBS_MODULE_NAME}] - Setting compilation options for ${CMAKE_CXX_COMPILER_ID}")
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    # G++
+    add_compile_options(-Wall -Wextra -fvisibility=hidden -Wno-unused-parameter -Wno-unused-variable)
+elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "LLVM")
+    #Clang
+    add_compile_options(-Wall -Wextra -fvisibility=hidden -Wno-unused-parameter -Wno-unused-variable -fcxx-exceptions)    
+elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+    # MSVC
+    add_compile_options(/EHsc /MTd /W2 /c)
+elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Emscripten")
+    add_compile_options(-Wall -Wextra -fvisibility=hidden -Wno-unused-parameter -Wno-unused-variable -fcxx-exceptions)
+    # Prefixes/suffixes for building
+    set(CMAKE_STATIC_LIBRARY_PREFIX "")
+    set(CMAKE_STATIC_LIBRARY_SUFFIX ".bc")
+    set(CMAKE_EXECUTABLE_SUFFIX ".html")
+
+    # Prefixes/suffixes for finding libraries
+    set(CMAKE_FIND_LIBRARY_PREFIXES "")
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".bc")
+endif()
+
+
+
+
+
 #set(CMAKE_CXX_FLAGS "-std=c++17")
 
 #Variable definitions:
@@ -114,19 +148,6 @@ function(sbs_add_module)
     target_include_directories(${SBS_MODULE_NAME} BEFORE
         PUBLIC ${SBS_MODULE_INTERMEDIATE_DIR}
     )
-
-    # Let's set compiler-specific flags
-    if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-        # G++
-        target_compile_options(${SBS_MODULE_NAME} PRIVATE -Wall -Wextra -fvisibility=hidden -Wno-unused-parameter -Wno-unused-variable)
-    elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "LLVM")
-        #Clang
-        target_compile_options(${SBS_MODULE_NAME} PRIVATE -Wall -Wextra -fvisibility=hidden -Wno-unused-parameter -Wno-unused-variable -fcxx-exceptions)    
-    elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-        # MSVC
-        target_compile_options(${SBS_MODULE_NAME} PRIVATE /EHsc /MTd /W2 /c)
-        # Set the DLLEXPORT variable to export symbols
-    endif()
     
     #TODO - Check a reliable solution for add ThirdParty libraries.
     #Add ThirdParty dependencies;

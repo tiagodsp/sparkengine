@@ -2,6 +2,7 @@
 
 #include "Spark/CoreTypes.h"
 #include "Spark/PlatformWindow.h"
+#include "Spark/Renderer/IGraphicsContext.h"
 
 struct GLFWwindow;
 
@@ -31,6 +32,7 @@ namespace Spark
 
     private:
         GLFWwindow* m_Window;
+        IGraphicsContext* m_GraphicsContext;
         
         struct WindowData
         {

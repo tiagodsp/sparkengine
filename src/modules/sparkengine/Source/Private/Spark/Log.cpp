@@ -7,17 +7,19 @@
 
 namespace Spark
 {
-    
-    std::shared_ptr<spdlog::logger> Log::s_CoreLogger;
-    std::shared_ptr<spdlog::logger> Log::s_UserLogger;
+    std::map<std::string, std::shared_ptr<spdlog::logger>> Log::s_LoggerMap;
 
     void Log::Init()
     {
-        spdlog::set_pattern("[%H:%M:%S %z] [%n] [%^---%L---%$] [thread %t] %v");
-        s_CoreLogger = spdlog::stdout_color_mt("SPARK");
-        s_CoreLogger->set_level(spdlog::level::trace);
-        s_UserLogger = spdlog::stdout_color_mt("APP");
-        s_UserLogger->set_level(spdlog::level::trace);
+        spdlog::set_pattern("[%H:%M:%S %e] [%=10n] [%^%=10l%$] [thread %t] %v");
+        DECLARE_LOG_CATEGORY(Core);
+        DECLARE_LOG_CATEGORY(Temp);
     }
 
+     void Log::AddLogCategory(const std::string& logCategory)
+     {
+        std::shared_ptr<spdlog::logger> logger = spdlog::stdout_color_mt(logCategory);
+        logger->set_level(spdlog::level::trace);
+        s_LoggerMap.insert(std::pair<std::string, std::shared_ptr<spdlog::logger>>(logCategory, logger));
+     }
 }

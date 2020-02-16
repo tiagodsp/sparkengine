@@ -17,7 +17,7 @@ public:
         if(event.GetEventType() == Spark::EventType::KeyPressed)
         {
             Spark::KeyPressedEvent& kpe = static_cast<Spark::KeyPressedEvent&>(event);
-            S_LOG_INFO(kpe.GetKeyCode());
+            LOGI(MyLog, kpe.GetKeyCode());
         }
     }
     // ------------------------------------------------

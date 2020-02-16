@@ -1,4 +1,5 @@
 #pragma once
+#include "Spark/CoreTypes.h"
 #include "Spark/PlatformWindow.h"
 #include "Spark/LayerStack.h"
 #include <sparkengine.api.gen.h>
@@ -29,6 +30,8 @@ namespace Spark
         bool m_Running = true;
 
         LayerStack m_LayerStack;
+
+        uint32 m_VertexArray, m_VertexBuffer, m_IndexBuffer; 
     };
 
     Application* CreateApplication();
