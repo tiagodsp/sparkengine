@@ -28,20 +28,20 @@ namespace Spark
         glGenVertexArrays(1, &m_VertexArray);
         glBindVertexArray(m_VertexArray);
 
-        float vertices[3 * 3] =
+        float vertices[3 * 7] =
         {
-            -0.5f, -0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f,
-            0.0f, 0.5f, 0.0f
+            -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+             0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+             0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f
         };
 
         m_VertexBuffer.reset(IVertexBuffer::Create(vertices, sizeof(vertices)));
-        m_VertexBuffer->Bind();
-        
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
-        
-        m_VertexBuffer->Unbind();
+
+        m_VertexBuffer->SetLayout(
+        {
+            {ShaderDataType::Float3, "a_Position"},
+            {ShaderDataType::Float4, "a_Color"}
+        });
 
         uint32 indices[3] = {0, 1, 2 };
         m_IndexBuffer.reset(IIndexBuffer::Create(indices, 3));
@@ -50,29 +50,24 @@ namespace Spark
             #version 330
             
             layout(location = 0) in vec3 a_Position;
-            out vec3 fragColor;
-
-            vec3 colors[3] = vec3[](
-                vec3(1,0,0),
-                vec3(0,1,0),
-                vec3(0,0,1)
-            );
+            layout(location = 1) in vec4 a_Color;
+            out vec4 fragColor;
 
             void main()
             {
                 gl_Position = vec4(a_Position, 1.0);
-                fragColor = colors[gl_VertexID];
+                fragColor = a_Color;
             }
         )";
         
         std::string fragmentSrc = R"(
             #version 330
-            in vec3 fragColor;
+            in vec4 fragColor;
             out vec4 color;
 
             void main()
             {
-                color = vec4(fragColor, 1.0);
+                color = fragColor;
             }
         )";
         

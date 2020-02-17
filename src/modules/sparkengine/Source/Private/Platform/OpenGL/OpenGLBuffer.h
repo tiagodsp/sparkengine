@@ -13,7 +13,11 @@ public:
 
     virtual void Bind() const override;
     virtual void Unbind() const override;
+
+    virtual BufferLayout GetLayout() const override;
+    virtual void SetLayout(const BufferLayout& layout) override;
 private:
+    BufferLayout m_Layout = {};
     uint32 m_RendererID;
 };
 
