@@ -7,6 +7,7 @@
 // TEMPORARY!!! --------------
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
+#include "Platform/OpenGL/OpenGLShader.h"
 // ---------------------------
 
 #include"Spark/Application.h"
@@ -27,9 +28,6 @@ namespace Spark
         glGenVertexArrays(1, &m_VertexArray);
         glBindVertexArray(m_VertexArray);
 
-        glGenBuffers(1, &m_VertexBuffer);
-        glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
-
         float vertices[3 * 3] =
         {
             -0.5f, -0.5f, 0.0f,
@@ -37,16 +35,50 @@ namespace Spark
             0.0f, 0.5f, 0.0f
         };
 
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+        m_VertexBuffer.reset(IVertexBuffer::Create(vertices, sizeof(vertices)));
+        m_VertexBuffer->Bind();
+        
         glEnableVertexAttribArray(0);
-
-        glGenBuffers(1, &m_IndexBuffer);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBuffer);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+        
+        m_VertexBuffer->Unbind();
 
         uint32 indices[3] = {0, 1, 2 };
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+        m_IndexBuffer.reset(IIndexBuffer::Create(indices, 3));
+
+        std::string vertexSrc = R"(
+            #version 330
+            
+            layout(location = 0) in vec3 a_Position;
+            out vec3 fragColor;
+
+            vec3 colors[3] = vec3[](
+                vec3(1,0,0),
+                vec3(0,1,0),
+                vec3(0,0,1)
+            );
+
+            void main()
+            {
+                gl_Position = vec4(a_Position, 1.0);
+                fragColor = colors[gl_VertexID];
+            }
+        )";
+        
+        std::string fragmentSrc = R"(
+            #version 330
+            in vec3 fragColor;
+            out vec4 color;
+
+            void main()
+            {
+                color = vec4(fragColor, 1.0);
+            }
+        )";
+        
+
+        m_Shader = std::make_unique<OpenGLShader>(vertexSrc, fragmentSrc);
+        
 
     }
 
@@ -63,8 +95,9 @@ namespace Spark
             glClear(GL_COLOR_BUFFER_BIT);
 
             glBindVertexArray(m_VertexArray);
-            glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
-            
+            m_Shader->Bind();
+            glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+            m_Shader->Unbind();
             for(Layer* layer : m_LayerStack)
             {
                 layer->OnUpdate();
