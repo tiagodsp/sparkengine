@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 3.11)
 
 project(sparkengine C CXX)
 
+set(CMAKE_OBJCXX_STANDARD 17)
+
 if(CMAKE_CXX_COMPILER MATCHES "em\\+\\+(-[a-zA-Z0-9.])?(.[a-zA-Z0-9.]*)?$")
   message(" * C++ compiler: Emscripten")
   set(CMAKE_CXX_COMPILER_ID "Emscripten")
@@ -15,15 +17,15 @@ endif()
 message("[${SBS_MODULE_NAME}] - Setting compilation options for ${CMAKE_CXX_COMPILER_ID}")
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     # G++
-    add_compile_options(-Wall -Wextra -fvisibility=hidden -Wno-unused-parameter -Wno-unused-variable)
+    add_compile_options(-Wall -Wextra -fvisibility=hidden -Wno-unused-parameter -Wno-unused-variable -fcxx-exceptions -Wno-documentation -Wno-reorder)
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "LLVM")
     #Clang
-    add_compile_options(-Wall -Wextra -fvisibility=hidden -Wno-unused-parameter -Wno-unused-variable -fcxx-exceptions)    
+    add_compile_options(-Wall -Wextra -fvisibility=hidden -Wno-unused-parameter -Wno-unused-variable -fcxx-exceptions -Wno-documentation -Wno-reorder)    
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     # MSVC
     add_compile_options(/EHsc /MTd /W2 /c)
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Emscripten")
-    add_compile_options(-Wall -Wextra -fvisibility=hidden -Wno-unused-parameter -Wno-unused-variable -fcxx-exceptions)
+    add_compile_options(-Wall -Wextra -fvisibility=hidden -Wno-unused-parameter -Wno-unused-variable -fcxx-exceptions -Wno-documentation -Wno-reorder)
     # Prefixes/suffixes for building
     set(CMAKE_STATIC_LIBRARY_PREFIX "")
     set(CMAKE_STATIC_LIBRARY_SUFFIX ".bc")

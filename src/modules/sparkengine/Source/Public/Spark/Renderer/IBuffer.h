@@ -37,6 +37,7 @@ static uint32 ShaderDataTypeSize(ShaderDataType type)
         case ShaderDataType::Int3:        return 4 * 3;
         case ShaderDataType::Int4:        return 4 * 4;
         case ShaderDataType::Bool:        return 1;    
+        default:                          return 0;
     }
 
     SC_ASSERT(false, "Unknown ShaderDataType!");
@@ -55,11 +56,11 @@ struct BufferElement
     bool Normalized;
 
     BufferElement(ShaderDataType type, const std::string& name, bool normalized = false)
-        : Name(name),
-        Type(type),
+        : Type(type),
+        Name(name),
+        Normalized(normalized),
         Size(ShaderDataTypeSize(type)),
-        Offset(0),
-        Normalized(normalized)
+        Offset(0)
     {
     }
 
@@ -78,6 +79,7 @@ struct BufferElement
         case ShaderDataType::Int3:        return 3;
         case ShaderDataType::Int4:        return 4;
         case ShaderDataType::Bool:        return 1;    
+        default:                          return 0;
         }
 
         SC_ASSERT(false, "Unknown ShaderDataType!");

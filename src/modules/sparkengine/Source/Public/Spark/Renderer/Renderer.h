@@ -1,20 +1,21 @@
 #pragma once
 
+#include "Spark/Renderer/PlatformRendererAPI.h"
+#include "Spark/Renderer/IVertexArray.h"
+#include "sparkengine.api.gen.h"
+
 namespace Spark
 {
 
-enum class RendererAPI
+class SPARKENGINE_API  Renderer
 {
-    None = 0,
-    OpenGL = 1
-};
-
-class Renderer
-{
-private:
-    static RendererAPI s_RendererAPI;
 public:
-    inline static RendererAPI GetAPI() {return s_RendererAPI; }
+    static void BeginScene();
+    static void EndScene();
+
+    static void Submit(const std::shared_ptr<IVertexArray>& vertexArray);
+
+    inline static PlatformRendererAPI::API GetAPI() {return  PlatformRendererAPI::GetAPI(); }
 };
 
 

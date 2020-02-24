@@ -4,6 +4,10 @@
 #include "Spark/Input.h"
 #include "Spark/ImGui/ImGuiLayer.h"
 
+#include "Spark/Renderer/RenderCommand.h"
+#include "Spark/Renderer/Renderer.h"
+
+
 // TEMPORARY!!! --------------
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
@@ -25,9 +29,9 @@ namespace Spark
 
         this->PushOverlay(new Spark::ImGuiLayer());
 
-        glGenVertexArrays(1, &m_VertexArray);
-        glBindVertexArray(m_VertexArray);
+        m_VertexArray.reset(IVertexArray::Create());
 
+        // Verteice buffer...
         float vertices[3 * 7] =
         {
             -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
@@ -43,8 +47,13 @@ namespace Spark
             {ShaderDataType::Float4, "a_Color"}
         });
 
+        // Index buffer...
         uint32 indices[3] = {0, 1, 2 };
         m_IndexBuffer.reset(IIndexBuffer::Create(indices, 3));
+        
+        // Create Vertex Array and set buffers...
+        m_VertexArray->AddVertexBuffer(m_VertexBuffer);
+        m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 
         std::string vertexSrc = R"(
             #version 330
@@ -86,13 +95,15 @@ namespace Spark
     {
         while(m_Running)
         {
-            glClearColor(0,0,0,0);
-            glClear(GL_COLOR_BUFFER_BIT);
+            RenderCommand::SetClearColor({0,0,0,0});
+            RenderCommand::Clear();
 
-            glBindVertexArray(m_VertexArray);
+            Renderer::BeginScene();
             m_Shader->Bind();
-            glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+            Renderer::Submit(m_VertexArray);
             m_Shader->Unbind();
+            Renderer::EndScene();
+
             for(Layer* layer : m_LayerStack)
             {
                 layer->OnUpdate();

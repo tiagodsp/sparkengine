@@ -4,6 +4,7 @@
 #include "Spark/LayerStack.h"
 #include "Spark/Renderer/IShader.h"
 #include "Spark/Renderer/IBuffer.h"
+#include "Spark/Renderer/IVertexArray.h"
 #include <sparkengine.api.gen.h>
 
 namespace Spark
@@ -33,10 +34,10 @@ namespace Spark
 
         LayerStack m_LayerStack;
 
-        uint32 m_VertexArray; 
-        std::unique_ptr<IShader> m_Shader;
-        std::unique_ptr<IVertexBuffer> m_VertexBuffer;
-        std::unique_ptr<IIndexBuffer> m_IndexBuffer;
+        std::shared_ptr<IShader> m_Shader;
+        std::shared_ptr<IVertexBuffer> m_VertexBuffer;
+        std::shared_ptr<IIndexBuffer> m_IndexBuffer;
+        std::shared_ptr<IVertexArray> m_VertexArray;
     };
 
     Application* CreateApplication();

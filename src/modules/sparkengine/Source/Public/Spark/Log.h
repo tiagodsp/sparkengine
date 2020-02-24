@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Spark/CoreTypes.h"
+
 #include "spdlog/spdlog.h"
 #include "spdlog/fmt/ostr.h"
 
