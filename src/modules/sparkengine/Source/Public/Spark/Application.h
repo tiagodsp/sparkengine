@@ -5,6 +5,9 @@
 #include "Spark/Renderer/IShader.h"
 #include "Spark/Renderer/IBuffer.h"
 #include "Spark/Renderer/IVertexArray.h"
+
+#include "Spark/Renderer/OrthographicCamera.h"
+
 #include <sparkengine.api.gen.h>
 
 namespace Spark
@@ -38,6 +41,10 @@ namespace Spark
         std::shared_ptr<IVertexBuffer> m_VertexBuffer;
         std::shared_ptr<IIndexBuffer> m_IndexBuffer;
         std::shared_ptr<IVertexArray> m_VertexArray;
+
+        int32 rotation_degrees = 0.0f;
+
+        OrthographicCamera m_Camera = OrthographicCamera(-1.6f, 1.6f, -0.9f, 0.9f);
     };
 
     Application* CreateApplication();
