@@ -3,11 +3,11 @@
 #include <type_traits> 
 
 #ifdef SPARKENGINE_ENABLE_ASSERTS
-    #define S_ASSERT(x, ...) { if(!(x)) {S_LOG_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak();} }
-    #define SC_ASSERT(x, ...) { if(!(x)) {SC_LOG_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak();} }
+    #define ASSERT(x, ...) { if(!(x)) {LOGF(Core, "Assertion Failed: {0}", __VA_ARGS__); __debugbreak();} }
+    #define CORE_ASSERT(x, ...) { if(!(x)) {CORE_LOGF(Core, "Assertion Failed: {0}", __VA_ARGS__); __debugbreak();} }
 #else
-    #define S_ASSERT(x, ...) 
-    #define SC_ASSERT(x, ...)
+    #define ASSERT(x, ...) 
+    #define CORE_ASSERT(x, ...)
 #endif
 
 

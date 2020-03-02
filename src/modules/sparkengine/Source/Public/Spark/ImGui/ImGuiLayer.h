@@ -1,3 +1,5 @@
+#pragma once
+
 #include "sparkengine.PCH.h"
 #include "Spark/Layer.h"
 #include "Spark/Events/MouseEvent.h"
@@ -16,7 +18,7 @@ namespace Spark
         // Layer interface implementation ---------
         virtual void OnAttach() override;
         virtual void OnDetach() override;
-        virtual void OnUpdate() override;
+        virtual void OnUpdate(Timestep delta) override;
         virtual void OnEvent(Event& event) override;
     
     private:

@@ -46,7 +46,7 @@ namespace Spark
         ImGui::DestroyContext();
     }
 
-    void ImGuiLayer::OnUpdate()
+    void ImGuiLayer::OnUpdate(Timestep delta)
     {
 
         ImGuiIO& io = ImGui::GetIO();

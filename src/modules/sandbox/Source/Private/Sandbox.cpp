@@ -1,9 +1,7 @@
 #include "Sandbox.h"
-#include <string>
 #include "LayerTest.h"
-#include "Spark/ImGui/ImGuiLayer.h"
 
-namespace SandboxApp
+namespace Sandbox
 {
     Sandbox::Sandbox()
     {
@@ -14,9 +12,9 @@ namespace SandboxApp
     {
 
     }
+}
 
-    // void Sandbox::Run()
-    // {
-    //     Application::Run();
-    // }
+Spark::Application* Spark::CreateApplication()
+{
+    return new Sandbox::Sandbox();
 }

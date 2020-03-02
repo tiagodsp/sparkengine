@@ -11,7 +11,7 @@ IVertexBuffer* IVertexBuffer::Create(float* vertices, uint32 size)
     switch (Renderer::GetAPI())
     {
     case PlatformRendererAPI::API::None:
-        SC_ASSERT(false, "RendererAPI::None is currently not supported.");
+        CORE_ASSERT(false, "RendererAPI::None is currently not supported.");
         return nullptr;
         break;
     case PlatformRendererAPI::API::OpenGL:
@@ -25,7 +25,7 @@ IIndexBuffer* IIndexBuffer::Create(uint32* indices, uint32 count)
     switch (Renderer::GetAPI())
     {
     case PlatformRendererAPI::API::None:
-        SC_ASSERT(false, "RendererAPI::None is currently not supported.");
+        CORE_ASSERT(false, "RendererAPI::None is currently not supported.");
         return nullptr;
         break;
     case PlatformRendererAPI::API::OpenGL:

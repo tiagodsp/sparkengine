@@ -5,6 +5,8 @@
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 
+
+
 namespace Spark
 {
     std::map<std::string, std::shared_ptr<spdlog::logger>> Log::s_LoggerMap;

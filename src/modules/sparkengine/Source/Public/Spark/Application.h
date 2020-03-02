@@ -31,23 +31,12 @@ namespace Spark
 
     private:
         static Application* s_Instance;
-        
+        LayerStack m_LayerStack;
         std::unique_ptr<IPlatformWindow> m_PlatformWindow;
         bool m_Running = true;
 
-        LayerStack m_LayerStack;
-
-        std::shared_ptr<IShader> m_Shader;
-        std::shared_ptr<IVertexBuffer> m_VertexBuffer;
-        std::shared_ptr<IIndexBuffer> m_IndexBuffer;
-        std::shared_ptr<IVertexArray> m_VertexArray;
-
-        int32 rotation_degrees = 0.0f;
-
-        OrthographicCamera m_Camera = OrthographicCamera(-1.6f, 1.6f, -0.9f, 0.9f);
     };
 
     Application* CreateApplication();
     
 }
-

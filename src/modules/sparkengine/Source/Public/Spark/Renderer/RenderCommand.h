@@ -4,7 +4,7 @@
 
 namespace Spark
 {
-class RenderCommand
+class SPARKENGINE_API RenderCommand
 {
 private:
     static PlatformRendererAPI *s_RendererAPI;

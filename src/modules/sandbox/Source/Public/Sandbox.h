@@ -1,10 +1,10 @@
+#pragma once
+
 #include "Spark.h"
-#include <iostream>
-#include "Spark/Application.h"
-#include "Spark/Events/ApplicationEvent.h"
+
 //#include "sandbox.api.gen.h"
 
-namespace SandboxApp
+namespace Sandbox
 {
     class Sandbox : public Spark::Application
     {
@@ -16,7 +16,3 @@ namespace SandboxApp
     };
 }
 
-Spark::Application* Spark::CreateApplication()
-{
-    return new SandboxApp::Sandbox();
-}

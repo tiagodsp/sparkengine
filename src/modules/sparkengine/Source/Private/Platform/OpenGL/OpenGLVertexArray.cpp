@@ -44,13 +44,13 @@ GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
     case ShaderDataType::Bool:        return GL_BOOL;    
     }
 
-    SC_ASSERT(false, "Unknown ShaderDataType!");
+    CORE_ASSERT(false, "Unknown ShaderDataType!");
     return GL_NONE;
 }
 
 void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<IVertexBuffer>& vertexBuffer)
 {
-    SC_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex buffer has no layout!");
+    CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex buffer has no layout!");
     
     glBindVertexArray(m_RendererID);
     vertexBuffer->Bind();

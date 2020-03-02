@@ -112,12 +112,13 @@ function(sbs_add_module)
     if(sbs_add_module_LIBRARY)
         message("[${SBS_MODULE_NAME}] - Building mode set as Library")
         add_library(${SBS_MODULE_NAME} SHARED ${module_source_files})
-        target_compile_definitions(${SBS_MODULE_NAME} PRIVATE WIN_EXPORT)
+        target_compile_definitions(${SBS_MODULE_NAME} PRIVATE DLLEXPORT)
     elseif(sbs_add_module_PROGRAM)
         message("[${SBS_MODULE_NAME}] - Building mode set as Program")
         add_executable(${SBS_MODULE_NAME} ${module_source_files})
     endif()
-    
+
+    target_compile_definitions(${SBS_MODULE_NAME} PRIVATE ${SBS_MODULE_NAME_UPPER}_BUILD)
 
     #Configure intermediates
     message("[${SBS_MODULE_NAME}] - Configuring intermediate files.")

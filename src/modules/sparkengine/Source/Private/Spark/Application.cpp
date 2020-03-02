@@ -7,7 +7,7 @@
 #include "Spark/Renderer/RenderCommand.h"
 #include "Spark/Renderer/Renderer.h"
 
-
+#include "Spark/Core/Platform.h"
 
 // TEMPORARY!!! --------------
 #include "glad/glad.h"
@@ -20,119 +20,53 @@
 namespace Spark
 {
     Application* Application::s_Instance = nullptr;
-    
+
     Application::Application()
     {
-        SC_ASSERT(!s_Instance, "Instance of Application alraedy exists!");
+        CORE_ASSERT(!s_Instance, "Instance of Application alraedy exists!");
         s_Instance = this;
-        m_PlatformWindow = std::unique_ptr<IPlatformWindow>(IPlatformWindow::Create());        
-        m_PlatformWindow->SetEventCallback([&](Event& e){this->OnEvent(e);});
+        m_PlatformWindow = std::unique_ptr<IPlatformWindow>(IPlatformWindow::Create());
+        m_PlatformWindow->SetEventCallback([&](Event &e) { this->OnEvent(e); });
 
         this->PushOverlay(new Spark::ImGuiLayer());
-
-        m_VertexArray.reset(IVertexArray::Create());
-
-        // Verteice buffer...
-        float vertices[3 * 7] =
-        {
-            -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-             0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
-             0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f
-        };
-
-        m_VertexBuffer.reset(IVertexBuffer::Create(vertices, sizeof(vertices)));
-
-        m_VertexBuffer->SetLayout(
-        {
-            {ShaderDataType::Float3, "a_Position"},
-            {ShaderDataType::Float4, "a_Color"}
-        });
-
-        // Index buffer...
-        uint32 indices[3] = {0, 1, 2 };
-        m_IndexBuffer.reset(IIndexBuffer::Create(indices, 3));
-        
-        // Create Vertex Array and set buffers...
-        m_VertexArray->AddVertexBuffer(m_VertexBuffer);
-        m_VertexArray->SetIndexBuffer(m_IndexBuffer);
-
-        std::string vertexSrc = R"(
-            #version 330
-            
-            layout(location = 0) in vec3 a_Position;
-            layout(location = 1) in vec4 a_Color;
-            uniform mat4 u_ViewProjection;
-
-            out vec4 fragColor;
-
-            void main()
-            {
-                gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
-                fragColor = a_Color;
-            }
-        )";
-        
-        std::string fragmentSrc = R"(
-            #version 330
-            in vec4 fragColor;
-            out vec4 color;
-
-            void main()
-            {
-                color = fragColor;
-            }
-        )";
-        
-
-        m_Shader = std::make_unique<OpenGLShader>(vertexSrc, fragmentSrc);
-        
-
     }
 
     Application::~Application()
     {
-
     }
 
     void Application::Run()
     {
-        while(m_Running)
+        Timestep lastFrameTime;
+        while (m_Running)
         {
-            RenderCommand::SetClearColor({0,0,0,0});
-            RenderCommand::Clear();
+            Timestep time = Platform::Get()->GetTime();
+            Timestep delta = time - lastFrameTime;
+            lastFrameTime = time;
 
-            Renderer::BeginScene(m_Camera);
-            rotation_degrees = (rotation_degrees + 1) % 360;
-            m_Camera.SetRotation(rotation_degrees);
-            Renderer::Submit(m_Shader, m_VertexArray);
-            Renderer::EndScene();
-
-            for(Layer* layer : m_LayerStack)
+            for (Layer *layer : m_LayerStack)
             {
-                layer->OnUpdate();
+                layer->OnUpdate(delta);
             }
 
             m_PlatformWindow->OnUpdate();
         }
     }
 
-    void Application::OnEvent(Event& e)
+    void Application::OnEvent(Event &e)
     {
         EventDispatcher dispatcher(e);
-        dispatcher.Dispatch<WindowCloseEvent>([&](WindowCloseEvent& e)
-        {
+        dispatcher.Dispatch<WindowCloseEvent>([&](WindowCloseEvent &e) {
             this->m_Running = false;
             return true;
         });
-        
 
-        for(auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
+        for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
         {
             (*--it)->OnEvent(e);
-            if(e.isHandled())
+            if (e.isHandled())
                 break;
         }
-
     }
 
     void Application::PushLayer(Layer* layer)

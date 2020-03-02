@@ -36,7 +36,7 @@ OpenGLShader::OpenGLShader(const std::string &vertexSource, const std::string &f
         // Use the infoLog as you see fit.
         CORE_LOGF("Vertex Shader compilation failure!");
         CORE_LOGF("{0}", infoLog.data());
-        SC_ASSERT(false, "Vertex Shader compilation failure!");
+        CORE_ASSERT(false, "Vertex Shader compilation failure!");
         return;
     }
 
@@ -69,7 +69,7 @@ OpenGLShader::OpenGLShader(const std::string &vertexSource, const std::string &f
         // Use the infoLog as you see fit.
         CORE_LOGF("Fragment Shader compilation failure!");
         CORE_LOGF("{0}", infoLog.data());
-        SC_ASSERT(false, "Fragment Shader compilation failure!");
+        CORE_ASSERT(false, "Fragment Shader compilation failure!");
         return;
     }
 
@@ -108,7 +108,7 @@ OpenGLShader::OpenGLShader(const std::string &vertexSource, const std::string &f
 
         // In this simple program, we'll just leave
         CORE_LOGF("{0}", infoLog.data());
-        SC_ASSERT(false, "Shader link failure!");
+        CORE_ASSERT(false, "Shader link failure!");
         return;
     }
 

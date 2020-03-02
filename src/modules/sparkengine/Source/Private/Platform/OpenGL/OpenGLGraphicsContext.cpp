@@ -7,14 +7,14 @@
 OpenGLGraphicsContext::OpenGLGraphicsContext(GLFWwindow* windowHandle)
     : m_windowHandle(windowHandle)
 {
-    SC_ASSERT(windowHandle, "Window Handle is null!");
+    CORE_ASSERT(windowHandle, "Window Handle is null!");
 }
 
 void OpenGLGraphicsContext:: Init()
 {
     glfwMakeContextCurrent(m_windowHandle);      
     int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-    SC_ASSERT(status, "Failed to initialize GLAD.");
+    CORE_ASSERT(status, "Failed to initialize GLAD.");
 
     CORE_LOGI("OpenGL Info:");
     CORE_LOGI("    Vendor: {0}", glGetString(GL_VENDOR));

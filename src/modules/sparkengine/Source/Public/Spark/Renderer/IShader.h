@@ -8,7 +8,7 @@
 namespace Spark
 {
 
-class IShader
+class SPARKENGINE_API IShader
 {
 public:
     virtual void Bind() const = 0;

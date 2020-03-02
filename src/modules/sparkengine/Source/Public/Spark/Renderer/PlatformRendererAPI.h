@@ -6,7 +6,7 @@
 
 namespace Spark
 {
-    class PlatformRendererAPI
+    class SPARKENGINE_API PlatformRendererAPI
     {
     
     public:

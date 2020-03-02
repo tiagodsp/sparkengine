@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "Spark/CoreTypes.h"
 #include "sparkengine.api.gen.h"
 
@@ -40,7 +41,7 @@ static uint32 ShaderDataTypeSize(ShaderDataType type)
         default:                          return 0;
     }
 
-    SC_ASSERT(false, "Unknown ShaderDataType!");
+    CORE_ASSERT(false, "Unknown ShaderDataType!");
     return 0;
 }
 
@@ -82,7 +83,7 @@ struct BufferElement
         default:                          return 0;
         }
 
-        SC_ASSERT(false, "Unknown ShaderDataType!");
+        CORE_ASSERT(false, "Unknown ShaderDataType!");
         return 0;
     }
 };

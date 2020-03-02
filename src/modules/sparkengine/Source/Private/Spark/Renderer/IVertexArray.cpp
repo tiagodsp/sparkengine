@@ -12,7 +12,7 @@ IVertexArray* IVertexArray::Create()
     switch (Renderer::GetAPI())
     {
     case PlatformRendererAPI::API::None:
-        SC_ASSERT(false, "RendererAPI::None is currently not supported.");
+        CORE_ASSERT(false, "RendererAPI::None is currently not supported.");
         return nullptr;
         break;
     case PlatformRendererAPI::API::OpenGL:

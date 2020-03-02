@@ -47,7 +47,7 @@ namespace Spark
             // TODO: glfwTerminate on system shutdown
             int success = glfwInit();
 
-            SC_ASSERT(success, "Could not initialize GLFW");
+            CORE_ASSERT(success, "Could not initialize GLFW");
             glfwSetErrorCallback([](int error, const char* description){
                 CORE_LOGF("GLFW Error ({0}): {1}", error, description);
             });
