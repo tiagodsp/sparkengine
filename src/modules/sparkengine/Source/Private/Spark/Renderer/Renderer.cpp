@@ -17,10 +17,11 @@ void Renderer::EndScene()
 
 }
 
-void Renderer::Submit(const std::shared_ptr<IShader>& shader, const std::shared_ptr<IVertexArray>& vertexArray)
+void Renderer::Submit(const std::shared_ptr<IShader>& shader, const std::shared_ptr<IVertexArray>& vertexArray, const glm::mat4& transform)
 {
     shader->Bind();
     shader->UploadUniformMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
+    shader->UploadUniformMat4("u_Transform", transform);
 
     vertexArray->Bind();
     RenderCommand::DrawIndexed(vertexArray);

@@ -19,6 +19,8 @@ public:
     inline float GetTimeMilis() { return m_Time * 1000; }
 
     // Operators -----------
+    inline operator float() const{ return m_Time;}
+
     inline Timestep& operator+=(const Timestep& rhs)
     {
         this->m_Time += rhs.m_Time;

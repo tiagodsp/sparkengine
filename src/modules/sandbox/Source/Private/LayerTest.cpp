@@ -4,6 +4,8 @@
 #include "Spark/KeyCodes.h"
 #include "Spark/Input.h"
 
+#include "glm/gtc/matrix_transform.hpp"
+
 DECLARE_LOG_CATEGORY(LayerTest);
 
 namespace Sandbox
@@ -41,12 +43,13 @@ LayerTest::LayerTest()
             layout(location = 0) in vec3 a_Position;
             layout(location = 1) in vec4 a_Color;
             uniform mat4 u_ViewProjection;
+            uniform mat4 u_Transform;
 
             out vec4 fragColor;
 
             void main()
             {
-                gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+                gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
                 fragColor = a_Color;
             }
         )";
@@ -81,17 +84,17 @@ void LayerTest::OnDetach()
 
 void LayerTest::OnUpdate(Spark::Timestep delta)
 {
-    LOGI(LayerTest, "Delta time: {0}s | {1}ms", delta.GetTimeSeconds(), delta.GetTimeMilis());
+    //LOGI(LayerTest, "Delta time: {0}s | {1}ms", delta.GetTimeSeconds(), delta.GetTimeMilis());
     
     if(Spark::Input::IsKeyPressed(SPARK_KEY_RIGHT))
-        m_Camera.SetPosition(m_Camera.GetPosition() + glm::vec3(m_CameraSpeed, 0, 0));
+        m_Camera.SetPosition(m_Camera.GetPosition() + glm::vec3(m_CameraSpeed * delta, 0, 0));
     else if(Spark::Input::IsKeyPressed(SPARK_KEY_LEFT))
-        m_Camera.SetPosition(m_Camera.GetPosition() + glm::vec3(-m_CameraSpeed, 0, 0));
+        m_Camera.SetPosition(m_Camera.GetPosition() + glm::vec3(-m_CameraSpeed * delta, 0, 0));
     
     if(Spark::Input::IsKeyPressed(SPARK_KEY_UP))
-        m_Camera.SetPosition(m_Camera.GetPosition() + glm::vec3(0, m_CameraSpeed, 0));
+        m_Camera.SetPosition(m_Camera.GetPosition() + glm::vec3(0, m_CameraSpeed * delta, 0));
     else if(Spark::Input::IsKeyPressed(SPARK_KEY_DOWN))
-        m_Camera.SetPosition(m_Camera.GetPosition() + glm::vec3(0, -m_CameraSpeed, 0));
+        m_Camera.SetPosition(m_Camera.GetPosition() + glm::vec3(0, -m_CameraSpeed * delta, 0));
     
     
     
@@ -99,7 +102,7 @@ void LayerTest::OnUpdate(Spark::Timestep delta)
     Spark::RenderCommand::Clear();
 
     Spark::Renderer::BeginScene(m_Camera);    
-    Spark::Renderer::Submit(m_Shader, m_VertexArray);
+    Spark::Renderer::Submit(m_Shader, m_VertexArray, glm::scale(glm::mat4(1.0f), glm::vec3(2,1,0)));
     Spark::Renderer::EndScene();
 }
 
