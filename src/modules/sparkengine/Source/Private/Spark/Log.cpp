@@ -9,7 +9,7 @@
 
 namespace Spark
 {
-    std::map<std::string, std::shared_ptr<spdlog::logger>> Log::s_LoggerMap;
+    std::map<std::string, Ref<spdlog::logger>> Log::s_LoggerMap;
 
     void Log::Init()
     {
@@ -20,8 +20,8 @@ namespace Spark
 
      void Log::AddLogCategory(const std::string& logCategory)
      {
-        std::shared_ptr<spdlog::logger> logger = spdlog::stdout_color_mt(logCategory);
+        Ref<spdlog::logger> logger = spdlog::stdout_color_mt(logCategory);
         logger->set_level(spdlog::level::trace);
-        s_LoggerMap.insert(std::pair<std::string, std::shared_ptr<spdlog::logger>>(logCategory, logger));
+        s_LoggerMap.insert(std::pair<std::string, Ref<spdlog::logger>>(logCategory, logger));
      }
 }

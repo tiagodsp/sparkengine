@@ -6,7 +6,7 @@
 namespace Spark
 {
     
-std::shared_ptr<IShader> IShader::Create(const std::string &vertexSource, const std::string &fragmentSource)
+Ref<IShader> IShader::Create(const std::string &vertexSource, const std::string &fragmentSource)
 {
     switch (Renderer::GetAPI())
     {

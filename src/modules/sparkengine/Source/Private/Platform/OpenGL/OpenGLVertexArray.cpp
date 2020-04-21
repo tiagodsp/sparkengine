@@ -48,7 +48,7 @@ GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
     return GL_NONE;
 }
 
-void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<IVertexBuffer>& vertexBuffer)
+void OpenGLVertexArray::AddVertexBuffer(const Ref<IVertexBuffer>& vertexBuffer)
 {
     CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex buffer has no layout!");
     
@@ -73,7 +73,7 @@ void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<IVertexBuffer>& ve
     m_VertexBuffers.push_back(vertexBuffer);
 }
 
-void OpenGLVertexArray::SetIndexBuffer(const std::shared_ptr<IIndexBuffer>& indexBuffer)
+void OpenGLVertexArray::SetIndexBuffer(const Ref<IIndexBuffer>& indexBuffer)
 {
     glBindVertexArray(m_RendererID);
     indexBuffer->Bind();

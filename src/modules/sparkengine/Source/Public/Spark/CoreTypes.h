@@ -1,6 +1,7 @@
 #pragma once
 
 #include <type_traits> 
+#include <memory>
 
 #ifdef SPARKENGINE_ENABLE_ASSERTS
     #define ASSERT(x, ...) { if(!(x)) {LOGF(Core, "Assertion Failed: {0}", __VA_ARGS__); __debugbreak();} }
@@ -135,4 +136,12 @@ namespace Spark
 
         return lhs;
     }
+
+
+    template<typename T>
+    using Scope = std::unique_ptr<T>;
+
+    template<typename T>
+    using Ref = std::shared_ptr<T>;
+
 }

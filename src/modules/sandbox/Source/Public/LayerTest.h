@@ -21,10 +21,10 @@ namespace Sandbox
 class LayerTest : public Spark::Layer
 {
 private:
-    std::shared_ptr<Spark::IShader> m_Shader;
-    std::shared_ptr<Spark::IVertexBuffer> m_VertexBuffer;
-    std::shared_ptr<Spark::IIndexBuffer> m_IndexBuffer;
-    std::shared_ptr<Spark::IVertexArray> m_VertexArray;
+    Spark::Ref<Spark::IShader> m_Shader;
+    Spark::Ref<Spark::IVertexBuffer> m_VertexBuffer;
+    Spark::Ref<Spark::IIndexBuffer> m_IndexBuffer;
+    Spark::Ref<Spark::IVertexArray> m_VertexArray;
 
     int32 rotation_degrees = 0.0f;
 

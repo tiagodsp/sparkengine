@@ -84,13 +84,13 @@ using systemd_sink_st = systemd_sink<details::null_mutex>;
 
 // Create and register a syslog logger
 template<typename Factory = spdlog::synchronous_factory>
-inline std::shared_ptr<logger> systemd_logger_mt(const std::string &logger_name)
+inline Ref<logger> systemd_logger_mt(const std::string &logger_name)
 {
     return Factory::template create<sinks::systemd_sink_mt>(logger_name);
 }
 
 template<typename Factory = spdlog::synchronous_factory>
-inline std::shared_ptr<logger> systemd_logger_st(const std::string &logger_name)
+inline Ref<logger> systemd_logger_st(const std::string &logger_name)
 {
     return Factory::template create<sinks::systemd_sink_st>(logger_name);
 }

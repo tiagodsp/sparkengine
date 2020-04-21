@@ -93,14 +93,14 @@ using syslog_sink_st = syslog_sink<details::null_mutex>;
 
 // Create and register a syslog logger
 template<typename Factory = default_factory>
-inline std::shared_ptr<logger> syslog_logger_mt(const std::string &logger_name, const std::string &syslog_ident = "", int syslog_option = 0,
+inline Ref<logger> syslog_logger_mt(const std::string &logger_name, const std::string &syslog_ident = "", int syslog_option = 0,
     int syslog_facility = LOG_USER, bool enable_formatting = false)
 {
     return Factory::template create<sinks::syslog_sink_mt>(logger_name, syslog_ident, syslog_option, syslog_facility, enable_formatting);
 }
 
 template<typename Factory = default_factory>
-inline std::shared_ptr<logger> syslog_logger_st(const std::string &logger_name, const std::string &syslog_ident = "", int syslog_option = 0,
+inline Ref<logger> syslog_logger_st(const std::string &logger_name, const std::string &syslog_ident = "", int syslog_option = 0,
     int syslog_facility = LOG_USER, bool enable_formatting = false)
 {
     return Factory::template create<sinks::syslog_sink_st>(logger_name, syslog_ident, syslog_option, syslog_facility, enable_formatting);
