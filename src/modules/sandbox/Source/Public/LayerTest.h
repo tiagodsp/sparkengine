@@ -26,8 +26,6 @@ private:
     Spark::Ref<Spark::IIndexBuffer> m_IndexBuffer;
     Spark::Ref<Spark::IVertexArray> m_VertexArray;
 
-    int32 rotation_degrees = 0.0f;
-
     Spark::OrthographicCamera m_Camera = Spark::OrthographicCamera(-1.6f, 1.6f, -0.9f, 0.9f);
     float m_CameraSpeed = 1.0f;
 
