@@ -7,6 +7,7 @@ sbs_add_module(
         "glad"
         "imgui"
         "glm"
+        "stb_image"
     DEFINITIONS
         
     SOURCE_PATHS

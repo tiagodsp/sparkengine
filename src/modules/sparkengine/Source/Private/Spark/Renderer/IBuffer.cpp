@@ -6,7 +6,7 @@
 namespace Spark
 {
 
-IVertexBuffer* IVertexBuffer::Create(float* vertices, uint32 size)
+Ref<IVertexBuffer> IVertexBuffer::Create(float* vertices, uint32 size)
 {
     switch (Renderer::GetAPI())
     {
@@ -15,12 +15,12 @@ IVertexBuffer* IVertexBuffer::Create(float* vertices, uint32 size)
         return nullptr;
         break;
     case PlatformRendererAPI::API::OpenGL:
-        return new OpenGLVertexBuffer(vertices, size);
+        return std::make_shared<OpenGLVertexBuffer>(vertices, size);
         break;
     }
 }
 
-IIndexBuffer* IIndexBuffer::Create(uint32* indices, uint32 count)
+Ref<IIndexBuffer> IIndexBuffer::Create(uint32* indices, uint32 count)
 {
     switch (Renderer::GetAPI())
     {
@@ -29,7 +29,7 @@ IIndexBuffer* IIndexBuffer::Create(uint32* indices, uint32 count)
         return nullptr;
         break;
     case PlatformRendererAPI::API::OpenGL:
-        return new OpenGLIndexBuffer(indices, count);
+        return std::make_shared<OpenGLIndexBuffer>(indices, count);
         break;
     }
 }

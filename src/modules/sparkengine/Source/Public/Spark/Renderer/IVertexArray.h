@@ -25,7 +25,7 @@ public:
     virtual const std::vector<Ref<IVertexBuffer>>& GetVertexBuffers() const = 0;
     virtual const Ref<IIndexBuffer>& GetIndexBuffer() const = 0;
 
-    static IVertexArray* Create();
+    static Ref<IVertexArray> Create();
 };
 
 }

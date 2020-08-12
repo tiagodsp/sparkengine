@@ -7,16 +7,15 @@
 namespace Spark
 {
 
-IVertexArray* IVertexArray::Create()
+Ref<IVertexArray> IVertexArray::Create()
 {
     switch (Renderer::GetAPI())
     {
     case PlatformRendererAPI::API::None:
         CORE_ASSERT(false, "RendererAPI::None is currently not supported.");
         return nullptr;
-        break;
     case PlatformRendererAPI::API::OpenGL:
-        return new OpenGLVertexArray();
+        return std::make_shared<OpenGLVertexArray>();
         break;
     }
 }

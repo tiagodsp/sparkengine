@@ -13,7 +13,7 @@ namespace Sandbox
 
 LayerTest::LayerTest()
 {
-    m_VertexArray.reset(Spark::IVertexArray::Create());
+    m_VertexArray = Spark::IVertexArray::Create();
 
     // Verteice buffer...
     float vertices[4 * 5] =
@@ -24,17 +24,17 @@ LayerTest::LayerTest()
         -0.5f, 0.5f, 0.0f, 0.0f, 1.0f
     };
 
-    m_VertexBuffer.reset(Spark::IVertexBuffer::Create(vertices, sizeof(vertices)));
+    m_VertexBuffer = Spark::IVertexBuffer::Create(vertices, sizeof(vertices));
 
     m_VertexBuffer->SetLayout(
     {
         {Spark::ShaderDataType::Float3, "a_Position"},
-        {Spark::ShaderDataType::Float2, "a_TexCord"}
+        {Spark::ShaderDataType::Float2, "a_TexCoord"}
     });
 
     // Index buffer...
     uint32 indices[6] = {0, 1, 2, 0, 2, 3};
-    m_IndexBuffer.reset(Spark::IIndexBuffer::Create(indices, 6));
+    m_IndexBuffer = Spark::IIndexBuffer::Create(indices, 6);
 
     // Create Vertex Array and set buffers...
     m_VertexArray->AddVertexBuffer(m_VertexBuffer);
@@ -44,7 +44,7 @@ LayerTest::LayerTest()
             #version 330
             
             layout(location = 0) in vec3 a_Position;
-            layout(location = 1) in vec2 a_TexCord;
+            layout(location = 1) in vec2 a_TexCoord;
             
             uniform mat4 u_ViewProjection;
             uniform mat4 u_Transform;
@@ -54,7 +54,7 @@ LayerTest::LayerTest()
             void main()
             {
                 gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-                fragColor = vec4(a_TexCord, 0, 1);
+                fragColor = vec4(a_TexCoord, 0, 1);
             }
         )";
 
