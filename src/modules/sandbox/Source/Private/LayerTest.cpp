@@ -70,12 +70,14 @@ LayerTest::LayerTest()
             void main()
             {
                 color = texture(u_Texture, v_TexCoord);
+                //color = vec4(v_TexCoord,0,1);
             }
         )";
 
     m_Shader = Spark::IShader::Create(vertexSrc, fragmentSrc);
 
     m_Texture = Spark::Texture2D::Create("./Assets/Textures/UV_Grid_Sm.jpg");
+    m_AlphaTexture = Spark::Texture2D::Create("./Assets/Textures/digital.png");
     m_Shader->Bind();
     m_Shader->UploadUniformInt("u_Texture", 0);
 
@@ -116,6 +118,8 @@ void LayerTest::OnUpdate(Spark::Timestep delta)
     Spark::Renderer::BeginScene(m_Camera);
     
     m_Texture->Bind();
+    Spark::Renderer::Submit(m_Shader, m_VertexArray, glm::mat4(1.0f));
+    m_AlphaTexture->Bind();
     Spark::Renderer::Submit(m_Shader, m_VertexArray, glm::mat4(1.0f));
     
     Spark::Renderer::EndScene();

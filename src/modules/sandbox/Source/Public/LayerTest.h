@@ -26,7 +26,7 @@ private:
     Spark::Ref<Spark::IVertexBuffer> m_VertexBuffer;
     Spark::Ref<Spark::IIndexBuffer> m_IndexBuffer;
     Spark::Ref<Spark::IVertexArray> m_VertexArray;
-    Spark::Ref<Spark::Texture2D> m_Texture;
+    Spark::Ref<Spark::Texture2D> m_Texture, m_AlphaTexture;
 
     Spark::OrthographicCamera m_Camera = Spark::OrthographicCamera(-1.6f, 1.6f, -0.9f, 0.9f);
     float m_CameraSpeed = 1.0f;

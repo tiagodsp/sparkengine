@@ -19,13 +19,28 @@ namespace Spark
         m_Width = width;
         m_Height = height;
 
-        glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
-        glTextureStorage2D(m_RendererID, 1, GL_RGB8, m_Width, m_Height);
+        GLenum textureFormat = 0, dataFormat = 0;
+        if(channels == 3)
+        {
+            textureFormat = GL_RGB8;
+            dataFormat = GL_RGB;
+        }
+        else if(channels == 4)
+        {
+            textureFormat = GL_RGBA8;
+            dataFormat = GL_RGBA;
+        }
 
-        glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-        glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenTextures(1, &m_RendererID);
+        glBindTexture(GL_TEXTURE_2D, m_RendererID);
+        //glTextureStorage2D(m_RendererID, 1, GL_RGB8, m_Width, m_Height);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+        glTexImage2D(GL_TEXTURE_2D, 0, textureFormat, width, height, 0, dataFormat, GL_UNSIGNED_BYTE, data);
+        //glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, GL_RGB, GL_UNSIGNED_BYTE, data);
 
         stbi_image_free(data);
 
@@ -38,6 +53,6 @@ namespace Spark
 
     void OpenGLTexture2D::Bind(uint32 slot) const
     {
-        glBindTextureUnit(slot, m_RendererID);
+        glBindTexture(GL_TEXTURE_2D, m_RendererID);
     }
 }

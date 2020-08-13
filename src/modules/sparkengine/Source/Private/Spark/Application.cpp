@@ -28,6 +28,8 @@ namespace Spark
         m_PlatformWindow = std::unique_ptr<IPlatformWindow>(IPlatformWindow::Create());
         m_PlatformWindow->SetEventCallback([&](Event &e) { this->OnEvent(e); });
 
+        Renderer::Init();
+
         this->PushOverlay(new Spark::ImGuiLayer());
     }
 
