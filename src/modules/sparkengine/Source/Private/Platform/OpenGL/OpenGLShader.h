@@ -17,14 +17,17 @@ public:
     virtual void Unbind() const override;
 
     // Float Uniforms -----------------
-    virtual void UploadUniformFloat(const std::string &name, float f);
-    virtual void UploadUniformFloat3(const std::string &name, const glm::vec2 &vector);
-    virtual void UploadUniformFloat2(const std::string &name, const glm::vec3 &vector);
-    virtual void UploadUniformFloat4(const std::string &name, const glm::vec4 &vector);
+    virtual void UploadUniformFloat(const std::string &name, float f) override;
+    virtual void UploadUniformFloat3(const std::string &name, const glm::vec2 &vector) override;
+    virtual void UploadUniformFloat2(const std::string &name, const glm::vec3 &vector) override;
+    virtual void UploadUniformFloat4(const std::string &name, const glm::vec4 &vector) override;
+
+    // Interger uniforms -----------------
+    virtual void UploadUniformInt(const std::string &name, int i) override;
 
     // Matrix uniforms -----------------
-    virtual void UploadUniformMat3(const std::string &name, const glm::mat3 &matrix);
-    virtual void UploadUniformMat4(const std::string &name, const glm::mat4 &matrix);
+    virtual void UploadUniformMat3(const std::string &name, const glm::mat3 &matrix) override;
+    virtual void UploadUniformMat4(const std::string &name, const glm::mat4 &matrix) override;
 
 private:
     GLuint m_RendererID;

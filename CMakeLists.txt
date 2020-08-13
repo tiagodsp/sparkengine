@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.11)
 
 project(sparkengine C CXX)
 
-set(CMAKE_OBJCXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD  17)
 
 if(CMAKE_CXX_COMPILER MATCHES "em\\+\\+(-[a-zA-Z0-9.])?(.[a-zA-Z0-9.]*)?$")
   message(" * C++ compiler: Emscripten")

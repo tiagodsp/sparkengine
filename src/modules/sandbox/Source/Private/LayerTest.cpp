@@ -49,27 +49,36 @@ LayerTest::LayerTest()
             uniform mat4 u_ViewProjection;
             uniform mat4 u_Transform;
 
-            out vec4 fragColor;
+            out vec2 v_TexCoord;
 
             void main()
             {
                 gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-                fragColor = vec4(a_TexCoord, 0, 1);
+                v_TexCoord = a_TexCoord;
             }
         )";
 
     std::string fragmentSrc = R"(
             #version 330
-            in vec4 fragColor;
-            out vec4 color;
+            
+            layout(location = 0) out vec4 color;
+            
+            in vec2 v_TexCoord;
+
+            uniform sampler2D u_Texture;
 
             void main()
             {
-                color = fragColor;
+                color = texture(u_Texture, v_TexCoord);
             }
         )";
 
     m_Shader = Spark::IShader::Create(vertexSrc, fragmentSrc);
+
+    m_Texture = Spark::Texture2D::Create("./Assets/Textures/UV_Grid_Sm.jpg");
+    m_Shader->Bind();
+    m_Shader->UploadUniformInt("u_Texture", 0);
+
 }
 
 LayerTest::~LayerTest()
@@ -103,8 +112,12 @@ void LayerTest::OnUpdate(Spark::Timestep delta)
     Spark::RenderCommand::SetClearColor({0, 0, 0, 0});
     Spark::RenderCommand::Clear();
 
+    //Start scene rendering
     Spark::Renderer::BeginScene(m_Camera);
+    
+    m_Texture->Bind();
     Spark::Renderer::Submit(m_Shader, m_VertexArray, glm::mat4(1.0f));
+    
     Spark::Renderer::EndScene();
 }
 

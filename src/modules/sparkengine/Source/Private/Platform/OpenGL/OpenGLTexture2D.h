@@ -13,13 +13,11 @@ namespace Spark
         // Texture overrides --------------
         virtual uint32 GetWidth() const override { return m_Width; }
         virtual uint32 GetHeight() const override { return m_Height; }
-        virtual void Bind() const override;
+        virtual void Bind(uint32 slot = 0) const override;
     private:
         std::string m_FilePath;
         uint32 m_Width, m_Height;
-        uint32 m_Renderer2D;        
+        uint32 m_RendererID;        
     };
-
-
 
 }

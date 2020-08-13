@@ -156,6 +156,12 @@ void OpenGLShader::UploadUniformFloat4(const std::string &name, const glm::vec4 
     glUniform4fv(location, 1, glm::value_ptr(vector));
 }
 
+void OpenGLShader::UploadUniformInt(const std::string &name, int i)
+{
+    GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+    glUniform1i(location, i);
+}
+
 void OpenGLShader::UploadUniformMat3(const std::string &name, const glm::mat3 &matrix)
 {
     GLint location = glGetUniformLocation(m_RendererID, name.c_str());
