@@ -14,6 +14,7 @@ public:
     virtual void Bind() const = 0;
     virtual void Unbind() const = 0;
     
+    static Ref<IShader> Create(const std::string &filepath);
     static Ref<IShader> Create(const std::string &vertexSource, const std::string &fragmentSource);
 
     // Float Uniforms -----------------

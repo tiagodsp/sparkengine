@@ -1,11 +1,21 @@
 #include "sparkengine.PCH.h"
 #include "OpenGLShader.h"
 
+#include <fstream>
+#include <regex>
 #include "glm/gtc/type_ptr.hpp"
 #include "glad/glad.h"
 
+
 namespace Spark
 {
+
+OpenGLShader::OpenGLShader(const std::string &filepath)
+{
+    std::string shaderSource = ReadFile(filepath);
+    PreProcess(shaderSource);
+}
+
 OpenGLShader::OpenGLShader(const std::string &vertexSource, const std::string &fragmentSource)
 {
     // Create an empty vertex shader handle
@@ -173,5 +183,50 @@ void OpenGLShader::UploadUniformMat4(const std::string &name, const glm::mat4 &m
     GLint location = glGetUniformLocation(m_RendererID, name.c_str());
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 }
+
+
+std::string OpenGLShader::ReadFile(const std::string& filepath)
+{
+    std::string result;
+    std::ifstream in(filepath, std::ios::in, std::ios::binary);
+    if(in)
+    {
+        in.seekg(0, std::ios::end);
+        result.resize(in.tellg());
+        in.seekg(0, std::ios::beg);
+        in.read(&result[0],result.size());
+        in.close();
+    }
+    else
+    {
+        CORE_LOGE("Could not open file {0}", filepath);
+    }
+    return result;
+}
+
+std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::string& filedata)
+{
+    std::unordered_map<GLenum, std::string> shaderSources;
+
+    //std::regex regex(R"(#type[ ]+([a-zA-Z0-9]+)[\r\n]+((.+?)[\r\n]*(?=#type|\Z)))");
+    std::regex regex(R"(#type[ ]+([a-zA-Z0-9]+)[\s]+([\S\s]*?(?=#type|(?!(.|\n))$)))", std::regex_constants::ECMAScript);
+    std::smatch matchs;
+    auto itr = filedata.begin();
+    while(std::regex_search(itr, filedata.end(), matchs, regex))
+    {
+        for(auto m : matchs)
+        {
+            CORE_LOGI(m);
+        }
+        itr = matchs[0].second;
+    }
+    return shaderSources;
+}
+
+void OpenGLShader::Compile()
+{
+
+}
+
 
 } // namespace Spark

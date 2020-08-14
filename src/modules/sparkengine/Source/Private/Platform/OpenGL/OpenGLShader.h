@@ -10,7 +10,9 @@ namespace Spark
 class OpenGLShader final : public IShader
 {
 public:
+    OpenGLShader(const std::string &filepath);
     OpenGLShader(const std::string &vertexSource, const std::string &fragmentSource);
+    
     ~OpenGLShader();
 
     virtual void Bind() const override;
@@ -28,6 +30,11 @@ public:
     // Matrix uniforms -----------------
     virtual void UploadUniformMat3(const std::string &name, const glm::mat3 &matrix) override;
     virtual void UploadUniformMat4(const std::string &name, const glm::mat4 &matrix) override;
+
+private:
+    std::string ReadFile(const std::string& filepath);
+    std::unordered_map<GLenum, std::string> PreProcess(const std::string& filepath);
+    void Compile();
 
 private:
     GLuint m_RendererID;
