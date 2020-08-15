@@ -34,7 +34,7 @@ public:
 private:
     std::string ReadFile(const std::string& filepath);
     std::unordered_map<GLenum, std::string> PreProcess(const std::string& filepath);
-    void Compile();
+    void Compile(std::unordered_map<GLenum, std::string> sourceShaders);
 
 private:
     GLuint m_RendererID;

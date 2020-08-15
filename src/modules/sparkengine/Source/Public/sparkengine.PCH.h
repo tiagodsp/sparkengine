@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 #include <regex>
+#include <vector>
+#include <array>
 #include <memory>
 #include <functional>
 
