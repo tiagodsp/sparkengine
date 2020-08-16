@@ -1,7 +1,7 @@
 #include "sparkengine.PCH.h"
 #include "Spark/Renderer/RenderCommand.h"
 
-#include "Platform/OpenGL/OpenGLPlatformRendererAPI.h"
+#include "Spark/OpenGL/OpenGLPlatformRendererAPI.h"
 
 namespace Spark
 {

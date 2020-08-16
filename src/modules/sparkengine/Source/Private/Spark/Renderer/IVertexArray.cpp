@@ -2,7 +2,7 @@
 #include "Spark/Renderer/IVertexArray.h"
 #include "Spark/Renderer/Renderer.h"
 
-#include "Platform/OpenGL/OpenGLVertexArray.h"
+#include "Spark/OpenGL/OpenGLVertexArray.h"
 
 namespace Spark
 {

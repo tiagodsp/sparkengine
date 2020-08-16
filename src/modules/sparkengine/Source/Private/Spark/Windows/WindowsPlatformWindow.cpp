@@ -7,7 +7,7 @@
 #include "Spark/Events/KeyEvent.h"
 #include "Spark/Events/MouseEvent.h"
 
-#include "Platform/OpenGL/OpenGLGraphicsContext.h"
+#include "Spark/OpenGL/OpenGLGraphicsContext.h"
 
 #include "GLFW/glfw3.h"
 

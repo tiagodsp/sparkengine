@@ -1,6 +1,6 @@
 #include "sparkengine.PCH.h"
 #include "Spark/Renderer/IBuffer.h"
-#include "Platform/OpenGL/OpenGLBuffer.h"
+#include "Spark/OpenGL/OpenGLBuffer.h"
 #include "Spark/Renderer/Renderer.h"
 
 namespace Spark

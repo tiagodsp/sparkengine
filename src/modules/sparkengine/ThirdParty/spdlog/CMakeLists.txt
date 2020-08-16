@@ -5,4 +5,3 @@ add_library(${LIBRARY_NAME} INTERFACE)
 target_include_directories(${LIBRARY_NAME} INTERFACE "./include")
 
 #set_target_properties(${LIBRARY_NAME} PROPERTIES FOLDER "ThirdParty")
-

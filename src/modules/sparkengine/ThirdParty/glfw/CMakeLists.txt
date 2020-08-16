@@ -10,6 +10,9 @@ add_subdirectory(./glfw_v3.3)
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "LLVM")
     #Clang
     target_compile_options(glfw BEFORE PRIVATE -MTd)    
+elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    #Clang
+    target_compile_options(glfw BEFORE PRIVATE -MTd -Wno-everything)   
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     # MSVC
     target_compile_options(glfw BEFORE PRIVATE /MTd)

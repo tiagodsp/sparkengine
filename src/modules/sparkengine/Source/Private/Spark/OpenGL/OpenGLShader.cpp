@@ -33,11 +33,12 @@ OpenGLShader::OpenGLShader(const std::string &filepath)
     Compile(PreProcess(shaderSource));
 }
 
-OpenGLShader::OpenGLShader(const std::string &vertexSource, const std::string &fragmentSource)
+OpenGLShader::OpenGLShader(const std::string &name, const std::string &vertexSource, const std::string &fragmentSource)
+    : m_Name(name)
 {
     std::unordered_map<GLenum, std::string> sourceShaders;
-    sourceShaders.insert({GL_VERTEX_SHADER , vertexSource});
-    sourceShaders.insert({GL_FRAGMENT_SHADER , fragmentSource});
+    sourceShaders.insert({GL_VERTEX_SHADER, vertexSource});
+    sourceShaders.insert({GL_FRAGMENT_SHADER, fragmentSource});
     Compile(sourceShaders);
 }
 

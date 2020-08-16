@@ -1,4 +1,4 @@
-#include "Platform/Windows/WindowsPlatform.h"
+#include "Spark/Windows/WindowsPlatform.h"
 #include "glfw/glfw3.h"
 
 namespace Spark

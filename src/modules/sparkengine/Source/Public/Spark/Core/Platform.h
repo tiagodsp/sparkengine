@@ -18,7 +18,7 @@ public:
 
 protected:
     Platform(){};
-    virtual ~Platform(){};
+    virtual ~Platform(){}
 
 private:
     static Platform *Create();

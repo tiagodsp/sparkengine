@@ -12,7 +12,7 @@
 // TEMPORARY!!! --------------
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
-#include "Platform/OpenGL/OpenGLShader.h"
+#include "Spark/OpenGL/OpenGLShader.h"
 // ---------------------------
 
 #include"Spark/Application.h"

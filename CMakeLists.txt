@@ -20,7 +20,10 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     add_compile_options(-Wall -Wextra -fvisibility=hidden -Wno-unused-parameter -Wno-unused-variable -fcxx-exceptions -Wno-documentation -Wno-reorder)
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "LLVM")
     #Clang
-    add_compile_options(-Wall -Wextra -fvisibility=hidden -Wno-unused-parameter -Wno-unused-variable -fcxx-exceptions -Wno-documentation -Wno-reorder)    
+    add_compile_options(-Wall -Wextra -fvisibility=hidden -Wno-unused-parameter -Wno-unused-variable -fcxx-exceptions -Wno-documentation -Wno-reorder)
+elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    #Clang
+    add_compile_options(-Wno-unused-parameter -Wno-unused-variable -Wno-documentation -Wno-reorder -Wno-c++98-compat-pedantic -Wno-documentation-unknown-command -Wno-deprecated-declarations -Wno-reserved-id-macro)
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     # MSVC
     add_compile_options(/EHsc /MTd /W2 /c)
@@ -192,9 +195,7 @@ function(sbs_add_module)
         ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
         FOLDER "Modules"
     )
-
-
-
+    
 
 endfunction()
 

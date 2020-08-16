@@ -1,7 +1,7 @@
 #include "sparkengine.PCH.h"
 #include "Spark/Renderer/Texture.h"
 #include "Spark/Renderer/Renderer.h"
-#include "Platform/OpenGL/OpenGLTexture2D.h"
+#include "Spark/OpenGL/OpenGLTexture2D.h"
 
 namespace Spark
 {

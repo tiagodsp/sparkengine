@@ -1,8 +1,7 @@
-#pragma once
 #include "sparkengine.PCH.h"
 #include "Spark/Renderer/RenderCommand.h"
 #include "Spark/Renderer/Renderer.h"
-#include "Platform/OpenGL/OpenGLShader.h"
+#include "Spark/OpenGL/OpenGLShader.h"
 
 namespace Spark
 {

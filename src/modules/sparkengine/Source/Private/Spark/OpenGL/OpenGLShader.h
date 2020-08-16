@@ -11,12 +11,14 @@ class OpenGLShader final : public IShader
 {
 public:
     OpenGLShader(const std::string &filepath);
-    OpenGLShader(const std::string &vertexSource, const std::string &fragmentSource);
+    OpenGLShader(const std::string &name, const std::string &vertexSource, const std::string &fragmentSource);
     
     ~OpenGLShader();
 
     virtual void Bind() const override;
     virtual void Unbind() const override;
+
+    virtual const std::string &GetName() const override { return m_Name; };
 
     // Float Uniforms -----------------
     virtual void UploadUniformFloat(const std::string &name, float f) override;
@@ -38,5 +40,6 @@ private:
 
 private:
     GLuint m_RendererID;
+    std::string m_Name;
 };
 } // namespace Spark
