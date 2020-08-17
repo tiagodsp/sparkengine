@@ -9,7 +9,7 @@ sbs_add_module(
         "glm"
         "stb_image"
     DEFINITIONS
-        
+        #"SPARKENGINE_ENABLE_ASSERTS"
     SOURCE_PATHS
         "Source/Public/"
         "Source/Private/"

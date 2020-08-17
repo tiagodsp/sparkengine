@@ -40,7 +40,7 @@ LayerTest::LayerTest()
     m_VertexArray->AddVertexBuffer(m_VertexBuffer);
     m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 
-    m_Shader = Spark::IShader::Create("Assets/Shaders/Texture.glsl");
+    m_Shader = Spark::IShader::Create("Assets\\Shaders\\Texture.glsl");
     //m_Shader = Spark::IShader::Create(vertexSrc, fragmentSrc);
 
     m_Texture = Spark::Texture2D::Create("./Assets/Textures/UV_Grid_Sm.jpg");

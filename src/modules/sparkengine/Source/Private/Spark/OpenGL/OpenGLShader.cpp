@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <regex>
+#include <Spark/Core/GenericPlatform/GenericPlatformFile.h>
 #include "glm/gtc/type_ptr.hpp"
 #include "glad/glad.h"
 
@@ -102,20 +103,19 @@ void OpenGLShader::UploadUniformMat4(const std::string &name, const glm::mat4 &m
 
 std::string OpenGLShader::ReadFile(const std::string& filepath)
 {
+    IFileHandle* file = IPlatformFile::Get()->OpenRead(filepath.c_str());
     std::string result;
-    std::ifstream in(filepath, std::ios::in | std::ios::binary);
-    if(in)
+    if(file)
     {
-        in.seekg(0, std::ios::end);
-        result.resize(in.tellg());
-        in.seekg(0, std::ios::beg);
-        in.read(&result[0],result.size());
-        in.close();
+        int64 size = IPlatformFile::Get()->FileSize(filepath.c_str());
+        result.resize(size);
+        file->Read(reinterpret_cast<uint8*>(result.data()), size);
     }
     else
     {
         CORE_LOGE("Could not open file {0}", filepath);
     }
+    delete file;
     return result;
 }
 
