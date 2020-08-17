@@ -3,7 +3,7 @@
 #include "Spark/Events/KeyEvent.h"
 #include "Spark/KeyCodes.h"
 #include "Spark/Input.h"
-
+#include "Spark/Core/GenericPlatform/GenericPlatformFile.h"
 #include "glm/gtc/matrix_transform.hpp"
 
 DECLARE_LOG_CATEGORY(LayerTest);
@@ -40,13 +40,13 @@ LayerTest::LayerTest()
     m_VertexArray->AddVertexBuffer(m_VertexBuffer);
     m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 
-    m_Shader = Spark::IShader::Create("Assets\\Shaders\\Texture.glsl");
+    m_Shader = Spark::IShader::Create("Assets/Shaders/Texture.glsl");
     //m_Shader = Spark::IShader::Create(vertexSrc, fragmentSrc);
 
     m_Texture = Spark::Texture2D::Create("./Assets/Textures/UV_Grid_Sm.jpg");
     m_AlphaTexture = Spark::Texture2D::Create("./Assets/Textures/digital.png");
     m_Shader->Bind();
-    m_Shader->UploadUniformInt("u_Texture", 0);
+    m_Shader->UploadUniformInt("u_Texture", 0);    
 
 }
 
