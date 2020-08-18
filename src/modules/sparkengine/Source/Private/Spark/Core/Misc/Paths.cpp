@@ -1,7 +1,7 @@
 #include "Spark/CoreTypes.h"
 #include <regex>
 #include <sstream>
-#include <filesystem>
+#include "Spark/Core/GenericPlatform/GenericPlatformFile.h"
 #include "Spark/Core/Misc/Paths.h"
 
 namespace Spark
@@ -62,7 +62,7 @@ namespace Spark
 
     std::string Paths::GetPath(const std::string& Path)
     {
-        std::regex regex(R"((.+?[\\\/]*?)\w+\.\w+$)");
+        std::regex regex(R"((.+?[\\\/]*?)\w+\.?\w*$)");
         std::smatch matchs;
         std::regex_match(Path, matchs, regex);
         if(!matchs.empty())
@@ -74,7 +74,7 @@ namespace Spark
     
     std::string Paths::GetPath(std::string& Path)
     {
-        std::regex regex(R"((.+?[\\\/]*?)\w+\.\w+$)");
+        std::regex regex(R"((.+?[\\\/]*?)\w+\.?\w*$)");
         std::smatch matchs;
         std::regex_match(Path, matchs, regex);
         if(!matchs.empty())
@@ -86,37 +86,64 @@ namespace Spark
 
     std::string Paths::GetPathLeaf(const std::string& Path)
     {
-        CORE_ASSERT(false, "Not implemented!");
-        return std::string();
+        std::regex regex(R"(.+?[\\\/]*?(\w+\.?\w*)$)");
+        std::smatch matchs;
+        std::regex_match(Path, matchs, regex);
+        if(!matchs.empty())
+        {
+            return  matchs[1];
+        }
+        return "";
     }
     
     std::string Paths::GetPathLeaf(std::string& Path)
     {
-        CORE_ASSERT(false, "Not implemented!");
-        return std::string();
+        std::regex regex(R"(.+?[\\\/]*?(\w+\.?\w*)$)");
+        std::smatch matchs;
+        std::regex_match(Path, matchs, regex);
+        if(!matchs.empty())
+        {
+            return  matchs[1];
+        }
+        return "";
     }
 
     std::string Paths::ChangeExtensions(const std::string& Path, const std::string& NewExtension)
     {
-        CORE_ASSERT(false, "Not implemented!");
-        return std::string();
+        std::regex regex(R"(.+?[\\\/]*?(\w+\.?\w*)$)");
+        std::smatch matchs;
+        std::regex_match(Path, matchs, regex);
+        if(!matchs.empty())
+        {
+            std::ostringstream result;
+            result << matchs[0] << NewExtension;
+            return  result.str();
+        }
+        return Path;
     }
 
     std::string Paths::SetExtension(const std::string& Path, const std::string& NewExtension)
     {
-        CORE_ASSERT(false, "Not implemented!");
-        return std::string();
+        std::regex regex(R"(.+?[\\\/]*?(\w+\.?\w*)$)");
+        std::smatch matchs;
+        std::regex_match(Path, matchs, regex);
+        std::ostringstream result;
+        if(!matchs.empty())
+        {
+            result << matchs[0] << NewExtension;
+            return  result.str();
+        }
+        result << Path << "." << NewExtension;
+        return result.str();
     }
     
     bool Paths::FileExists(const std::string& Path)
     {
-        CORE_ASSERT(false, "Not implemented!");
-        return false;
+        return IPlatformFile::Get()->Exists(Path);
     }
     
     bool Paths::DirectoryExists(const std::string& Path)
     {
-        CORE_ASSERT(false, "Not implemented!");
-        return false;
+        FileExists(Path);
     }
 }
