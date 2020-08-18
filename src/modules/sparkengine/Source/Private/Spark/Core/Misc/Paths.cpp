@@ -139,11 +139,11 @@ namespace Spark
     
     bool Paths::FileExists(const std::string& Path)
     {
-        return IPlatformFile::Get()->Exists(Path);
+        return IPlatformFile::Get()->FileExists(Path.c_str());
     }
     
     bool Paths::DirectoryExists(const std::string& Path)
     {
-        FileExists(Path);
+        return IPlatformFile::Get()->DirectoryExists(Path.c_str());
     }
 }

@@ -41,14 +41,13 @@ LayerTest::LayerTest()
     m_VertexArray->AddVertexBuffer(m_VertexBuffer);
     m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 
-    m_Shader = Spark::IShader::Create("Assets/Shaders/Texture.glsl");
-    CORE_LOGF(Spark::Paths::GetExtension("Assets/Shaders/Texture.glsl", true));
+    auto textureShader = m_ShaderLibrary.Load("Assets/Shaders/Texture.glsl");
     //m_Shader = Spark::IShader::Create(vertexSrc, fragmentSrc);
 
     m_Texture = Spark::Texture2D::Create("./Assets/Textures/UV_Grid_Sm.jpg");
     m_AlphaTexture = Spark::Texture2D::Create("./Assets/Textures/digital.png");
-    m_Shader->Bind();
-    m_Shader->UploadUniformInt("u_Texture", 0);    
+    textureShader->Bind();
+    textureShader->UploadUniformInt("u_Texture", 0);    
 
 }
 
@@ -87,9 +86,9 @@ void LayerTest::OnUpdate(Spark::Timestep delta)
     Spark::Renderer::BeginScene(m_Camera);
     
     m_Texture->Bind();
-    Spark::Renderer::Submit(m_Shader, m_VertexArray, glm::mat4(1.0f));
+    Spark::Renderer::Submit(m_ShaderLibrary.Get("Texture"), m_VertexArray, glm::mat4(1.0f));
     m_AlphaTexture->Bind();
-    Spark::Renderer::Submit(m_Shader, m_VertexArray, glm::mat4(1.0f));
+    Spark::Renderer::Submit(m_ShaderLibrary.Get("Texture"), m_VertexArray, glm::mat4(1.0f));
     
     Spark::Renderer::EndScene();
 }

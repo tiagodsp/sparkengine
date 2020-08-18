@@ -36,19 +36,34 @@ namespace Spark
 
     void ShaderLibrary::Add(const Ref<IShader>& shader)
     {
+        auto& name = shader->GetName();
+        CORE_ASSERT(m_Shaders.find(name) == m_Shaders.end(), "Shader {0} already exists!", name);
+        m_Shaders[name] = shader;
+    }
 
+    void ShaderLibrary::Add(const std::string& name, const Ref<IShader>& shader)
+    {
+        CORE_ASSERT(m_Shaders.find(name) == m_Shaders.end(), "Shader {0} already exists!", name);
+        m_Shaders[name] = shader;
     }
 
     Ref<IShader> ShaderLibrary::Load(const std::string& filepath)
     {
-        
+        auto shader = IShader::Create(filepath);
+        Add(shader);
+        return shader;
     }
     Ref<IShader> ShaderLibrary::Load(const std::string& name, const std::string& filepath)
     {
-        return nullptr;
+        auto shader = IShader::Create(filepath);
+        Add(name, shader);
+        return shader;
     }
     Ref<IShader> ShaderLibrary::Get(const std::string& name)
     {
+        CORE_ASSERT(m_Shaders.find(name) != m_Shaders.end(), "Shader not found!", name);
+        if(m_Shaders.find(name) != m_Shaders.end())
+            return m_Shaders[name];
         return nullptr;
     }
 

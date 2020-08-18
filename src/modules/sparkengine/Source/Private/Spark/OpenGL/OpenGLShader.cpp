@@ -6,6 +6,7 @@
 #include <Spark/Core/GenericPlatform/GenericPlatformFile.h>
 #include "glm/gtc/type_ptr.hpp"
 #include "glad/glad.h"
+#include "Spark/Core/Misc/Paths.h"
 
 
 namespace Spark
@@ -32,6 +33,7 @@ OpenGLShader::OpenGLShader(const std::string &filepath)
 {
     std::string shaderSource = ReadFile(filepath);
     Compile(PreProcess(shaderSource));
+    m_Name = Paths::GetBaseFilename(filepath);
 }
 
 OpenGLShader::OpenGLShader(const std::string &name, const std::string &vertexSource, const std::string &fragmentSource)

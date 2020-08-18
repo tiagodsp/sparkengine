@@ -22,7 +22,7 @@ namespace Sandbox
 class LayerTest : public Spark::Layer
 {
 private:
-    Spark::Ref<Spark::IShader> m_Shader;
+    Spark::ShaderLibrary m_ShaderLibrary;
     Spark::Ref<Spark::IVertexBuffer> m_VertexBuffer;
     Spark::Ref<Spark::IIndexBuffer> m_IndexBuffer;
     Spark::Ref<Spark::IVertexArray> m_VertexArray;

@@ -33,10 +33,11 @@ namespace Spark
         virtual void UploadUniformMat4(const std::string &name, const glm::mat4 &matrix) = 0;
     };
 
-    class ShaderLibrary
+    class SPARKENGINE_API ShaderLibrary
     {
     public:
         void Add(const Ref<IShader>& shader);
+        void Add(const std::string& name, const Ref<IShader>& shader);
         Ref<IShader> Load(const std::string& filepath);
         Ref<IShader> Load(const std::string& name, const std::string& filepath);
 
