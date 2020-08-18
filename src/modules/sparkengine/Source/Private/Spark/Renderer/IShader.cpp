@@ -38,9 +38,10 @@ namespace Spark
     {
 
     }
+
     Ref<IShader> ShaderLibrary::Load(const std::string& filepath)
     {
-        return nullptr;
+        
     }
     Ref<IShader> ShaderLibrary::Load(const std::string& name, const std::string& filepath)
     {

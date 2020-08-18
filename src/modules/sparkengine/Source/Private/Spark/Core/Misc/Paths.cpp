@@ -22,7 +22,7 @@ namespace Spark
     
     std::string Paths::GetCleanFilename(const std::string& Path)
     {
-        std::regex regex(R"([\\\/]*(\w+\.?\w*)$)");
+        std::regex regex(R"([\\\/]*([\w\.]*\w)$)");
         std::smatch matchs;
         std::regex_match(Path, matchs, regex);
         if(!matchs.empty())
@@ -34,7 +34,7 @@ namespace Spark
 
     std::string Paths::GetBaseFilename(const std::string& Path, bool RemovePath /*= true*/)
     {
-        std::regex regex(R"((.+?[\\\/]*?)(\w+)\.?\w*$)");
+        std::regex regex(R"((.*?[\\\/]*?)(\w+)\.?\w*$)");
         std::smatch matchs;
         std::regex_match(Path, matchs, regex);
         if(!matchs.empty())
@@ -48,7 +48,7 @@ namespace Spark
     
     std::string Paths::GetBaseFilename(std::string& Path, bool RemovePath/* = true*/)
     {
-        std::regex regex(R"((.+?[\\\/]*?)(\w+)\.?\w*$)");
+        std::regex regex(R"(^(.*?[\\\/]*?)([\w\.]*)\.?\w*$)");
         std::smatch matchs;
         std::regex_match(Path, matchs, regex);
         if(!matchs.empty())
@@ -62,7 +62,7 @@ namespace Spark
 
     std::string Paths::GetPath(const std::string& Path)
     {
-        std::regex regex(R"((.+?[\\\/]*?)\w+\.?\w*$)");
+        std::regex regex(R"(^(.*?[\\\/]*?)[\w\.]*\.?\w*$)");
         std::smatch matchs;
         std::regex_match(Path, matchs, regex);
         if(!matchs.empty())
@@ -74,7 +74,7 @@ namespace Spark
     
     std::string Paths::GetPath(std::string& Path)
     {
-        std::regex regex(R"((.+?[\\\/]*?)\w+\.?\w*$)");
+        std::regex regex(R"(^(.*?[\\\/]*?)[\w\.]*\.?\w*$)");
         std::smatch matchs;
         std::regex_match(Path, matchs, regex);
         if(!matchs.empty())
@@ -86,7 +86,7 @@ namespace Spark
 
     std::string Paths::GetPathLeaf(const std::string& Path)
     {
-        std::regex regex(R"(.+?[\\\/]*?(\w+\.?\w*)$)");
+        std::regex regex(R"(^.*?[\\\/]*?([\w\.]*)[\\\/]*?$)");
         std::smatch matchs;
         std::regex_match(Path, matchs, regex);
         if(!matchs.empty())
@@ -98,7 +98,7 @@ namespace Spark
     
     std::string Paths::GetPathLeaf(std::string& Path)
     {
-        std::regex regex(R"(.+?[\\\/]*?(\w+\.?\w*)$)");
+        std::regex regex(R"(^.*?[\\\/]*?([\w\.]*)[\\\/]*?$)");
         std::smatch matchs;
         std::regex_match(Path, matchs, regex);
         if(!matchs.empty())
@@ -110,13 +110,13 @@ namespace Spark
 
     std::string Paths::ChangeExtensions(const std::string& Path, const std::string& NewExtension)
     {
-        std::regex regex(R"(.+?[\\\/]*?(\w+\.?\w*)$)");
+        std::regex regex(R"(^(.*?[\\\/]*[\w\.]*?)\.?(\w*)$)");
         std::smatch matchs;
         std::regex_match(Path, matchs, regex);
         if(!matchs.empty())
         {
             std::ostringstream result;
-            result << matchs[0] << NewExtension;
+            result << matchs[1] << "." << NewExtension;
             return  result.str();
         }
         return Path;
@@ -124,13 +124,13 @@ namespace Spark
 
     std::string Paths::SetExtension(const std::string& Path, const std::string& NewExtension)
     {
-        std::regex regex(R"(.+?[\\\/]*?(\w+\.?\w*)$)");
+        std::regex regex(R"(^(.*?[\\\/]*[\w\.]*?)\.?(\w*)$)");
         std::smatch matchs;
         std::regex_match(Path, matchs, regex);
         std::ostringstream result;
         if(!matchs.empty())
         {
-            result << matchs[0] << NewExtension;
+            result << matchs[1] << "." << NewExtension;
             return  result.str();
         }
         result << Path << "." << NewExtension;
