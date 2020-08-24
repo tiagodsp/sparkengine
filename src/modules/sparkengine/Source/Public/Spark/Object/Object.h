@@ -7,6 +7,7 @@ namespace Spark
     class SPARKENGINE_API Object
     {
     private:
+    
     public:
         Object(/* args */) {}
         ~Object() {}

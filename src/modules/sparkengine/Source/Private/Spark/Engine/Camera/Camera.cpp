@@ -3,11 +3,11 @@
 
 namespace Spark
 {
-    CameraActor::CameraActor()
+    Camera::Camera()
     {
     }
 
-    CameraActor::~CameraActor()
+    Camera::~Camera()
     {
     }
 }

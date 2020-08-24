@@ -8,6 +8,7 @@ sbs_add_module(
         "imgui"
         "glm"
         "stb_image"
+        "entt"
     DEFINITIONS
         #"SPARKENGINE_ENABLE_ASSERTS"
     SOURCE_PATHS

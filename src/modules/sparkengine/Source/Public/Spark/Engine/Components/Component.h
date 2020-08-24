@@ -7,13 +7,13 @@
 
 namespace Spark
 {
-    class SPARKENGINE_API ActorComponent : public Object
+    class SPARKENGINE_API Component : public Object
     {
     private:
         /* data */
     public:
-        ActorComponent(/* args */) {}
-        ~ActorComponent() {}
+        Component(/* args */) {}
+        ~Component() {}
 
         virtual void Begin() {}
         virtual void Update(Timestep ts) {}

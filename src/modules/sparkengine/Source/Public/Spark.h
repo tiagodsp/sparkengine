@@ -9,6 +9,8 @@
 #include "Spark/Events/Event.h"
 #include "Spark/Log.h"
 
+#include "Spark/Object/Object.h"
+
 #include "Spark/Input.h"
 #include "Spark/KeyCodes.h"
 #include "Spark/MouseButtonCodes.h"

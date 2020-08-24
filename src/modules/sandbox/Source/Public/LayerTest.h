@@ -13,6 +13,7 @@
 #include "Spark/Events/Event.h"
 #include "Spark/Log.h"
 #include "Spark/Renderer/Texture.h"
+#include "Spark/Engine/World.h"
 
 #include "sandbox.api.gen.h"
 
@@ -27,8 +28,9 @@ private:
     Spark::Ref<Spark::IIndexBuffer> m_IndexBuffer;
     Spark::Ref<Spark::IVertexArray> m_VertexArray;
     Spark::Ref<Spark::Texture2D> m_Texture, m_AlphaTexture;
+    Spark::Ref<Spark::World> m_World;
 
-    Spark::OrthographicCamera m_Camera = Spark::OrthographicCamera(-1.6f, 1.6f, -0.9f, 0.9f);
+    Spark::Ref<Spark::OrthographicCamera> m_Camera;
     float m_CameraSpeed = 1.0f;
 
 public:

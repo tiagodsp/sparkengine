@@ -1,20 +1,20 @@
 #pragma once
 
-#include "Spark/Engine/GameFramework/Actor.h"
+#include "Spark/Engine/GameFramework/Entity.h"
 #include "Spark/Engine/Camera/CameraComponent.h"
 #include "sparkengine.api.gen.h"
 
 namespace Spark
 {
-    class SPARKENGINE_API CameraActor : public Actor
+    class SPARKENGINE_API Camera : public Entity
     {
     private:
         Ref<CameraComponent> m_Camera;
     public:
-        CameraActor();
-        ~CameraActor();
+        Camera();
+        ~Camera();
 
-        virtual void Begin() override {};
-        virtual void Update(Timestep timestep) override {};
+        // virtual void Begin() override {}
+        // virtual void Update(Timestep timestep) override {}
     };
 } // namespace Spark
