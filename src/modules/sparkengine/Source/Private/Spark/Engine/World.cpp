@@ -21,7 +21,7 @@ namespace Spark
 
     void World::Update(Timestep dt)
     {
-        auto& entities = m_Context.view<Component>();
+        const auto& entities = m_Context.view<Component>();
         for(auto& e : entities)
         {
             Component& c = m_Context.get<Component>(e);

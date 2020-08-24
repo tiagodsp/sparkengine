@@ -24,9 +24,6 @@ class LayerTest : public Spark::Layer
 {
 private:
     Spark::ShaderLibrary m_ShaderLibrary;
-    Spark::Ref<Spark::IVertexBuffer> m_VertexBuffer;
-    Spark::Ref<Spark::IIndexBuffer> m_IndexBuffer;
-    Spark::Ref<Spark::IVertexArray> m_VertexArray;
     Spark::Ref<Spark::Texture2D> m_Texture, m_AlphaTexture;
     Spark::Ref<Spark::World> m_World;
 
