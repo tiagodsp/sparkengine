@@ -8,25 +8,28 @@
 
 namespace Spark
 {
-    struct MeshData
+    struct MeshSectionData
     {
         std::vector<glm::vec3>  Vertices;
         std::vector<glm::vec3>  Normals;
         std::vector<uint32>      Triangles;
         std::vector<glm::vec2>  UVs;
         std::vector<glm::vec4>  Colors;
+        glm::mat4               Transform;
 
-        MeshData()
-            : Vertices(), Normals(), Triangles(), UVs(), Colors()
+        MeshSectionData()
+            : Vertices(), Normals(), Triangles(), UVs(), Colors(), Transform(glm::mat4(1.0f))
         {}
 
-        MeshData(
+        MeshSectionData(
             std::vector<glm::vec3> Vertices,
             std::vector<glm::vec3> Normals,
             std::vector<uint32> Triangles,
             std::vector<glm::vec2> UVs,
-            std::vector<glm::vec4> Colors)
-            : Vertices(Vertices), Normals(Normals), Triangles(Triangles), UVs(UVs), Colors(Colors)
+            std::vector<glm::vec4> Colors,
+            glm::mat4 Transform
+            )
+            : Vertices(Vertices), Normals(Normals), Triangles(Triangles), UVs(UVs), Colors(Colors), Transform(Transform)
         {}
     };
 
@@ -46,16 +49,20 @@ namespace Spark
     {
     private:
         bool m_IsDirty;
-        std::vector<MeshData> m_MeshSections;
+        std::vector<MeshSectionData> m_MeshSections;
         std::vector<Ref<IVertexArray>> m_VertexArrays;
     public:
         MeshComponent();
-        MeshComponent(std::vector<MeshData> MeshSections);
+        MeshComponent(std::vector<MeshSectionData> MeshSections);
+        MeshComponent(std::string Filename);
         ~MeshComponent();
 
-        bool CreateMeshSection(MeshData MeshSection, int32 Index);
+        virtual void Begin() override {}
+        virtual void Update(Timestep ts) override;
+        virtual void OnEvent(Event& e) override {}
+        
+        bool CreateMeshSection(MeshSectionData MeshSection, int32 Index);
         bool MarkAsDirty();
-        virtual void Update(Timestep td) override;
         std::vector<Ref<IVertexArray>>& GetVertexArrays();
     };
 } // namespace Spark

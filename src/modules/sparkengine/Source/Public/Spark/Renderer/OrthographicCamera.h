@@ -23,6 +23,8 @@ public:
     OrthographicCamera(float left, float right, float bottom, float top);
     virtual ~OrthographicCamera();
 
+    void SetProjection(float left, float right, float bottom, float top);
+    
     inline const glm::vec3& GetPosition() const { return m_Position; }
     inline void SetPosition(const glm::vec3 &position) { m_Position = position; RecalculateViewMatrix(); }
 

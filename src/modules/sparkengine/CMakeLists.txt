@@ -9,6 +9,7 @@ sbs_add_module(
         "glm"
         "stb_image"
         "entt"
+        "assimp"
     DEFINITIONS
         #"SPARKENGINE_ENABLE_ASSERTS"
     SOURCE_PATHS

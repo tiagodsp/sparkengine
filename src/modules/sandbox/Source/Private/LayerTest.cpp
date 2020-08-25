@@ -31,7 +31,7 @@ LayerTest::LayerTest()
     camera.AddComponent<Spark::CameraComponent>(m_Camera);
 
     Spark::Entity mesh = m_World->GetCurrentLevel()->CreateEntity();
-    mesh.AddComponent<Spark::MeshComponent>();
+    mesh.AddComponent<Spark::MeshComponent>("./Assets/Meshes/uvcube.glb");
 
 
 }
@@ -61,6 +61,18 @@ void LayerTest::OnUpdate(Spark::Timestep delta)
 
     //Start scene rendering
     Spark::Renderer::BeginScene(*m_Camera);
+
+    auto& meshes = m_World->GetContext().view<Spark::MeshComponent>();
+    for(auto& m : meshes)
+    {
+        m_Texture->Bind();
+        Spark::MeshComponent mc = m_World->GetContext().get<Spark::MeshComponent>(m);
+        mc.Update(delta);
+        for(auto& va : mc.GetVertexArrays())
+        {
+            Spark::Renderer::Submit(m_ShaderLibrary.Get("Texture"), va, glm::mat4(0.01f));
+        }
+    }
     
     // m_Texture->Bind();
     // Spark::Renderer::Submit(m_ShaderLibrary.Get("Texture"), m_VertexArray, glm::mat4(1.0f));
@@ -74,6 +86,13 @@ void LayerTest::OnEvent(Spark::Event &event)
 {
     Spark::EventDispatcher dispatcher(event);
     dispatcher.Dispatch<Spark::KeyPressedEvent>(std::bind(&LayerTest::HandleKeyInputEvents, this, std::placeholders::_1));
+
+    auto entities = m_World->GetContext().view<Spark::CameraComponent>();
+    for(auto e : entities)
+    {
+        Spark::CameraComponent& c = m_World->GetContext().get<Spark::CameraComponent>(e);
+        c.OnEvent(event);
+    }
 }
 // ------------------------------------------------
 
