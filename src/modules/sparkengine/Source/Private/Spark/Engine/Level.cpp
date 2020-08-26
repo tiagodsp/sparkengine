@@ -12,6 +12,11 @@ namespace Spark
     {
     }
 
+    void Level::Update(Timestep ts)
+    {
+        for(auto& e : m_Entities) e->Update(ts);
+    }
+
     World* Level::GetWotld()
     {
         return m_WorldRef;
@@ -24,7 +29,9 @@ namespace Spark
 
     Entity& Level::CreateEntity()
     {
-        return *(new Spark::Entity(GetWorldContext().create(), this));
+        Entity* entity = new Spark::Entity(GetWorldContext().create(), this);
+        m_Entities.push_back(entity);
+        return *entity;
     }
 
 } // namespace Spark

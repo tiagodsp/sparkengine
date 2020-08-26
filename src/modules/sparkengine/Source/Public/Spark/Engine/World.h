@@ -26,7 +26,7 @@ namespace Spark
         World(Ref<Level> PersistentLevel);
         ~World();
 
-        void Update(Timestep dt);
+        void Update(Timestep ts);
 
         entt::registry& GetContext();
         Ref<Level> GetCurrentLevel();

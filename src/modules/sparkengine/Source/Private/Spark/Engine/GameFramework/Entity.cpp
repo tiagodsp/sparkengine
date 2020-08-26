@@ -11,6 +11,7 @@ namespace Spark
         : m_EntityHandle(EntityHandle)
         , m_Level(Level)
     {
+        AddComponent<TransformComponent>();
     }
 
     Entity::~Entity()

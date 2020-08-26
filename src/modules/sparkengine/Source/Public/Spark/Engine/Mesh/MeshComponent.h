@@ -38,9 +38,9 @@ namespace Spark
         glm::vec3 Position;
         glm::vec3 Normal;
         glm::vec2 UV;
-        glm::vec3 Color;
+        glm::vec4 Color;
 
-        VertexData(glm::vec3 Position, glm::vec3 Normal, glm::vec2 UV, glm::vec3 Color)
+        VertexData(glm::vec3 Position, glm::vec3 Normal, glm::vec2 UV, glm::vec4 Color)
             : Position(Position), Normal(Normal), UV(UV), Color(Color)
         {}
     };

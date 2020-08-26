@@ -19,14 +19,9 @@ namespace Spark
     {
     }
 
-    void World::Update(Timestep dt)
+    void World::Update(Timestep ts)
     {
-        const auto& entities = m_Context.view<Component>();
-        for(auto& e : entities)
-        {
-            Component& c = m_Context.get<Component>(e);
-            c.Update(dt);
-        }
+        for(auto& level : m_Levels) level->Update(ts);
     }
 
     entt::registry& World::GetContext()

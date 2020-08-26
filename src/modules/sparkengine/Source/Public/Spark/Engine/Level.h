@@ -9,19 +9,23 @@
 namespace Spark
 {
     class World;
-
+    class Entity;
     class SPARKENGINE_API Level : public Object
     {
     private:
         World* m_WorldRef;
+        std::vector<Entity*> m_Entities;
 
     public:
         Level(World* WorldReference);
         ~Level();
 
+        void Begin() {}
+        void Update(Timestep ts);
+
         World* GetWotld();
         entt::registry& GetWorldContext();
-        class Entity& CreateEntity();
+        Entity& CreateEntity();
 
     };
 } // namespace Spark

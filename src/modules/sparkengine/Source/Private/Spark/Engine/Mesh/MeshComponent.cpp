@@ -76,7 +76,7 @@ namespace Spark
                     {Spark::ShaderDataType::Float3, "a_Position"},
                     {Spark::ShaderDataType::Float3, "a_Normal"},
                     {Spark::ShaderDataType::Float2, "a_TexCoord"},
-                    {Spark::ShaderDataType::Float4, "a_Colors"}
+                    {Spark::ShaderDataType::Float4, "a_Color"}
                 });
 
                 m_IndexBuffer = Spark::IIndexBuffer::Create(m_MeshSections[i].Triangles.data(), m_MeshSections[i].Triangles.size());

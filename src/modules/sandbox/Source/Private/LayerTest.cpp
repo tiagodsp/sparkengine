@@ -27,11 +27,11 @@ LayerTest::LayerTest()
     
     m_Camera = std::make_shared<Spark::OrthographicCamera>(-1.6f, 1.6f, -0.9f, 0.9f);
     m_World.reset<Spark::World>(new Spark::World());
-    Spark::Entity camera = m_World->GetCurrentLevel()->CreateEntity();
+    Spark::Entity& camera = m_World->GetCurrentLevel()->CreateEntity();
     camera.AddComponent<Spark::CameraComponent>(m_Camera);
 
-    Spark::Entity mesh = m_World->GetCurrentLevel()->CreateEntity();
-    mesh.AddComponent<Spark::MeshComponent>("./Assets/Meshes/uvcube.glb");
+    Spark::Entity& mesh = m_World->GetCurrentLevel()->CreateEntity();
+    mesh.AddComponent<Spark::MeshComponent>("./Assets/Meshes/monkey.glb");
 
 
 }
@@ -62,15 +62,16 @@ void LayerTest::OnUpdate(Spark::Timestep delta)
     //Start scene rendering
     Spark::Renderer::BeginScene(*m_Camera);
 
-    auto& meshes = m_World->GetContext().view<Spark::MeshComponent>();
+    auto& meshes = m_World->GetContext().view<Spark::MeshComponent, Spark::TransformComponent>();
     for(auto& m : meshes)
     {
         m_Texture->Bind();
         Spark::MeshComponent mc = m_World->GetContext().get<Spark::MeshComponent>(m);
-        mc.Update(delta);
+        glm::mat4 transform = m_World->GetContext().get<Spark::TransformComponent>(m).Transform;
+        
         for(auto& va : mc.GetVertexArrays())
         {
-            Spark::Renderer::Submit(m_ShaderLibrary.Get("Texture"), va, glm::mat4(0.01f));
+            Spark::Renderer::Submit(m_ShaderLibrary.Get("Texture"), va, transform);
         }
     }
     
