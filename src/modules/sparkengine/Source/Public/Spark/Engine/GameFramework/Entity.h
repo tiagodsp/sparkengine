@@ -4,7 +4,6 @@
 #include "Spark/Engine/Components/Component.h"
 #include "Spark/Core/Timestep.h"
 #include "entt.hpp"
-#include "Spark/Engine/Level.h"
 #include "Spark/Object/Object.h"
 #include "glm/glm.hpp"
 #include "glm/gtx/transform.hpp"
@@ -12,7 +11,7 @@
 
 namespace Spark
 {
-    class TransformComponent : Component
+    class TransformComponent : public Component
     {
     public:
         glm::mat4 Transform;
@@ -23,16 +22,19 @@ namespace Spark
         TransformComponent(glm::mat4 Transform)
             : Transform(Transform)
         {}
+
+        virtual void Begin() override {}
+        virtual void Update(Timestep ts) override {}
+        virtual void OnEvent(Event& e) override {}
     };
     
     
     class SPARKENGINE_API Entity : public Object
     {
     private:
-        TransformComponent* m_Tranform;
         entt::entity m_EntityHandle;
         class Level* m_Level;
-        std::vector<Component*> m_Components;
+        //std::vector<Component*> m_Components;
 
     public:
         Entity();
@@ -40,12 +42,8 @@ namespace Spark
         ~Entity();
 
         virtual void Begin() {}
-        virtual void Update(Timestep ts)
-        {
-            for(auto& c : m_Components) c->Update(ts);
-            glm::mat4 rot = glm::rotate(1.0f, glm::vec3(0,0,1));
-            m_Tranform->Transform *= rot;
-        }
+        virtual void Update(Timestep ts);
+        
 
         entt::registry& GetContext();
 
@@ -66,6 +64,10 @@ namespace Spark
         {
             T& c = GetContext().emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
             //m_Components.push_back(&c);
+            // Component* cc = dynamic_cast<Component*>(&c);
+            // if(cc)
+            // {
+            // }
             
             return c;
         }

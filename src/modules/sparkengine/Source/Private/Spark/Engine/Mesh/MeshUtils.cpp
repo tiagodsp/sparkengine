@@ -4,6 +4,7 @@
 #include "assimp/postprocess.h"
 #include "assimp/scene.h"
 #include "glm/glm.hpp"
+#include "glm/gtx/scalar_multiplication.hpp"
 
 namespace Spark
 {
@@ -46,8 +47,8 @@ namespace Spark
                 {
                     glm::vec3 vertex = glm::vec3(
                         scene->mMeshes[i]->mVertices[j].x,
-                        scene->mMeshes[i]->mVertices[j].z * -1,
-                        scene->mMeshes[i]->mVertices[j].y);
+                        scene->mMeshes[i]->mVertices[j].y,
+                        scene->mMeshes[i]->mVertices[j].z);
                     meshSection.Vertices.push_back(vertex);
 
                     //Normal
@@ -55,9 +56,9 @@ namespace Spark
                     {
                         glm::vec3 normal = glm::vec3(
                             scene->mMeshes[i]->mNormals[j].x,
-                            scene->mMeshes[i]->mNormals[j].z * -1,
-                            scene->mMeshes[i]->mNormals[j].y);
-                        meshSection.Normals.push_back(normal);
+                            scene->mMeshes[i]->mNormals[j].y,
+                            scene->mMeshes[i]->mNormals[j].z);
+                        meshSection.Normals.push_back(normal * -1);
                     }
                     else
                     {
@@ -67,7 +68,7 @@ namespace Spark
                     //UV Coordinates - inconsistent coordinates
                     if (scene->mMeshes[i]->HasTextureCoords(0))
                     {
-                        glm::vec2 uv = glm::vec2(scene->mMeshes[i]->mTextureCoords[0][j].x, -scene->mMeshes[i]->mTextureCoords[0][j].y);
+                        glm::vec2 uv = glm::vec2(scene->mMeshes[i]->mTextureCoords[0][j].x, scene->mMeshes[i]->mTextureCoords[0][j].y);
                         meshSection.UVs.push_back(uv);
                     }
                     else
