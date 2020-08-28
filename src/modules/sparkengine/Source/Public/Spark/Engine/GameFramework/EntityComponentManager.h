@@ -68,7 +68,7 @@ namespace Spark
         T* Get(Entity e)
         {
             ASSERT(Has<T>(), "Actor does not have the requested component!");
-            return m_ComponentPoolArray[GetComponentID<T>()][e];
+            return dynamic_cast<T*>(m_ComponentPoolArray[GetComponentID<T>()][e]);
         }
         
         template<typename T, typename... Args>

@@ -28,6 +28,7 @@ namespace Spark
         ~World();
 
         void Update(Timestep ts);
+        void OnEvent(Event& e);
 
         EntityComponentManager& GetContext();
         Level* GetCurrentLevel();

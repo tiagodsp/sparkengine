@@ -1,6 +1,5 @@
 #include "sparkengine.PCH.h"
 #include "Spark/Engine/Level.h"
-#include "Spark/Engine/GameFramework/Actor.h"
 #include "Spark/Engine/World.h"
 
 namespace Spark
@@ -19,6 +18,11 @@ namespace Spark
         for(auto& a : m_Actors) a->Update(ts);
     }
 
+    void Level::OnEvent(Event& e)
+    {
+        for(auto& a : m_Actors) a->OnEvent(e);
+    }
+
     World* Level::GetWotld()
     {
         return m_WorldRef;
@@ -33,5 +37,7 @@ namespace Spark
     {
         m_Actors.push_back(Actor);
     }
+
+
 
 } // namespace Spark

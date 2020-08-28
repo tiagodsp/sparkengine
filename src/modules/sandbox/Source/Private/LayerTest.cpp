@@ -68,31 +68,15 @@ void LayerTest::OnUpdate(Spark::Timestep delta)
     //Start scene rendering
     Spark::Renderer::BeginScene(*m_Camera);
 
-    Spark::TransformComponent* t = (Spark::TransformComponent*) mesh->m_Components[0];
-    Spark::MeshComponent* mc = (Spark::MeshComponent*) mesh->m_Components[1];
+    Spark::TransformComponent* t = mesh->GetComponent<Spark::TransformComponent>();
+    Spark::MeshComponent* mc = mesh->GetComponent<Spark::MeshComponent>();
     m_Texture->Bind();
     for(auto& va : mc->GetVertexArrays())
     {
         Spark::Renderer::Submit(m_ShaderLibrary.Get("Texture"), va, t->Transform);
     }
 
-    // auto meshes = m_World->GetContext().view<Spark::MeshComponent, Spark::TransformComponent>();
-    // for(auto& m : meshes)
-    // {
-    //     m_Texture->Bind();
-    //     Spark::MeshComponent mc = m_World->GetContext().get<Spark::MeshComponent>(m);
-    //     glm::mat4 transform = m_World->GetContext().get<Spark::TransformComponent>(m).Transform;
-    //     mc.Update(delta);
-    //     for(auto& va : mc.GetVertexArrays())
-    //     {
-    //         Spark::Renderer::Submit(m_ShaderLibrary.Get("Texture"), va, transform);
-    //     }
-    // }
     
-    // m_Texture->Bind();
-    // Spark::Renderer::Submit(m_ShaderLibrary.Get("Texture"), m_VertexArray, glm::mat4(1.0f));
-    // m_AlphaTexture->Bind();
-    // Spark::Renderer::Submit(m_ShaderLibrary.Get("Texture"), m_VertexArray, glm::mat4(1.0f));
     
     Spark::Renderer::EndScene();
 }
@@ -102,12 +86,7 @@ void LayerTest::OnEvent(Spark::Event &event)
     Spark::EventDispatcher dispatcher(event);
     dispatcher.Dispatch<Spark::KeyPressedEvent>(std::bind(&LayerTest::HandleKeyInputEvents, this, std::placeholders::_1));
 
-    // auto entities = m_World->GetContext().view<Spark::CameraComponent>();
-    // for(auto e : entities)
-    // {
-    //     Spark::CameraComponent& c = m_World->GetContext().get<Spark::CameraComponent>(e);
-    //     c.OnEvent(event);
-    // }
+    m_World->OnEvent(event);
 }
 // ------------------------------------------------
 

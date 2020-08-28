@@ -3,7 +3,8 @@
 #include "Spark/CoreTypes.h"
 #include "Spark/Engine/Components/Component.h"
 #include "Spark/Core/Timestep.h"
-#include "entt.hpp"
+#include "Spark/Events/Event.h"
+
 #include "Spark/Object/Object.h"
 #include "glm/glm.hpp"
 #include "glm/gtx/transform.hpp"
@@ -42,6 +43,7 @@ namespace Spark
 
         virtual void Begin() {}
         virtual void Update(Timestep ts);
+        virtual void OnEvent(Event& e);
 
         template<typename T>
         bool HasComponent()
@@ -49,11 +51,11 @@ namespace Spark
             return m_Level->GetWorldContext().Has<T>(m_EntityHandle);
         }
 
-        // template<typename T>
-        // T& GetComponent()
-        // {
-        //     return m_Level->GetWorldContext().Get<T>(m_EntityHandle);
-        // }
+        template<typename T>
+        T* GetComponent()
+        {
+            return m_Level->GetWorldContext().Get<T>(m_EntityHandle);
+        }
 
         template<typename T, typename... Args>
         T& AddComponent(Args&&... args)

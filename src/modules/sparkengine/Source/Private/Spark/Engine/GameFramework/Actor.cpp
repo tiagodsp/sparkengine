@@ -33,4 +33,9 @@ namespace Spark
         // }
     }
 
+    void Actor::OnEvent(Event& e)
+    {
+        for(auto c : m_Components) c->OnEvent(e);
+    }
+
 } // namespace Spark

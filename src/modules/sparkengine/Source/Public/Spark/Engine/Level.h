@@ -2,6 +2,8 @@
 
 #include "Spark/Object/Object.h"
 #include "Spark/Engine/GameFramework/EntityComponentManager.h"
+#include "Spark/Events/Event.h"
+#include "Spark/Engine/GameFramework/Actor.h"
 
 #include "sparkengine.api.gen.h"
 
@@ -15,7 +17,7 @@ namespace Spark
     {
     private:
         World* m_WorldRef;
-        std::vector<class Actor*> m_Actors;
+        std::vector<Actor*> m_Actors;
 
     public:
         Level(World* WorldReference);
@@ -23,6 +25,7 @@ namespace Spark
 
         void Begin() {}
         void Update(Timestep ts);
+        void OnEvent(Event& e);
 
         World* GetWotld();
         EntityComponentManager& GetWorldContext();

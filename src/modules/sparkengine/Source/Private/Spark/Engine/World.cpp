@@ -34,5 +34,9 @@ namespace Spark
         return &*m_Levels[m_ActiveSceneIndex];
     }
 
+    void World::OnEvent(Event& e)
+    {
+        for(auto& level : m_Levels) level->OnEvent(e);
+    }
 
 } // namespace Spark
