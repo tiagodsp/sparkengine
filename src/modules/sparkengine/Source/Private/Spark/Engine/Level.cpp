@@ -1,5 +1,7 @@
 #include "sparkengine.PCH.h"
 #include "Spark/Engine/Level.h"
+#include "Spark/Engine/GameFramework/Actor.h"
+#include "Spark/Engine/World.h"
 
 namespace Spark
 {
@@ -14,7 +16,7 @@ namespace Spark
 
     void Level::Update(Timestep ts)
     {
-        for(auto& e : m_Entities) e->Update(ts);
+        for(auto& a : m_Actors) a->Update(ts);
     }
 
     World* Level::GetWotld()
@@ -22,16 +24,14 @@ namespace Spark
         return m_WorldRef;
     }
     
-    entt::registry& Level::GetWorldContext()
+    EntityComponentManager& Level::GetWorldContext()
     {
-        return m_WorldRef->GetContext();
+        return GetWotld()->GetContext();
     }
 
-    Entity& Level::CreateEntity()
+    void Level::RegisterActor(Actor* Actor)
     {
-        Entity* entity = new Spark::Entity(GetWorldContext().create(), this);
-        m_Entities.push_back(entity);
-        return *entity;
+        m_Actors.push_back(Actor);
     }
 
 } // namespace Spark

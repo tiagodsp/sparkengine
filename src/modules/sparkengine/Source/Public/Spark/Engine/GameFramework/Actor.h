@@ -29,47 +29,39 @@ namespace Spark
     };
     
     
-    class SPARKENGINE_API Entity : public Object
+    class SPARKENGINE_API Actor : public Object
     {
     private:
-        entt::entity m_EntityHandle;
         class Level* m_Level;
-        //std::vector<Component*> m_Components;
+        size_t m_EntityHandle;
 
     public:
-        Entity();
-        Entity(entt::entity EntityHandle, Level* Level);
-        ~Entity();
+        std::vector<Component*> m_Components;
+        Actor(Level* Level);
+        ~Actor();
 
         virtual void Begin() {}
         virtual void Update(Timestep ts);
-        
-
-        entt::registry& GetContext();
 
         template<typename T>
         bool HasComponent()
         {
-            return GetContext().has<T>(m_EntityHandle);
+            return m_Level->GetWorldContext().Has<T>(m_EntityHandle);
         }
 
-        template<typename T>
-        T& GetComponent()
-        {
-            return GetContext().get<T>(m_EntityHandle);
-        }
+        // template<typename T>
+        // T& GetComponent()
+        // {
+        //     return m_Level->GetWorldContext().Get<T>(m_EntityHandle);
+        // }
 
         template<typename T, typename... Args>
         T& AddComponent(Args&&... args)
         {
-            T& c = GetContext().emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
-            //m_Components.push_back(&c);
-            // Component* cc = dynamic_cast<Component*>(&c);
-            // if(cc)
-            // {
-            // }
-            
-            return c;
+            T* c = m_Level->GetWorldContext().Emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
+            CORE_ASSERT(dynamic_cast<Component*>(c) != nullptr, "Class is not a valid Component class!");
+            m_Components.push_back(c);
+            return *c;
         }
 
     };

@@ -6,6 +6,7 @@
 #include <vector>
 #include "entt.hpp"
 #include "Spark/Core/Timestep.h"
+#include "Spark/Engine/GameFramework/EntityComponentManager.h"
 
 #include "sparkengine.api.gen.h"
 
@@ -16,7 +17,7 @@ namespace Spark
     class SPARKENGINE_API World : public Object
     {
     private:
-        entt::registry m_Context;
+        EntityComponentManager m_Context;
         std::vector<Ref<Level>> m_Levels;
         int32 m_ActiveSceneIndex;
 
@@ -28,7 +29,7 @@ namespace Spark
 
         void Update(Timestep ts);
 
-        entt::registry& GetContext();
-        Ref<Level> GetCurrentLevel();
+        EntityComponentManager& GetContext();
+        Level* GetCurrentLevel();
     };
 } // namespace Spark   

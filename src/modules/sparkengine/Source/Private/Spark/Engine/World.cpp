@@ -24,14 +24,14 @@ namespace Spark
         for(auto& level : m_Levels) level->Update(ts);
     }
 
-    entt::registry& World::GetContext()
+    EntityComponentManager& World::GetContext()
     {
         return m_Context;
     }
 
-    Ref<Level> World::GetCurrentLevel()
+    Level* World::GetCurrentLevel()
     {
-        return m_Levels[m_ActiveSceneIndex];
+        return &*m_Levels[m_ActiveSceneIndex];
     }
 
 

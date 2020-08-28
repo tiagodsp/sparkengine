@@ -26,7 +26,9 @@ private:
     Spark::ShaderLibrary m_ShaderLibrary;
     Spark::Ref<Spark::Texture2D> m_Texture, m_AlphaTexture;
     Spark::Ref<Spark::World> m_World;
-
+    
+    Spark::Actor* mesh;
+    
     Spark::Ref<Spark::OrthographicCamera> m_Camera;
     float m_CameraSpeed = 1.0f;
 
