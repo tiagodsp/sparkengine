@@ -2,7 +2,7 @@
 
 #include <string>
 #include <vector>
-#include "Spark/CoreTypes.h"
+#include "Spark/Core/CoreTypes.h"
 #include "sparkengine.api.gen.h"
 
 namespace Spark

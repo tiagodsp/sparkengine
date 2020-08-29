@@ -1,7 +1,6 @@
 #include "sparkengine.PCH.h"
-#include "Spark/Log.h"
-#include "Spark/Events/ApplicationEvent.h"
-#include "Spark/Input.h"
+#include "Spark/Core/Log.h"
+#include "Spark/Core/Input.h"
 #include "Spark/ImGui/ImGuiLayer.h"
 
 #include "Spark/Renderer/RenderCommand.h"
@@ -15,7 +14,7 @@
 #include "Spark/OpenGL/OpenGLShader.h"
 // ---------------------------
 
-#include"Spark/Application.h"
+#include"Spark/Core/Application.h"
 
 namespace Spark
 {
@@ -42,27 +41,33 @@ namespace Spark
         Timestep lastFrameTime;
         while (m_Running)
         {
+            // Calculate delta time.
             Timestep time = Platform::Get()->GetTime();
             Timestep delta = time - lastFrameTime;
             lastFrameTime = time;
 
-            for (Layer *layer : m_LayerStack)
+            // If application is minimized, pause everything...
+            if (!m_Minimized)
             {
-                layer->OnUpdate(delta);
+                // Update all layers.
+                for (Layer *layer : m_LayerStack)
+                {
+                    layer->OnUpdate(delta);
+                }
             }
-
+            // Update Window.
             m_PlatformWindow->OnUpdate();
         }
     }
 
     void Application::OnEvent(Event &e)
     {
+        // Dispatch window related events.
         EventDispatcher dispatcher(e);
-        dispatcher.Dispatch<WindowCloseEvent>([&](WindowCloseEvent &e) {
-            this->m_Running = false;
-            return true;
-        });
+        dispatcher.Dispatch<WindowCloseEvent>(std::bind(&Application::OnWindowClose, this, std::placeholders::_1));
+        dispatcher.Dispatch<WindowResizeEvent>(std::bind(&Application::OnWindowResize, this, std::placeholders::_1));
 
+        // Dispatch events to each layer.
         for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
         {
             (*--it)->OnEvent(e);
@@ -81,5 +86,23 @@ namespace Spark
     {
         m_LayerStack.PushOverlay(overlay);
         overlay->OnAttach();
+    }
+
+    bool Application::OnWindowClose(WindowCloseEvent& e)
+    {
+        m_Running = false;
+        return true;
+    }
+    
+    bool Application::OnWindowResize(WindowResizeEvent& e)
+    {
+        if(e.GetWidth() == 0 && e.GetHeight() == 0)
+        {
+            m_Minimized = true;
+            return false;
+        }
+        m_Minimized = false;
+        Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+        return false;
     }
 }

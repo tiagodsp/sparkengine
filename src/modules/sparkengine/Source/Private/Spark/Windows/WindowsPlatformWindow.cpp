@@ -1,7 +1,7 @@
 #include "sparkengine.PCH.h"
 #include "WindowsPlatformWindow.h"
 
-#include "Spark/Log.h"
+#include "Spark/Core/Log.h"
 
 #include "Spark/Events/ApplicationEvent.h"
 #include "Spark/Events/KeyEvent.h"

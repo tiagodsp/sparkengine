@@ -19,6 +19,8 @@ public:
 
     static void Submit(const Ref<IShader>& shader, const Ref<IVertexArray>& vertexArray, const glm::mat4& transform = glm::mat4(1.0f));
 
+    static void OnWindowResize(uint32 Width, uint32 Height);
+
     inline static PlatformRendererAPI::API GetAPI() {return  PlatformRendererAPI::GetAPI(); }
 private:
     struct SceneData

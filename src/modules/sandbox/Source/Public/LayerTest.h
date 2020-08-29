@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Spark/CoreTypes.h"
-#include "Spark/Layer.h"
-#include "Spark/PlatformWindow.h"
-#include "Spark/LayerStack.h"
+#include "Spark/Core/CoreTypes.h"
+#include "Spark/Core/Layer.h"
+#include "Spark/Core/PlatformWindow.h"
+#include "Spark/Core/LayerStack.h"
 #include "Spark/Renderer/IShader.h"
 #include "Spark/Renderer/IBuffer.h"
 #include "Spark/Renderer/IVertexArray.h"
@@ -11,7 +11,7 @@
 #include "Spark/Renderer/RenderCommand.h"
 #include "Spark/Renderer/OrthographicCamera.h"
 #include "Spark/Events/Event.h"
-#include "Spark/Log.h"
+#include "Spark/Core/Log.h"
 #include "Spark/Renderer/Texture.h"
 #include "Spark/Engine/World.h"
 

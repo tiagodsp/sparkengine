@@ -1,6 +1,6 @@
 #include "sparkengine.PCH.h"
 
-#include "Spark/LayerStack.h"
+#include "Spark/Core/LayerStack.h"
 
 namespace Spark
 {

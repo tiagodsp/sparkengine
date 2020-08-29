@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Spark/CoreTypes.h"
+#include "Spark/Core/CoreTypes.h"
 #include "Spark/Object/Object.h"
 #include "Spark/Engine/Level.h"
 #include <vector>

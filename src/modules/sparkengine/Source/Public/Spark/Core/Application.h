@@ -1,10 +1,11 @@
 #pragma once
-#include "Spark/CoreTypes.h"
-#include "Spark/PlatformWindow.h"
-#include "Spark/LayerStack.h"
+#include "Spark/Core/CoreTypes.h"
+#include "Spark/Core/PlatformWindow.h"
+#include "Spark/Core/LayerStack.h"
 #include "Spark/Renderer/IShader.h"
 #include "Spark/Renderer/IBuffer.h"
 #include "Spark/Renderer/IVertexArray.h"
+#include "Spark/Events/ApplicationEvent.h"
 
 #include "Spark/Renderer/OrthographicCamera.h"
 
@@ -30,10 +31,15 @@ namespace Spark
         inline static Application& Get() { return *s_Instance; }
 
     private:
+        bool OnWindowClose(WindowCloseEvent& e);
+        bool OnWindowResize(WindowResizeEvent& e);
+
+    private:
         static Application* s_Instance;
         LayerStack m_LayerStack;
         std::unique_ptr<IPlatformWindow> m_PlatformWindow;
         bool m_Running = true;
+        bool m_Minimized = false;
 
     };
 

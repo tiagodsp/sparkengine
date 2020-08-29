@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Spark/CoreTypes.h"
+#include "Spark/Core/CoreTypes.h"
 #include "Spark/Core/Timestep.h"
-#include "Events/Event.h"
+#include "Spark/Events/Event.h"
 
 #include "sparkengine.api.gen.h"
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Spark/Input.h"
+#include "Spark/Core/Input.h"
 
 namespace Spark
 {

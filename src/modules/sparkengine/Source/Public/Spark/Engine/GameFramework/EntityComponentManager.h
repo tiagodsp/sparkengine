@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "Spark/CoreTypes.h"
+#include "Spark/Core/CoreTypes.h"
 #include <vector>
 #include <array>
 #include <memory>

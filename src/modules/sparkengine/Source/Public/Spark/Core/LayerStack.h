@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Spark/CoreTypes.h"
-#include "Spark/Layer.h"
+#include "Spark/Core/CoreTypes.h"
+#include "Spark/Core/Layer.h"
 #include <vector>
 
 #include "sparkengine.api.gen.h"

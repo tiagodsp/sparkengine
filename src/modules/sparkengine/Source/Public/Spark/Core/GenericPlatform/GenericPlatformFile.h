@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Spark/CoreTypes.h"
+#include "Spark/Core/CoreTypes.h"
 #include <string>
 #include <vector>
 #include "sparkengine.api.gen.h"

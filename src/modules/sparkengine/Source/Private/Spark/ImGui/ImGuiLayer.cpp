@@ -1,10 +1,10 @@
 #include "Spark/ImGui/ImGuiLayer.h"
 #include "imgui.h"
-#include "Spark/Application.h"
+#include "Spark/Core/Application.h"
 #include "examples/imgui_impl_opengl3.h"
 #include "examples/imgui_impl_glfw.h"
 
-#include "Spark/Log.h"
+#include "Spark/Core/Log.h"
 
 // TEMPORARY!!! --------------
 #include "glad/glad.h"

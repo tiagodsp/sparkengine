@@ -1,6 +1,6 @@
 #include "sparkengine.PCH.h"
 
-#include "Spark/Log.h"
+#include "Spark/Core/Log.h"
 
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"

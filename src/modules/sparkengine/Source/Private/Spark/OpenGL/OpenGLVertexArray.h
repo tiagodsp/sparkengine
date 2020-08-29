@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Spark/CoreTypes.h"
+#include "Spark/Core/CoreTypes.h"
 #include <memory>
 #include "Spark/Renderer/IVertexArray.h"
 #include "Spark/Renderer/IBuffer.h"

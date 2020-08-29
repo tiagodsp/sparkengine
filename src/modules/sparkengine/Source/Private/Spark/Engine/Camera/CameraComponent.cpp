@@ -1,13 +1,14 @@
 #include "sparkengine.PCH.h"
 #include "Spark/Engine/Camera/CameraComponent.h"
 
-#include "Spark/Input.h"
-#include "Spark/KeyCodes.h"
+#include "Spark/Core/Input.h"
+#include "Spark/Core/KeyCodes.h"
 
 namespace Spark
 {
-    CameraComponent::CameraComponent()
-        : m_OrthoCamera(std::make_shared<OrthographicCamera>(1.6f, 1.6f, 0.9f, 0.9f))
+    CameraComponent::CameraComponent(float AspectRation)
+        : m_AspectRatio(AspectRation)
+        , m_OrthoCamera(std::make_shared<OrthographicCamera>(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel))
     {}
     
     CameraComponent::CameraComponent(Ref<OrthographicCamera> orthoCamera)
@@ -34,19 +35,29 @@ namespace Spark
         else if (Spark::Input::IsKeyPressed(SPARK_KEY_DOWN))
             m_OrthoCamera->SetPosition(m_OrthoCamera->GetPosition() + glm::vec3(0, -m_CameraSpeed * ts, 0));
 
-        m_OrthoCamera->SetProjection(-1* m_ZoomLevel, 1* m_ZoomLevel, -1* m_ZoomLevel, 1* m_ZoomLevel);
+        //m_AspectRatio = (float)e.GetWidth() / (float)e.GetHeight();
+        //m_OrthoCamera->SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
     }
 
     void CameraComponent::OnEvent(Event& e)
     {
         EventDispatcher dispatcher(e);
         dispatcher.Dispatch<MouseScrollEvent>(std::bind(&CameraComponent::OnMouseScroll, this, std::placeholders::_1));
+        dispatcher.Dispatch<WindowResizeEvent>(std::bind(&CameraComponent::OnWindowsResize, this, std::placeholders::_1));
     }        
 
     bool CameraComponent::OnMouseScroll(MouseScrollEvent& e)
     {
-        int zoom = m_ZoomLevel + e.GetYOffset();
-        m_ZoomLevel = zoom > 0 ? zoom : 0;
+        float zoom = (float)m_ZoomLevel + (float)e.GetYOffset();
+        m_ZoomLevel = zoom > 1.0f ? zoom : 1.0f;
+        m_OrthoCamera->SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel , m_ZoomLevel);
         return true;
+    }
+
+    bool CameraComponent::OnWindowsResize(WindowResizeEvent& e)
+    {
+        m_AspectRatio = (float)e.GetWidth() / (float)e.GetHeight();
+        m_OrthoCamera->SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+        return false;
     }
 }

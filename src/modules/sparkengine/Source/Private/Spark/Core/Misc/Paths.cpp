@@ -1,8 +1,9 @@
-#include "Spark/CoreTypes.h"
+#include "sparkengine.PCH.h"
+#include "Spark/Core/Misc/Paths.h"
+#include "Spark/Core/CoreTypes.h"
 #include <regex>
 #include <sstream>
 #include "Spark/Core/GenericPlatform/GenericPlatformFile.h"
-#include "Spark/Core/Misc/Paths.h"
 
 namespace Spark
 {

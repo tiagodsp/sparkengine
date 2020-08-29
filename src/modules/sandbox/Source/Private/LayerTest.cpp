@@ -1,8 +1,8 @@
 #include "LayerTest.h"
 
 #include "Spark/Events/KeyEvent.h"
-#include "Spark/KeyCodes.h"
-#include "Spark/Input.h"
+#include "Spark/Core/KeyCodes.h"
+#include "Spark/Core/Input.h"
 #include "Spark/Core/GenericPlatform/GenericPlatformFile.h"
 #include "Spark/Core/Misc/Paths.h"
 #include "glm/gtc/matrix_transform.hpp"
@@ -26,11 +26,11 @@ LayerTest::LayerTest()
     textureShader->Bind();
     textureShader->UploadUniformInt("u_Texture", 0);
     
-    m_Camera = std::make_shared<Spark::OrthographicCamera>(-1.6f, 1.6f, -0.9f, 0.9f);
     m_World.reset<Spark::World>(new Spark::World());
     Spark::Actor* camera = new Spark::Actor(m_World->GetCurrentLevel());
     camera->AddComponent<Spark::TransformComponent>();
-    camera->AddComponent<Spark::CameraComponent>(m_Camera);
+    auto& cameraComponent = camera->AddComponent<Spark::CameraComponent>();
+    m_Camera = cameraComponent.GetOrthoCamera();
 
     mesh = new Spark::Actor(m_World->GetCurrentLevel());
     mesh->AddComponent<Spark::TransformComponent>();
@@ -73,7 +73,7 @@ void LayerTest::OnUpdate(Spark::Timestep delta)
     m_Texture->Bind();
     for(auto& va : mc->GetVertexArrays())
     {
-        Spark::Renderer::Submit(m_ShaderLibrary.Get("Texture"), va, t->Transform);
+        Spark::Renderer::Submit(m_ShaderLibrary.Get("Texture"), va, t->Transform * glm::translate(glm::vec3(0, 0, -50)));
     }
 
     

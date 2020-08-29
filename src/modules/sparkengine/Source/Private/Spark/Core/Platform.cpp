@@ -1,5 +1,5 @@
 #include "Spark/Core/Platform.h"
-#include "Spark/CoreTypes.h"
+#include "Spark/Core/CoreTypes.h"
 #include "Spark/Windows/WindowsPlatform.h"
 
 namespace Spark

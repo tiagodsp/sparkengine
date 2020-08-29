@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Spark/CoreTypes.h"
-#include "Spark/PlatformWindow.h"
+#include "Spark/Core/CoreTypes.h"
+#include "Spark/Core/PlatformWindow.h"
 #include "Spark/Renderer/IGraphicsContext.h"
 
 struct GLFWwindow;

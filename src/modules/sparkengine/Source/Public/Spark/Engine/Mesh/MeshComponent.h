@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Spark/CoreTypes.h"
+#include "Spark/Core/CoreTypes.h"
 #include "Spark/Engine/Components/Component.h"
 #include "Spark/Renderer/IVertexArray.h"
 #include "glm/glm.hpp"

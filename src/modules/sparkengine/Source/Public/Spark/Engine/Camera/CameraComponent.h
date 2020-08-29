@@ -3,6 +3,7 @@
 #include "Spark/Engine/Components/Component.h"
 #include "Spark/Renderer/OrthographicCamera.h"
 #include "Spark/Events/MouseEvent.h"
+#include "Spark/Events/ApplicationEvent.h"
 #include "sparkengine.api.gen.h"
 
 namespace Spark
@@ -15,7 +16,7 @@ namespace Spark
         float m_CameraSpeed = 10.0f;
         Ref<OrthographicCamera> m_OrthoCamera;
     public:
-        CameraComponent();
+        CameraComponent(float AspectRation = 16.0f/9.0f);
         CameraComponent(Ref<OrthographicCamera> orthoCamera);
         ~CameraComponent();
 
@@ -24,6 +25,8 @@ namespace Spark
         virtual void OnEvent(Event& e) override;
 
         bool OnMouseScroll(MouseScrollEvent& e);
+        bool OnWindowsResize(WindowResizeEvent& e);
 
+        inline Ref<OrthographicCamera> GetOrthoCamera() { return m_OrthoCamera; }
     };
 } // namespace Spark

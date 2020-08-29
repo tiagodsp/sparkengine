@@ -28,6 +28,11 @@ public:
     {
         s_RendererAPI->DrawIndexed(vertexArray);
     }
+
+    inline static void SetViewport(uint32 X, uint32 Y, uint32 Width, uint32 Height)
+    {
+        s_RendererAPI->SetViewport(X, Y, Width, Height);
+    }
 };
 
 } // namespace Spark
