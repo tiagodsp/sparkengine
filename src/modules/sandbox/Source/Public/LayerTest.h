@@ -30,7 +30,6 @@ private:
     Spark::Actor* mesh;
     
     Spark::Ref<Spark::OrthographicCamera> m_Camera;
-    float m_CameraSpeed = 1.0f;
 
 public:
     LayerTest();

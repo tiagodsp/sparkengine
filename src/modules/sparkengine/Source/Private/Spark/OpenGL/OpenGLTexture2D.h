@@ -14,6 +14,7 @@ namespace Spark
         virtual uint32 GetWidth() const override { return m_Width; }
         virtual uint32 GetHeight() const override { return m_Height; }
         virtual void Bind(uint32 slot = 0) const override;
+        virtual void Unbind() const override;
     private:
         std::string m_FilePath;
         uint32 m_Width, m_Height;

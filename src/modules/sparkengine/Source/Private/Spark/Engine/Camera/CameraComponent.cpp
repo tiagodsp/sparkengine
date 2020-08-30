@@ -49,7 +49,7 @@ namespace Spark
     bool CameraComponent::OnMouseScroll(MouseScrollEvent& e)
     {
         float zoom = (float)m_ZoomLevel + (float)e.GetYOffset();
-        m_ZoomLevel = zoom > 1.0f ? zoom : 1.0f;
+        m_ZoomLevel = zoom > 1.0f ? zoom : zoom;
         m_OrthoCamera->SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel , m_ZoomLevel);
         return true;
     }
