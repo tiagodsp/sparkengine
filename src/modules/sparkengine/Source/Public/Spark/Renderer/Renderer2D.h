@@ -18,8 +18,8 @@ namespace Spark
         {
             glm::mat4 ViewProjectionMatrix;
             Ref<IVertexArray> QuadVertexArray;
-            Ref<IShader> FlatColorShader;
             Ref<IShader> TextureShader;
+            Ref<Texture> WhiteTexture;
         };
         static Renderer2DData *s_Data;
 

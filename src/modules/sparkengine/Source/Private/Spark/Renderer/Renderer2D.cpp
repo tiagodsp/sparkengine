@@ -34,7 +34,11 @@ namespace Spark
         s_Data->QuadVertexArray->AddVertexBuffer(quadVB);
         s_Data->QuadVertexArray->SetIndexBuffer(quadIB);
 
-        s_Data->FlatColorShader = IShader::Create("Assets/Shaders/FlatColor.glsl");
+        uint32 whitePixel = 0xFFFFFFFF;
+        s_Data->WhiteTexture = Texture2D::Create(1, 1, Texture::TextureFormat::BGRA8);
+        s_Data->WhiteTexture->SetTextureData(&whitePixel, sizeof(uint32), Texture::PixelFormat::RGBA);
+
+
         s_Data->TextureShader = IShader::Create("Assets/Shaders/Texture.glsl");
     }
 
@@ -46,9 +50,6 @@ namespace Spark
     void Renderer2D::BeginScene(OrthographicCamera &camera)
     {
         s_Data->ViewProjectionMatrix = camera.GetViewProjectionMatix();
-        s_Data->FlatColorShader->Bind();
-        s_Data->FlatColorShader->UploadUniformMat4("u_ViewProjection", s_Data->ViewProjectionMatrix);
-        s_Data->FlatColorShader->Unbind();
 
         s_Data->TextureShader->Bind();
         s_Data->TextureShader->UploadUniformMat4("u_ViewProjection", s_Data->ViewProjectionMatrix);
@@ -65,14 +66,7 @@ namespace Spark
     
     void Renderer2D::DrawQuad(const glm::vec3 &Position, const glm::vec2 &Size, const glm::vec4 &Color)
     {
-        s_Data->FlatColorShader->Bind();
-        s_Data->FlatColorShader->UploadUniformMat4("u_Transform", glm::mat4(1.0f) * glm::translate(Position) * glm::scale(glm::vec3({Size.x, Size.y, 1.0f})));
-        s_Data->FlatColorShader->UploadUniformFloat4("u_Color", Color);
-
-        s_Data->QuadVertexArray->Bind();
-        RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
-        s_Data->QuadVertexArray->Unbind();
-        s_Data->FlatColorShader->Unbind();
+        DrawQuad(Position, Size, Color, s_Data->WhiteTexture);
     }
 
     void Renderer2D::DrawQuad(const glm::vec2 &Position, const glm::vec2 &Size, const glm::vec4 &Color, const Ref<Texture>& Texture)
