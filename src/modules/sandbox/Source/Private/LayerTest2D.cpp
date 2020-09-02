@@ -2,6 +2,7 @@
 #include "Spark/Renderer/Renderer2D.h"
 #include "Spark/Renderer/RenderCommand.h"
 #include "Spark/Engine/Camera/CameraComponent.h"
+#include "Spark/Core/Profiling.h"
 
 namespace Sandbox
 {
@@ -29,6 +30,9 @@ namespace Sandbox
     
     void LayerTest2D::OnUpdate(Spark::Timestep delta)
     {
+        PROFILE_SCOPE("LayerTest2D::OnPudate");
+        //Spark::Timer timer("LayerTest2D::OnPudate", [&](std::pair<const char*, long long> ProfileResult){ Spark::Profiler::Get().PushBack(ProfileResult.first, ProfileResult.second); });
+        
         m_World->Update(delta);
 
         Spark::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
