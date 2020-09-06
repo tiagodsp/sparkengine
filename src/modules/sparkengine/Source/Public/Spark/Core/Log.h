@@ -18,13 +18,8 @@ public:
     static void AddLogCategory(const std::string &logCategory);
     static void Init();
     inline static std::shared_ptr<spdlog::logger> &GetCoreLogger() { return Log::GetLogger("Core"); };
-    inline static std::shared_ptr<spdlog::logger> &GetLogger(const std::string &logCategory)
-    {
-        auto it = Log::s_LoggerMap.find(logCategory);
-        CORE_ASSERT(it != Log::s_LoggerMap.end(), "Log category does not exist!");
-        return it->second;
-    };
-
+    static std::shared_ptr<spdlog::logger> &GetLogger(const std::string &logCategory);
+    
 private:
     static std::map<std::string, std::shared_ptr<spdlog::logger>> s_LoggerMap;
 };

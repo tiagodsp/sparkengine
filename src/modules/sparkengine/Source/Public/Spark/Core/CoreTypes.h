@@ -1,11 +1,12 @@
 #pragma once
 
 #include <type_traits> 
+#include "Spark/Core/Log.h"
 #include <memory>
 
 #ifdef SPARKENGINE_ENABLE_ASSERTS
     #define ASSERT(x, ...) { if(!(x)) {LOGF(Core, "Assertion Failed: {0}", __VA_ARGS__); __debugbreak();} }
-    #define CORE_ASSERT(x, ...) { if(!(x)) {CORE_LOGF(Core, "Assertion Failed: {0}", __VA_ARGS__); __debugbreak();} }
+    #define CORE_ASSERT(x, ...) { if(!(x)) {CORE_LOGF("Assertion Failed: {0}", __VA_ARGS__); __debugbreak();} }
 #else
     #define ASSERT(x, ...) 
     #define CORE_ASSERT(x, ...)

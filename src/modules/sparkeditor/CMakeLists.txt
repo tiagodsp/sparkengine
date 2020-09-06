@@ -1,17 +1,9 @@
 sbs_add_module(
-    LIBRARY
+    PROGRAM
     USE_PCH
-    EXTERNAL
-        "spdlog"
-        "glfw"
-        "glad"
-        "imgui"
-        "glm"
-        "stb_image"
-        "entt"
-        "assimp"
+    DEPENDS sparkengine
     DEFINITIONS
-        "SPARKENGINE_ENABLE_ASSERTS"
+        #"IMGUI_API"
     SOURCE_PATHS
         "Source/Public/"
         "Source/Private/"

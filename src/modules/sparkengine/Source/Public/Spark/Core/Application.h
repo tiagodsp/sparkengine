@@ -6,6 +6,7 @@
 #include "Spark/Renderer/IBuffer.h"
 #include "Spark/Renderer/IVertexArray.h"
 #include "Spark/Events/ApplicationEvent.h"
+#include "Spark/ImGui/ImGuiLayer.h"
 
 #include "Spark/Renderer/OrthographicCamera.h"
 
@@ -16,7 +17,7 @@ namespace Spark
     class SPARKENGINE_API Application
     {
     public:
-        Application();
+        Application(const char* Name = "");
         virtual ~Application();
 
         void Run();
@@ -35,6 +36,7 @@ namespace Spark
         bool OnWindowResize(WindowResizeEvent& e);
 
     private:
+        Ref<ImGuiLayer> m_ImGuiLayer;
         static Application* s_Instance;
         LayerStack m_LayerStack;
         std::unique_ptr<IPlatformWindow> m_PlatformWindow;

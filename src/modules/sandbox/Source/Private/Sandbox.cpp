@@ -5,9 +5,9 @@
 namespace Sandbox
 {
     Sandbox::Sandbox()
+        : Application("Sandbox")
     {
         this->PushLayer(new LayerTest2D());
-        //this->PushLayer(new LayerTest());
     }
 
     Sandbox::~Sandbox()

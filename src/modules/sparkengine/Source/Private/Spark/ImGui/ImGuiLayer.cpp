@@ -1,5 +1,4 @@
 #include "Spark/ImGui/ImGuiLayer.h"
-#include "imgui.h"
 #include "Spark/Core/Application.h"
 #include "examples/imgui_impl_opengl3.h"
 #include "examples/imgui_impl_glfw.h"
@@ -24,7 +23,7 @@ namespace Spark
 
     void ImGuiLayer::OnAttach()
     {
-        ImGui::CreateContext();
+        m_Context = ImGui::CreateContext();
         ImGui::StyleColorsDark();
 
         ImGuiIO& io = ImGui::GetIO();
@@ -46,25 +45,30 @@ namespace Spark
         ImGui::DestroyContext();
     }
 
-    void ImGuiLayer::OnUpdate(Timestep delta)
+    void ImGuiLayer::OnImGuiRender(ImGuiContext* context)
     {
+        static bool show = true;
+        ImGui::ShowDemoWindow(&show);
+    }
 
+    void ImGuiLayer::Begin()
+    {
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+    }
+    
+    void ImGuiLayer::End()
+    {
         ImGuiIO& io = ImGui::GetIO();
         
         Application& app = Application::Get();
         IPlatformWindow& window = app.GetWindow();
         io.DisplaySize = ImVec2(window.GetWidth(), window.GetHeight());     
-        
-        float time = (float)glfwGetTime();
-        io.DeltaTime = m_Time > 0.0f? (time - m_Time) : (1.0f / 60.0f);
-        m_Time = time;
-        
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
 
-        static bool show = true;
-        ImGui::ShowDemoWindow(&show);
+        // float time = (float)glfwGetTime();
+        // io.DeltaTime = m_Time > 0.0f? (time - m_Time) : (1.0f / 60.0f);
+        // m_Time = time;
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -76,7 +80,6 @@ namespace Spark
             ImGui::RenderPlatformWindowsDefault();
             glfwMakeContextCurrent(window);
         }
-
     }
     
     void ImGuiLayer::OnEvent(Event& event)

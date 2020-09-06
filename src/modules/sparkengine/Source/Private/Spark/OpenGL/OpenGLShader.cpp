@@ -142,7 +142,7 @@ std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::stri
 
 void OpenGLShader::Compile(std::unordered_map<GLenum, std::string> sourceShaders)
 {
-    CORE_ASSERT(sourceShaders.size() > 2, "OpenGLShader::Compile function only supports up to 2 shaders.");
+    CORE_ASSERT(sourceShaders.size() <= 2, "OpenGLShader::Compile function only supports up to 2 shaders.");
     std::array<GLint, 2> shaders;
     int currentShaderIndex = 0;
     
