@@ -14,6 +14,7 @@
 #include "Spark/Core/Log.h"
 #include "Spark/Renderer/Texture.h"
 #include "Spark/Engine/World.h"
+#include "Spark/Renderer/Framebuffer.h"
 
 namespace Spark
 {
@@ -21,9 +22,10 @@ namespace Spark
     class SparkEditorLayer : public Layer
     {
     private:
-        Spark::Ref<Spark::Actor> m_CameraActor;
-        Spark::Ref<Spark::World> m_World;
-        Spark::Ref<Spark::Texture> m_Texture;
+        Ref<Actor> m_CameraActor;
+        Ref<World> m_World;
+        Ref<Texture> m_Texture;
+        Ref<IFramebuffer> m_MainViewportFramebuffer;
 
     public:
         SparkEditorLayer();

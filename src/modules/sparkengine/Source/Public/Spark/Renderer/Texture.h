@@ -33,6 +33,7 @@ namespace Spark
         
         virtual void Bind(uint32 slot = 0) const = 0;
         virtual void Unbind() const = 0;
+        virtual uint32 GetRendererID() const = 0;
         virtual void SetTextureData(const void* Data, size_t Size, PixelFormat PixelFormat) = 0;
     };
 

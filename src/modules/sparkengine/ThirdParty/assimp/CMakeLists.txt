@@ -6,13 +6,13 @@ add_subdirectory(./assimp501)
  # Let's set compiler-specific flags
  if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     # G++
-    target_compile_options(assimp BEFORE PRIVATE -MTd)
+    target_compile_options(assimp BEFORE PRIVATE -MDd)
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "LLVM")
     #Clang
-    target_compile_options(assimp BEFORE PRIVATE -MTd)    
+    target_compile_options(assimp BEFORE PRIVATE -MDd)    
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     #Clang
-    target_compile_options(assimp BEFORE PRIVATE -MTd -Wno-everything)   
+    target_compile_options(assimp BEFORE PRIVATE -MDd -Wno-everything)   
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     # MSVC
     #target_compile_options(assimp BEFORE PRIVATE /MTd)

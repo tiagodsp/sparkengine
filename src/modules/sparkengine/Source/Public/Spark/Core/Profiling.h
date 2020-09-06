@@ -15,6 +15,7 @@ namespace Spark
     public:
         static Profiler &Get();
         void PushBack(const char *ScopeName, long long Duration);
+        const std::map<const char *, long long>& GetResults() { return m_ProfileScopeResults; }
     };
 
     template <typename Fn>
@@ -42,7 +43,7 @@ namespace Spark
         void Stop()
         {
             auto endTimepoint = std::chrono::high_resolution_clock::now();
-            long long duration = std::chrono::duration_cast<std::chrono::nanoseconds>(endTimepoint - m_StartTimepoint).count();
+            long long duration = std::chrono::duration_cast<std::chrono::microseconds>(endTimepoint - m_StartTimepoint).count();
             m_Callback({m_Name, duration});
             m_Stopped = true;
         }

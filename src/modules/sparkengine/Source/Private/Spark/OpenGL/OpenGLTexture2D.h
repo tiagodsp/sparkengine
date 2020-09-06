@@ -18,6 +18,7 @@ namespace Spark
         virtual uint32 GetHeight() const override { return m_Height; }
         virtual void Bind(uint32 slot = 0) const override;
         virtual void Unbind() const override;
+        virtual uint32 GetRendererID() const override { return m_RendererID; };
         virtual void SetTextureData(const void* Data, size_t Size, PixelFormat PixelFormat) override;
     private:
         std::string m_FilePath;
