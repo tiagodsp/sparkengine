@@ -7,6 +7,8 @@
 
 #include "Spark/Core/Platform.h"
 
+#include "Spark/Engine/World.h"
+
 #include"Spark/Core/Application.h"
 
 namespace Spark
@@ -15,6 +17,8 @@ namespace Spark
 
     Application::Application(const char* Name)
     {
+        new Spark::World();
+        GWorld->GetContext();
         CORE_ASSERT(!s_Instance, "Instance of Application alraedy exists!");
         s_Instance = this;
 

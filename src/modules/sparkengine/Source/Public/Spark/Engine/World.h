@@ -33,4 +33,6 @@ namespace Spark
         EntityComponentManager& GetContext();
         Level* GetCurrentLevel();
     };
+
+    extern SPARKENGINE_API World* GWorld;
 } // namespace Spark   

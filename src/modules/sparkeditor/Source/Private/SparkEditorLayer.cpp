@@ -22,7 +22,7 @@ namespace Spark
 
     SparkEditorLayer::SparkEditorLayer()
     {
-        m_World.reset<Spark::World>(new Spark::World());
+        //m_World.reset<Spark::World>(new Spark::World());
         
         FramebufferProperties props;        
         props.Size = { Application::Get().GetWindow().GetWidth(), Application::Get().GetWindow().GetHeight() };
@@ -37,9 +37,13 @@ namespace Spark
 
     void SparkEditorLayer::OnAttach()
     {
-        m_CameraActor = std::make_shared<Spark::Actor>(m_World->GetCurrentLevel());
+        m_CameraActor = std::make_shared<Spark::Actor>();
         m_CameraActor->AddComponent<Spark::CameraComponent>();
         m_Texture = Spark::Texture2D::Create("Assets/Textures/digital.png");
+        new Spark::Actor();
+        new Spark::Actor();
+        new Spark::Actor();
+        new Spark::Actor();
     }
 
     void SparkEditorLayer::OnDetach()
@@ -48,10 +52,10 @@ namespace Spark
 
     void SparkEditorLayer::OnUpdate(Spark::Timestep delta)
     {
-        PROFILE_SCOPE("SparkEditorLayer::OnUpdate");
+        PROFILE_FUNCTION();
         //Spark::Timer timer("LayerTest2D::OnPudate", [&](std::pair<const char*, long long> ProfileResult){ Spark::Profiler::Get().PushBack(ProfileResult.first, ProfileResult.second); });
 
-        m_World->Update(delta);
+        GWorld->Update(delta);
 
         m_MainViewportFramebuffer->Bind();
         RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
@@ -91,7 +95,7 @@ namespace Spark
         ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
         ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f));
 
-
+        // Main menu bar -----------------------------------------------------
         if (ImGui::BeginMainMenuBar())
         {
             if (ImGui::BeginMenu("File"))
@@ -118,11 +122,14 @@ namespace Spark
             ImGui::EndMainMenuBar();
         }
         
+        // Viewport ---------------------------------------------------------------------
         ImGui::Begin("Viewport");
         uint32 texid = m_MainViewportFramebuffer->GetColorAttachmentRendererID();
         ImGui::Image((void*)texid, ImGui::GetContentRegionAvail());
         ImGui::End();
+        // -------------------------------------------------------------------------------
 
+        // Stats -------------------------------------------------------------------------
         ImGui::Begin("Stats");
         for(auto r : Profiler::Get().GetResults())
         {
@@ -131,10 +138,23 @@ namespace Spark
             ImGui::Text(ss.str().c_str());
         }
         ImGui::End();
+        // -------------------------------------------------------------------------------
+
+        // World outline ----------------------------------------------------------------
+        ImGui::Begin("World Outline");
+        auto& levelActors = GWorld->GetCurrentLevel()->GetActors();
+    	for(auto& actor : levelActors)
+        {
+            ImGui::Text("ActorName");
+        }
+        ImGui::End();
+        // ------------------------------------------------------------------------------
+
         
         ImGui::End();
         ImGui::PopStyleVar();
         ImGui::PopStyleVar();
+
 
     }
 
@@ -143,7 +163,7 @@ namespace Spark
         EventDispatcher dispatcher(event);
         dispatcher.Dispatch<KeyPressedEvent>(std::bind(&SparkEditorLayer::HandleKeyInputEvents, this, std::placeholders::_1));
 
-        m_World->OnEvent(event);
+        GWorld->OnEvent(event);
     }
     // ------------------------------------------------
 

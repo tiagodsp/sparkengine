@@ -38,6 +38,7 @@ namespace Spark
 
     public:
         std::vector<Component*> m_Components;
+        Actor();
         Actor(Level* Level);
         ~Actor();
 

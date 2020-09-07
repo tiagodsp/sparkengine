@@ -51,3 +51,4 @@ namespace Spark
 } // namespace Spark
 
 #define PROFILE_SCOPE(Name) Spark::Timer time##__LINE__(Name, [&](std::pair<const char*, long long> ProfileResult){ Spark::Profiler::Get().PushBack(ProfileResult.first, ProfileResult.second); })
+#define PROFILE_FUNCTION() PROFILE_SCOPE(__FUNCTION__)

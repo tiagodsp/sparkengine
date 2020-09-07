@@ -2,9 +2,17 @@
 #include "Spark/Engine/GameFramework/Actor.h"
 #include "Spark/Engine/Level.h"
 #include "Spark/Engine/Camera/CameraComponent.h"
+#include "Spark/Engine/World.h"
 
 namespace Spark
 {
+    Actor::Actor()
+        : m_Level(GWorld->GetCurrentLevel())
+    {
+        m_EntityHandle = m_Level->GetWorldContext().Create();
+        m_Level->RegisterActor(this);
+    }
+
     Actor::Actor(Level* Level)
         : m_Level(Level)
     {

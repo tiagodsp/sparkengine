@@ -3,10 +3,13 @@
 
 namespace Spark
 {
+    World* GWorld;
+    
     World::World()
     {
         m_Levels.push_back(std::make_shared<Level>(this));
         m_ActiveSceneIndex = 0;
+        GWorld = this;
     }
 
     World::World(Ref<Level> PersistentLevel)

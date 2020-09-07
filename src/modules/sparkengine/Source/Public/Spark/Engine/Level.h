@@ -30,6 +30,7 @@ namespace Spark
         World* GetWotld();
         EntityComponentManager& GetWorldContext();
         void RegisterActor(Actor* Actor);
+        const std::vector<Actor*>& GetActors() { return m_Actors; }
 
     };
 } // namespace Spark
