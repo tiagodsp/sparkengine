@@ -8,7 +8,7 @@ namespace Spark
         static Profiler s_Instance;
         return s_Instance;
     }
-    void Profiler::PushBack(const char *ScopeName, long long Duration)
+    void Profiler::PushBack(const std::string& ScopeName, long long Duration)
     {
         m_ProfileScopeResults.insert_or_assign(ScopeName, Duration);
     }
