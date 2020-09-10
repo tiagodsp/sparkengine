@@ -4,6 +4,7 @@
 #include "Spark/Renderer/OrthographicCamera.h"
 #include "Spark/Events/MouseEvent.h"
 #include "Spark/Events/ApplicationEvent.h"
+#include "Spark/Core/Reflection.h"
 #include "sparkengine.api.gen.h"
 
 namespace Spark
@@ -28,5 +29,8 @@ namespace Spark
         bool OnWindowsResize(WindowResizeEvent& e);
 
         inline Ref<OrthographicCamera> GetOrthoCamera() { return m_OrthoCamera; }
+
+        REFLECT()
     };
 } // namespace Spark
+

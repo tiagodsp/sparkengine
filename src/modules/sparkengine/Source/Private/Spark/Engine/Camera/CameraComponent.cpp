@@ -61,3 +61,8 @@ namespace Spark
         return false;
     }
 }
+
+REFLECTION_STRUCT_BEGIN(Spark::CameraComponent)
+REFLECTION_STRUCT_MEMBER(m_ZoomLevel)
+REFLECTION_STRUCT_MEMBER(m_AspectRatio)
+REFLECTION_STRUCT_END()

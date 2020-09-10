@@ -150,6 +150,19 @@ namespace Spark
         ImGui::End();
         // ------------------------------------------------------------------------------
 
+        // Test Reflection ----------------------------------------------------------------
+        ImGui::Begin("Test Reflection");
+        
+        auto reflec = CameraComponent::Reflection;
+        ImGui::Text(reflec.name);
+        for(auto m : reflec.members)
+        {
+            ImGui::Text(m.name);
+            ImGui::Text(m.type->name);
+        }
+        ImGui::End();
+        // ------------------------------------------------------------------------------
+
         
         ImGui::End();
         ImGui::PopStyleVar();
