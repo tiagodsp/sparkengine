@@ -2,62 +2,40 @@
 #include "Spark/Core/CoreTypes.h"
 #include "CRC.h"
 #include <map>
+#include <string>
+
 namespace rflt
 {
     
-    // template<typename TYPE>
-    // const char* GetTypeName()
-    // {
-    //     CORE_ASSERT(false, "Type not implemented!");
-    //     return nullptr;
-    // }
+    struct Type
+    {
+        const char* name;
+        size_t size;
 
-    // template<typename TYPE>
-    // uint32 GetTypeID()
-    // {
-    //     const char* type_name = GetTypeName<Type>();
-    //     static int type_id = CRC::Calculate(type_name, sizeof(type_name), CRC::CRC_32());
-    // }
+        Type(const char* name, size_t size)
+            : name(name), size(size)
+            {}
+        virtual ~Type() {}
+        virtual std::string getFullName() const { return name; }
+    };
 
-    // struct Name
-    // {
-    //     unsigned int hash;
-    //     const char* text;
-    // };
+    struct TypeStruct : Type
+    {
+        struct Member
+        {
+            const char* name;
+            size_t offset;
+            Type* type;
+        };
+        std::vector<Member> members;
 
-    // using ConstructObjectFunction = std::function<void(void*)>;
-    // using DestructObjectFunction = std::function<void(void*)>;    
-    
-    // struct Type
-    // {
-    //     class TypeDB* typeDB;
-    //     Name name;
-    //     ConstructObjectFunction constructor;
-    //     DestructObjectFunction destructor;
-    //     size_t size;
-    // };
-
-    // struct Field
-    // {
-
-    // };
-
-    // struct Method
-    // {
+        TypeStruct(void(*init)(TypeStruct*))
+            : Type(nullptr, 0)
+        {
+            init(this);
+        }
         
-    // };
-    
-
-    // class TypeDB
-    // {
-    // public:
-    //     Type& CreateType(Name name);
-    //     Type& GetType(Name name);
-    // private:
-    //     typedef std::map<Name, Type*> TypeMap;
-    //     TypeMap m_Types;
-    // };
+    };
 
 
 } // namespace Spark
-

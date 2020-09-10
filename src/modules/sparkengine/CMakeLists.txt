@@ -10,6 +10,7 @@ sbs_add_module(
         "stb_image"
         "entt"
         "assimp"
+        "CRCpp"
     DEFINITIONS
         "SPARKENGINE_ENABLE_ASSERTS"
     SOURCE_PATHS
