@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Spark/Object/Object.h"
+#include "Spark/Engine/Object/Object.h"
 #include "Spark/Core/Timestep.h"
 #include "Spark/Events/Event.h"
 #include "sparkengine.api.gen.h"

@@ -5,7 +5,7 @@
 #include <string>
 #include "sparkengine.api.gen.h"
 
-namespace rflt
+namespace Spark
 {
     
     struct SPARKENGINE_API Type
@@ -26,7 +26,7 @@ namespace rflt
     
     struct SPARKENGINE_API DefaultTypeResolver
     {
-        template<typename T> static char Func(decltype(&T::Reflection));
+        template<typename T> static char Func(decltype(&T::StaticType));
         template<typename T> static int Func(...);
         template<typename T>
         struct IsReflected
@@ -40,7 +40,7 @@ namespace rflt
         template <typename T, typename std::enable_if<IsReflected<T>::value, int>::type = 0>
         static Type* Get()
         {
-            return &T::Reflection;
+            return &T::StaticType;
         }
         
         template <typename T, typename std::enable_if<!IsReflected<T>::value, int>::type = 0>
@@ -51,7 +51,7 @@ namespace rflt
     };
 
     template<typename T>
-    struct SPARKENGINE_API TypeResolver
+    struct TypeResolver
     {
         static Type* Get()
         {
@@ -71,6 +71,40 @@ namespace rflt
         std::vector<Member> members;
 
         TypeStruct(void(*init)(TypeStruct*))
+            : Type(nullptr, 0)
+        {
+            init(this);
+        }
+        
+    };
+    
+    // ---------------------------------------------------------
+    
+    template<typename TYPE>
+    inline SPARKENGINE_API void ConstructObject(void* object)
+    {
+        new (object) TYPE;
+    }
+    
+    template<typename TYPE>
+    inline SPARKENGINE_API void DestroyObject(void* object)
+    {
+        ((TYPE*)object)->TYPE::~TYPE();
+    }
+    
+    struct SPARKENGINE_API TypeClass : Type
+    {
+        struct Member
+        {
+            const char* name;
+            size_t offset;
+            Type* type;
+        };
+        std::vector<Member> members;
+        std::function<void(void*)> constructor;
+        std::function<void(void*)> destructor;
+
+        TypeClass(void(*init)(TypeClass*))
             : Type(nullptr, 0)
         {
             init(this);
@@ -114,27 +148,47 @@ namespace rflt
         return &type;
     }
 
+
+
 } // namespace Spark
 
 // Macro declaration --------------------------------------------------------------
-#define REFLECT() \
-    friend struct rflt::DefaultTypeResolver; \
-    static rflt::TypeStruct Reflection; \
-    static void InitReflection(rflt::TypeStruct*); \
+#define REFLECT_STRUCT() \
+        friend struct Spark::DefaultTypeResolver; \
+        static Spark::TypeStruct StaticType; \
+        static void InitReflection(Spark::TypeStruct*); \
+
+#define REFLECT_CLASS() \
+        friend struct Spark::DefaultTypeResolver; \
+        public: static Spark::TypeClass StaticType; \
+        private: static void InitReflection(Spark::TypeClass*); \
 
 #define REFLECTION_STRUCT_BEGIN(TYPE) \
-    rflt::TypeStruct TYPE::Reflection{ TYPE::InitReflection }; \
-    void TYPE::InitReflection(rflt::TypeStruct* typeStruct){ \
+    Spark::TypeStruct TYPE::StaticType{ TYPE::InitReflection }; \
+    void TYPE::InitReflection(Spark::TypeStruct* typeStruct){ \
         using T = TYPE; \
         typeStruct->name = #TYPE; \
         typeStruct->size = sizeof(T); \
         typeStruct->members = {
 
+#define REFLECTION_CLASS_BEGIN(TYPE) \
+    Spark::TypeClass TYPE::StaticType{ TYPE::InitReflection }; \
+    void TYPE::InitReflection(Spark::TypeClass* typeClass){ \
+        using T = TYPE; \
+        typeClass->name = #TYPE; \
+        typeClass->size = sizeof(T); \
+        typeClass->constructor =ConstructObject<T>; \
+        typeClass->destructor = DestroyObject<T>; \
+        typeClass->members = {
+
 #define REFLECTION_STRUCT_MEMBER(NAME) \
-        {#NAME, offsetof(T, NAME), rflt::TypeResolver<decltype(T::NAME)>::Get() },
+        {#NAME, offsetof(T, NAME), Spark::TypeResolver<decltype(T::NAME)>::Get() },
         
 #define REFLECTION_STRUCT_END() \
         }; \
     }
+
+#define REFLECTION_CLASS_MEMBER(NAME) REFLECTION_STRUCT_MEMBER(NAME)
+#define REFLECTION_CLASS_END() REFLECTION_STRUCT_END()
 
 

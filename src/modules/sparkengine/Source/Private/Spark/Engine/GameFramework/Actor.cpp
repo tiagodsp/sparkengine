@@ -4,6 +4,9 @@
 #include "Spark/Engine/Camera/CameraComponent.h"
 #include "Spark/Engine/World.h"
 
+REFLECTION_CLASS_BEGIN(Spark::Actor)
+REFLECTION_CLASS_END()
+
 namespace Spark
 {
     Actor::Actor()

@@ -7,7 +7,7 @@
 #include "Spark/Events/Event.h"
 #include "Spark/Core/Log.h"
 
-#include "Spark/Object/Object.h"
+#include "Spark/Engine/Object/Object.h"
 
 #include "Spark/Core/Input.h"
 #include "Spark/Core/KeyCodes.h"

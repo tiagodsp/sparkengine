@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Spark/Core/CoreTypes.h"
-#include "Spark/Object/Object.h"
+#include "Spark/Engine/Object/Object.h"
 #include "Spark/Engine/Level.h"
 #include <vector>
 #include "entt.hpp"

@@ -5,7 +5,7 @@
 #include "Spark/Core/Timestep.h"
 #include "Spark/Events/Event.h"
 
-#include "Spark/Object/Object.h"
+#include "Spark/Engine/Object/Object.h"
 #include "glm/glm.hpp"
 #include "glm/gtx/transform.hpp"
 #include "sparkengine.api.gen.h"
@@ -32,6 +32,7 @@ namespace Spark
     
     class SPARKENGINE_API Actor : public Object
     {
+        REFLECT_CLASS()
     private:
         class Level* m_Level;
         size_t m_EntityHandle;

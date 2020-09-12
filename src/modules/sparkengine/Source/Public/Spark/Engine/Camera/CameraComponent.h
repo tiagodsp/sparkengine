@@ -30,7 +30,7 @@ namespace Spark
 
         inline Ref<OrthographicCamera> GetOrthoCamera() { return m_OrthoCamera; }
 
-        REFLECT()
+        REFLECT_CLASS()
     };
 } // namespace Spark
 

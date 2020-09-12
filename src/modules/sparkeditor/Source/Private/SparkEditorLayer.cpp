@@ -37,13 +37,19 @@ namespace Spark
 
     void SparkEditorLayer::OnAttach()
     {
-        m_CameraActor = std::make_shared<Spark::Actor>();
+        Actor* actorobj = (Actor*) NewObject("MEU ATOR", &Actor::StaticType);
+        m_CameraActor.reset(actorobj);
         m_CameraActor->AddComponent<Spark::CameraComponent>();
         m_Texture = Spark::Texture2D::Create("Assets/Textures/digital.png");
-        new Spark::Actor();
-        new Spark::Actor();
-        new Spark::Actor();
-        new Spark::Actor();
+        NewObject("MEU ATOR", &Actor::StaticType);
+        NewObject("MEU ATOR", &Actor::StaticType);
+        NewObject("MEU ATOR", &Actor::StaticType);
+        NewObject("MEU ATOR", &Actor::StaticType);
+        NewObject("MEU ATOR", &Actor::StaticType);
+        NewObject("MEU ATOR", &Actor::StaticType);
+        NewObject("MEU ATOR", &Actor::StaticType);
+        NewObject("MEU ATOR", &Actor::StaticType);
+        NewObject("MEU ATOR", &Actor::StaticType);
     }
 
     void SparkEditorLayer::OnDetach()
@@ -153,7 +159,7 @@ namespace Spark
         // Test Reflection ----------------------------------------------------------------
         ImGui::Begin("Test Reflection");
         
-        auto reflec = CameraComponent::Reflection;
+        auto reflec = CameraComponent::StaticType;
         ImGui::Text(reflec.name);
         for(auto m : reflec.members)
         {

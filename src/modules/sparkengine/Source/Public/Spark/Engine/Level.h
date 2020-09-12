@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Spark/Object/Object.h"
+#include "Spark/Engine/Object/Object.h"
 #include "Spark/Engine/GameFramework/EntityComponentManager.h"
 #include "Spark/Events/Event.h"
 #include "Spark/Engine/GameFramework/Actor.h"
