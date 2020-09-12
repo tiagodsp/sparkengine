@@ -6,6 +6,17 @@ REFLECTION_STRUCT_END()
 
 namespace Spark
 {    
+    Object* NewObject(const char* typeName)
+    {
+        return NewObject("", TypeResolver::Get(typeName));
+    }
+
+    
+    Object* NewObject(const char* name, const char* typeName)
+    {
+        return NewObject(name, TypeResolver::Get(typeName));
+    }
+
     Object* NewObject(const char*, Type* type)
     {
         Object* obj = (Object*)malloc(type->size);

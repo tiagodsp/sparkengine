@@ -1,6 +1,7 @@
 #include "sparkengine.PCH.h"
 #include "Spark/Engine/Camera/CameraComponent.h"
-
+#include "Spark/Engine/Level.h"
+#include "Spark/Engine/GameFramework/Actor.h"
 #include "Spark/Core/Input.h"
 #include "Spark/Core/KeyCodes.h"
 
@@ -25,15 +26,22 @@ namespace Spark
 
     void CameraComponent::Update(Timestep ts)
     {
-        if (Spark::Input::IsKeyPressed(SPARK_KEY_RIGHT))
-            m_OrthoCamera->SetPosition(m_OrthoCamera->GetPosition() + glm::vec3(m_CameraSpeed * ts, 0, 0));
-        else if (Spark::Input::IsKeyPressed(SPARK_KEY_LEFT))
-            m_OrthoCamera->SetPosition(m_OrthoCamera->GetPosition() + glm::vec3(-m_CameraSpeed * ts, 0, 0));
+        if(m_Parent->HasComponent<TransformComponent>())
+        {
+            auto t = m_Parent->GetComponent<TransformComponent>();
+            
+            if (Spark::Input::IsKeyPressed(SPARK_KEY_RIGHT))
+                t->Position += glm::vec3(m_CameraSpeed * ts, 0, 0);
+            else if (Spark::Input::IsKeyPressed(SPARK_KEY_LEFT))
+                t->Position += glm::vec3(-m_CameraSpeed * ts, 0, 0);
 
-        if (Spark::Input::IsKeyPressed(SPARK_KEY_UP))
-            m_OrthoCamera->SetPosition(m_OrthoCamera->GetPosition() + glm::vec3(0, m_CameraSpeed * ts, 0));
-        else if (Spark::Input::IsKeyPressed(SPARK_KEY_DOWN))
-            m_OrthoCamera->SetPosition(m_OrthoCamera->GetPosition() + glm::vec3(0, -m_CameraSpeed * ts, 0));
+            if (Spark::Input::IsKeyPressed(SPARK_KEY_UP))
+                t->Position += glm::vec3(0, m_CameraSpeed * ts, 0);
+            else if (Spark::Input::IsKeyPressed(SPARK_KEY_DOWN))
+                t->Position += glm::vec3(0, -m_CameraSpeed * ts, 0);
+            
+            m_OrthoCamera->SetPosition(t->Position);
+        }
 
         //m_AspectRatio = (float)e.GetWidth() / (float)e.GetHeight();
         //m_OrthoCamera->SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);

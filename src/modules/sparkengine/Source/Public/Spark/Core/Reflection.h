@@ -20,12 +20,26 @@ namespace Spark
         virtual std::string getFullName() const { return name; }
     };
 
+    struct Member
+    {
+        const char* name;
+        size_t offset;
+        Type* type;
+        
+        void* GetPtr(void* object)
+        {
+            return (char*)object + offset;
+        }
+    };
+
     template <typename T>
     SPARKENGINE_API Type* GetPrimitiveType();
 
     
     struct SPARKENGINE_API DefaultTypeResolver
     {
+        static std::map<std::string, Type*> DB;
+        
         template<typename T> static char Func(decltype(&T::StaticType));
         template<typename T> static int Func(...);
         template<typename T>
@@ -48,14 +62,34 @@ namespace Spark
         {
             return GetPrimitiveType<T>();
         }
+
+        static Type* Get(const char* name)
+        {
+            auto it = DB.find(name);            
+            if(it != DB.end())
+            {
+                return it->second;
+            }
+            else
+            {
+                CORE_ASSERT(false, "Type does not exist!");
+                return nullptr;
+            }
+        }
     };
 
-    template<typename T>
-    struct TypeResolver
+    class TypeResolver
     {
+    public:
+        template<typename T>
         static Type* Get()
         {
             return DefaultTypeResolver::Get<T>();
+        }
+        
+        static Type* Get(const char* name)
+        {
+            return DefaultTypeResolver::Get(name);
         }
     };
     
@@ -67,6 +101,7 @@ namespace Spark
             const char* name;
             size_t offset;
             Type* type;
+            
         };
         std::vector<Member> members;
 
@@ -94,12 +129,6 @@ namespace Spark
     
     struct SPARKENGINE_API TypeClass : Type
     {
-        struct Member
-        {
-            const char* name;
-            size_t offset;
-            Type* type;
-        };
         std::vector<Member> members;
         std::function<void(void*)> constructor;
         std::function<void(void*)> destructor;
@@ -166,6 +195,7 @@ namespace Spark
 #define REFLECTION_STRUCT_BEGIN(TYPE) \
     Spark::TypeStruct TYPE::StaticType{ TYPE::InitReflection }; \
     void TYPE::InitReflection(Spark::TypeStruct* typeStruct){ \
+        DefaultTypeResolver::DB.insert({#TYPE, typeClass}); \
         using T = TYPE; \
         typeStruct->name = #TYPE; \
         typeStruct->size = sizeof(T); \
@@ -175,6 +205,7 @@ namespace Spark
     Spark::TypeClass TYPE::StaticType{ TYPE::InitReflection }; \
     void TYPE::InitReflection(Spark::TypeClass* typeClass){ \
         using T = TYPE; \
+        DefaultTypeResolver::DB.insert({#TYPE, typeClass}); \
         typeClass->name = #TYPE; \
         typeClass->size = sizeof(T); \
         typeClass->constructor =ConstructObject<T>; \
@@ -182,7 +213,7 @@ namespace Spark
         typeClass->members = {
 
 #define REFLECTION_STRUCT_MEMBER(NAME) \
-        {#NAME, offsetof(T, NAME), Spark::TypeResolver<decltype(T::NAME)>::Get() },
+        {#NAME, offsetof(T, NAME), Spark::TypeResolver::Get<decltype(T::NAME)>() },
         
 #define REFLECTION_STRUCT_END() \
         }; \

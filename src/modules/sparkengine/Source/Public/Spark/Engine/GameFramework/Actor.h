@@ -12,29 +12,22 @@
 
 namespace Spark
 {
-    class TransformComponent : public Component
+    class SPARKENGINE_API TransformComponent : public Component
     {
     public:
-        glm::mat4 Transform;
-        
-        TransformComponent()
-            : Transform(glm::mat4(1.0f))
-        {}
-        TransformComponent(glm::mat4 Transform)
-            : Transform(Transform)
-        {}
-
-        virtual void Begin() override {}
-        virtual void Update(Timestep ts) override {}
-        virtual void OnEvent(Event& e) override {}
+        glm::vec3 Position;
+        glm::vec3 Rotation;
+        glm::vec3 Scale;
     };
     
     
+    class Level;
+
     class SPARKENGINE_API Actor : public Object
     {
         REFLECT_CLASS()
     private:
-        class Level* m_Level;
+        Level* m_Level;
         size_t m_EntityHandle;
 
     public:
@@ -64,6 +57,7 @@ namespace Spark
         {
             T* c = m_Level->GetWorldContext().Emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
             CORE_ASSERT(dynamic_cast<Component*>(c) != nullptr, "Class is not a valid Component class!");
+            c->m_Parent = this;
             m_Components.push_back(c);
             return *c;
         }

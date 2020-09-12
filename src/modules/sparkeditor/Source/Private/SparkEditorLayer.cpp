@@ -14,6 +14,7 @@
 #include "Spark/Core/Profiling.h"
 #include "imgui.h"
 #include "Spark/Core/Application.h"
+#include "EditField/TransformEditField.h"
 
 DECLARE_LOG_CATEGORY(LayerTest);
 
@@ -37,19 +38,18 @@ namespace Spark
 
     void SparkEditorLayer::OnAttach()
     {
-        Actor* actorobj = (Actor*) NewObject("MEU ATOR", &Actor::StaticType);
+        Actor* actorobj = (Actor*) NewObject("Spark::Actor");
         m_CameraActor.reset(actorobj);
+        m_CameraActor->AddComponent<Spark::TransformComponent>();
         m_CameraActor->AddComponent<Spark::CameraComponent>();
         m_Texture = Spark::Texture2D::Create("Assets/Textures/digital.png");
-        NewObject("MEU ATOR", &Actor::StaticType);
-        NewObject("MEU ATOR", &Actor::StaticType);
-        NewObject("MEU ATOR", &Actor::StaticType);
-        NewObject("MEU ATOR", &Actor::StaticType);
-        NewObject("MEU ATOR", &Actor::StaticType);
-        NewObject("MEU ATOR", &Actor::StaticType);
-        NewObject("MEU ATOR", &Actor::StaticType);
-        NewObject("MEU ATOR", &Actor::StaticType);
-        NewObject("MEU ATOR", &Actor::StaticType);
+        NewObject("Spark::Actor");
+        NewObject("Spark::Actor");
+        NewObject("Spark::Actor");
+        NewObject("Spark::Actor");
+        NewObject("Spark::Actor");
+
+
     }
 
     void SparkEditorLayer::OnDetach()
@@ -158,14 +158,24 @@ namespace Spark
 
         // Test Reflection ----------------------------------------------------------------
         ImGui::Begin("Test Reflection");
-        
-        auto reflec = CameraComponent::StaticType;
-        ImGui::Text(reflec.name);
-        for(auto m : reflec.members)
+
+        if(m_CameraActor->HasComponent<TransformComponent>())
         {
-            ImGui::Text(m.name);
-            ImGui::Text(m.type->name);
+            auto t = m_CameraActor->GetComponent<TransformComponent>();
+            TransformEditField::OnGUI(*t);
         }
+        
+
+        ImGui::Text(CameraComponent::StaticType.name);
+        for(auto m : CameraComponent::StaticType.members)
+        {
+            std::ostringstream ss;
+            ss << m.name << " : " << *(float*) m.GetPtr(m_CameraActor->GetComponent<CameraComponent>());
+            ImGui::Text(ss.str().c_str());
+        }
+
+
+
         ImGui::End();
         // ------------------------------------------------------------------------------
 
@@ -174,7 +184,7 @@ namespace Spark
         ImGui::PopStyleVar();
         ImGui::PopStyleVar();
 
-
+        ImGui::ShowDemoWindow();
     }
 
     void SparkEditorLayer::OnEvent(Event &event)

@@ -67,7 +67,7 @@ namespace Spark
         template<typename T>
         T* Get(Entity e)
         {
-            ASSERT(Has<T>(), "Actor does not have the requested component!");
+            ASSERT(Has<T>(e), "Actor does not have the requested component!");
             return dynamic_cast<T*>(m_ComponentPoolArray[GetComponentID<T>()][e]);
         }
         
@@ -77,6 +77,7 @@ namespace Spark
             CORE_ASSERT(!Has<T>(e), "Entity already contains this component!");
             T* c(new T(std::forward<Args>(args)...));
             m_ComponentPoolArray[GetComponentID<T>()][e] = c;
+            m_EntityComponentsBitset[e].set(GetComponentID<T>(), true);
             return c;
         }
 

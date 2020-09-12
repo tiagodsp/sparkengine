@@ -9,6 +9,7 @@ REFLECTION_CLASS_END()
 
 namespace Spark
 {
+
     Actor::Actor()
         : m_Level(GWorld->GetCurrentLevel())
     {

@@ -17,7 +17,9 @@ namespace Spark
     };
 
 
-    SPARKENGINE_API Object* NewObject(const char*, Type* type);
+    SPARKENGINE_API Object* NewObject(const char* typeName);
+    SPARKENGINE_API Object* NewObject(const char* name, const char* typeName);
+    SPARKENGINE_API Object* NewObject(const char* name, Type* type);
     
     template<typename TYPE>
     TYPE* CreateObject(const char* name)
