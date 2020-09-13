@@ -27,14 +27,14 @@ namespace Spark
         ImGui::StyleColorsDark();
 
         ImGuiIO& io = ImGui::GetIO();
-        //io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
-        //io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
-        io.ConfigFlags  |= ImGuiConfigFlags_NavEnableKeyboard;
-        io.ConfigFlags  |= ImGuiConfigFlags_ViewportsEnable;
+        io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
+        io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
+        // io.ConfigFlags  |= ImGuiConfigFlags_NavEnableKeyboard;
+        // io.ConfigFlags  |= ImGuiConfigFlags_ViewportsEnable;
         io.ConfigFlags  |= ImGuiConfigFlags_DockingEnable;
 
         GLFWwindow* window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
-        ImGui_ImplGlfw_InitForOpenGL(window, true);
+        ImGui_ImplGlfw_InitForOpenGL(window, false);
         ImGui_ImplOpenGL3_Init("#version 410");
     }
 
@@ -164,12 +164,15 @@ namespace Spark
 
     bool ImGuiLayer::OnKeyTypedEvent(KeyTypedEvent& e)
     {
-        ImGuiIO& io = ImGui::GetIO();
-        int c = e.GetKeyCode();
 
-        if(c > 0 && c < 0x10000)
-            io.AddInputCharacter(static_cast<unsigned short>(c));
-        
+        ImGuiIO& io = ImGui::GetIO();
+        if(io.WantCaptureKeyboard)
+        {
+            int c = e.GetKeyCode();
+            if (c > 0 && c < 0x10000)
+                io.AddInputCharacter(static_cast<unsigned short>(c));
+            return true;
+        }
         return false;
     }
 

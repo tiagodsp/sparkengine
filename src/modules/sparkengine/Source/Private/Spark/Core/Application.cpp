@@ -32,8 +32,9 @@ namespace Spark
 
         Renderer::Init();
 
-       m_ImGuiLayer.reset(new ImGuiLayer());
-       PushLayer(m_ImGuiLayer.get());
+        m_ImGuiLayer.reset(new ImGuiLayer());
+        m_ImGuiLayer->OnAttach();
+        //PushLayer(m_ImGuiLayer.get());
     }
 
     Application::~Application()
@@ -59,7 +60,6 @@ namespace Spark
                     layer->OnUpdate(delta);
                 }
             }
-            
             
             m_ImGuiLayer->Begin();
             for (Layer *layer : m_LayerStack)

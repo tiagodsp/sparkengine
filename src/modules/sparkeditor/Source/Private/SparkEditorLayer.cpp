@@ -14,7 +14,7 @@
 #include "Spark/Core/Profiling.h"
 #include "imgui.h"
 #include "Spark/Core/Application.h"
-#include "EditField/TransformEditField.h"
+#include "EditField/DefaultEditField.h"
 
 DECLARE_LOG_CATEGORY(LayerTest);
 
@@ -161,8 +161,7 @@ namespace Spark
 
         if(m_CameraActor->HasComponent<TransformComponent>())
         {
-            auto t = m_CameraActor->GetComponent<TransformComponent>();
-            TransformEditField::OnGUI(*t);
+            TransformEditField(*m_CameraActor->GetComponent<TransformComponent>()).OnGUI();
         }
         
 
