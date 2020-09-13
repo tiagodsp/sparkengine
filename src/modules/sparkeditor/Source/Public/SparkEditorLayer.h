@@ -38,6 +38,10 @@ namespace Spark
         virtual void OnImGuiRender(ImGuiContext* context) override;
         virtual void OnEvent(Event &event) override;
         // ------------------------------------------------
+
+        //TO DELETE
+        void SparkEditorLayer::Hue(Actor* ref);
+
     private:
         bool HandleKeyInputEvents(Event &event);
     };

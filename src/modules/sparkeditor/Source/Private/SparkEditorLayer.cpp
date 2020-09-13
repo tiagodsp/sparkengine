@@ -15,6 +15,7 @@
 #include "imgui.h"
 #include "Spark/Core/Application.h"
 #include "EditField/DefaultEditField.h"
+#include "SelectionManager.h"
 
 DECLARE_LOG_CATEGORY(LayerTest);
 
@@ -36,6 +37,11 @@ namespace Spark
 
     // Spark::Layer interface implementation ---------
 
+    void SparkEditorLayer::Hue(Actor* ref)
+    {
+        CORE_LOGI(ref->StaticType.name);
+    }
+    
     void SparkEditorLayer::OnAttach()
     {
         Actor* actorobj = (Actor*) NewObject("Spark::Actor");
@@ -43,12 +49,8 @@ namespace Spark
         m_CameraActor->AddComponent<Spark::TransformComponent>();
         m_CameraActor->AddComponent<Spark::CameraComponent>();
         m_Texture = Spark::Texture2D::Create("Assets/Textures/digital.png");
-        NewObject("Spark::Actor");
-        NewObject("Spark::Actor");
-        NewObject("Spark::Actor");
-        NewObject("Spark::Actor");
-        NewObject("Spark::Actor");
 
+        SelectionManager::Get().OnSelectionChange.Add(this, &SparkEditorLayer::Hue);
 
     }
 
@@ -79,8 +81,6 @@ namespace Spark
     void SparkEditorLayer::OnImGuiRender(ImGuiContext* context)
     {
         ImGui::SetCurrentContext(context);
-
-
         
         ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
 
@@ -151,7 +151,10 @@ namespace Spark
         auto& levelActors = GWorld->GetCurrentLevel()->GetActors();
     	for(auto& actor : levelActors)
         {
-            ImGui::Text("ActorName");
+            if(ImGui::Button(actor->StaticType.name))
+            {
+                SelectionManager::Get().SetCurrentSelection(actor);
+            }
         }
         ImGui::End();
         // ------------------------------------------------------------------------------
