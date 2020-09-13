@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Spark.h"
+#include "Spark/Core/EntryPoint.h"
 
 namespace Spark
 {

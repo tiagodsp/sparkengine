@@ -7,6 +7,10 @@
 #include "Spark/Events/Event.h"
 #include "Spark/Core/Log.h"
 
+#include "Spark/Engine/Level.h"
+#include "Spark/Engine/World.h"
+#include "Spark/Engine/GameFramework/Actor.h"
+#include "Spark/Engine/Components/Component.h"
 #include "Spark/Engine/Object/Object.h"
 
 #include "Spark/Core/Input.h"
@@ -22,5 +26,7 @@
 #include "Spark/Renderer/PlatformRendererAPI.h"
 #include "Spark/Renderer/RenderCommand.h"
 
+#include "imgui.h"
+
 // Entry Point ---------
-#include "Spark/Core/EntryPoint.h"
+//#include "Spark/Core/EntryPoint.h"

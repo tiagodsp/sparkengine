@@ -16,6 +16,7 @@ namespace Spark
     
     class SPARKENGINE_API World : public Object
     {
+        REFLECT_CLASS()
     private:
         EntityComponentManager m_Context;
         std::vector<Ref<Level>> m_Levels;

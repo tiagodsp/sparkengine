@@ -17,6 +17,9 @@
 #include "EditField/DefaultEditField.h"
 #include "SelectionManager.h"
 
+// Panels ------
+#include "Panels/WorldOutlinePanel.h"
+
 DECLARE_LOG_CATEGORY(LayerTest);
 
 namespace Spark
@@ -147,16 +150,7 @@ namespace Spark
         // -------------------------------------------------------------------------------
 
         // World outline ----------------------------------------------------------------
-        ImGui::Begin("World Outline");
-        auto& levelActors = GWorld->GetCurrentLevel()->GetActors();
-    	for(auto& actor : levelActors)
-        {
-            if(ImGui::Button(actor->StaticType.name))
-            {
-                SelectionManager::Get().SetCurrentSelection(actor);
-            }
-        }
-        ImGui::End();
+        WorldOutlinePanel().OnGUI();
         // ------------------------------------------------------------------------------
 
         // Test Reflection ----------------------------------------------------------------

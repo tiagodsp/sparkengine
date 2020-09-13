@@ -1,6 +1,9 @@
 #include "sparkengine.PCH.h"
 #include "Spark/Engine/World.h"
 
+REFLECTION_CLASS_BEGIN(Spark::World)
+REFLECTION_CLASS_END()
+
 namespace Spark
 {
     World* GWorld;
