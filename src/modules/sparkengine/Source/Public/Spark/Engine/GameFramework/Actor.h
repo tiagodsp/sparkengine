@@ -14,6 +14,7 @@ namespace Spark
 {
     class SPARKENGINE_API TransformComponent : public Component
     {
+        REFLECT_CLASS()
     public:
         glm::vec3 Position;
         glm::vec3 Rotation;

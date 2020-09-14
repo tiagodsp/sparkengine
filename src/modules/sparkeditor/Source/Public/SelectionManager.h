@@ -14,6 +14,7 @@ namespace Spark
     public:
         static SelectionManager& Get() { return s_Instance; }
         void SetCurrentSelection(Actor* selection);
+        Actor* GetCurrentSelection();
 
         Delegate<Actor*> OnSelectionChange;
 

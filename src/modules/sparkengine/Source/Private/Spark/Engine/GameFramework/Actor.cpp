@@ -4,6 +4,12 @@
 #include "Spark/Engine/Camera/CameraComponent.h"
 #include "Spark/Engine/World.h"
 
+REFLECTION_CLASS_BEGIN(Spark::TransformComponent)
+// REFLECTION_CLASS_MEMBER(Position)
+// REFLECTION_CLASS_MEMBER(Rotation)
+// REFLECTION_CLASS_MEMBER(Scale)
+REFLECTION_CLASS_END()
+
 REFLECTION_CLASS_BEGIN(Spark::Actor)
 REFLECTION_CLASS_END()
 

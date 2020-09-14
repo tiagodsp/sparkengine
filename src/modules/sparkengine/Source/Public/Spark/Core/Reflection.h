@@ -176,6 +176,18 @@ namespace Spark
         static TypeFloat type;
         return &type;
     }
+    
+    // --------------------------------------------------------
+    // struct SPARKENGINE_API Vec3Float : Type
+    // {
+    //     TypeFloat() : Type{"float", sizeof(float)} {}
+    // };
+    // template<>
+    // inline SPARKENGINE_API Type* GetPrimitiveType<float>()
+    // {
+    //     static TypeFloat type;
+    //     return &type;
+    // }
 
 
 
@@ -187,10 +199,17 @@ namespace Spark
         static Spark::TypeStruct StaticType; \
         static void InitReflection(Spark::TypeStruct*); \
 
+#define REFLECT_BASE_CLASS() \
+        friend struct Spark::DefaultTypeResolver; \
+        public: static Spark::TypeClass StaticType; \
+        private: static void InitReflection(Spark::TypeClass*); \
+        public: virtual Spark::TypeClass& GetStaticType() { return StaticType; }; \
+
 #define REFLECT_CLASS() \
         friend struct Spark::DefaultTypeResolver; \
         public: static Spark::TypeClass StaticType; \
         private: static void InitReflection(Spark::TypeClass*); \
+        public: virtual Spark::TypeClass& GetStaticType() override { return StaticType; }; \
 
 #define REFLECTION_STRUCT_BEGIN(TYPE) \
     Spark::TypeStruct TYPE::StaticType{ TYPE::InitReflection }; \

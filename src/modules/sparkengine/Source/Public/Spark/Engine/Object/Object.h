@@ -7,11 +7,11 @@ namespace Spark
 {
     class SPARKENGINE_API Object
     {
-        REFLECT_CLASS()
+        REFLECT_BASE_CLASS()
     public:
         Object() {}
         virtual ~Object() {}
-        
+        //virtual Spark::TypeClass& GetStaticType();
         /** Called by a future Hot-Reload system.*/
         virtual void OnChanged() {};
     };

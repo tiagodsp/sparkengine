@@ -19,6 +19,7 @@
 
 // Panels ------
 #include "Panels/WorldOutlinePanel.h"
+#include "Panels/DetailsPanel.h"
 
 DECLARE_LOG_CATEGORY(LayerTest);
 
@@ -54,6 +55,17 @@ namespace Spark
         m_Texture = Spark::Texture2D::Create("Assets/Textures/digital.png");
 
         SelectionManager::Get().OnSelectionChange.Add(this, &SparkEditorLayer::Hue);
+
+        NewObject("Spark::Actor");
+        NewObject("Spark::Actor");
+        NewObject("Spark::Actor");
+        NewObject("Spark::Actor");
+        NewObject("Spark::Actor");
+        NewObject("Spark::Actor");
+        NewObject("Spark::Actor");
+        NewObject("Spark::Actor");
+        NewObject("Spark::Actor");
+        NewObject("Spark::Actor");
 
     }
 
@@ -154,25 +166,7 @@ namespace Spark
         // ------------------------------------------------------------------------------
 
         // Test Reflection ----------------------------------------------------------------
-        ImGui::Begin("Test Reflection");
-
-        if(m_CameraActor->HasComponent<TransformComponent>())
-        {
-            TransformEditField(*m_CameraActor->GetComponent<TransformComponent>()).OnGUI();
-        }
-        
-
-        ImGui::Text(CameraComponent::StaticType.name);
-        for(auto m : CameraComponent::StaticType.members)
-        {
-            std::ostringstream ss;
-            ss << m.name << " : " << *(float*) m.GetPtr(m_CameraActor->GetComponent<CameraComponent>());
-            ImGui::Text(ss.str().c_str());
-        }
-
-
-
-        ImGui::End();
+        DetailsPanel().OnGUI();
         // ------------------------------------------------------------------------------
 
         

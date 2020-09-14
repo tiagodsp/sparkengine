@@ -10,4 +10,9 @@ namespace Spark
         OnSelectionChange(selection);
     }
 
+    Actor* SelectionManager::GetCurrentSelection()
+    {
+        return m_CurrentSelection;
+    }
+
 } // namespace Spark

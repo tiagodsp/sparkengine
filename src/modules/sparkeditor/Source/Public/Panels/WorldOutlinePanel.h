@@ -13,22 +13,23 @@ namespace Spark
             ImGui::Begin("World Outliner");
             auto& actors = GWorld->GetCurrentLevel()->GetActors();
             
-            ImGuiTreeNodeFlags flags;
-            flags |= ImGuiTreeNodeFlags_OpenOnArrow;
-            flags |= ImGuiTreeNodeFlags_OpenOnDoubleClick;
-
-            if(ImGui::TreeNode("World"))
+            for(auto& actor : actors)
             {
-                for(auto& actor : actors)
+                ImGuiTreeNodeFlags flags = 0;
+                flags |= (SelectionManager::Get().GetCurrentSelection() == actor) ?  ImGuiTreeNodeFlags_Selected : 0;
+                flags |= ImGuiTreeNodeFlags_OpenOnArrow;
+                //flags |= ImGuiTreeNodeFlags_OpenOnDoubleClick;
+                bool itemExpanded = ImGui::TreeNodeEx((void*)actor, flags, actor->StaticType.name);
+                if(ImGui::IsItemClicked())
                 {
-                    if(ImGui::TreeNodeEx(actor->StaticType.name, flags))
-                    {
-                        SelectionManager::Get().SetCurrentSelection(actor);        
-                        ImGui::TreePop();
-                    }
+                    SelectionManager::Get().SetCurrentSelection(actor);
                 }
-                ImGui::TreePop();
+                if(itemExpanded)
+                {
+                    ImGui::TreePop();
+                }
             }
+            
             ImGui::End();
         }
     };

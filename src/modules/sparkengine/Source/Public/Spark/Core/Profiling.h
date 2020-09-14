@@ -61,7 +61,15 @@ inline std::string methodName(const std::string& prettyFunction)
     return prettyFunction.substr(begin,end).c_str();
 }
 
-#define __METHOD_NAME__ methodName(__PRETTY_FUNCTION__)
+#if defined(_MSC_VER)
+    #define __METHOD_NAME__ methodName(__FUNCSIG__)
+#elif defined(__GNUC__)
+    #define __METHOD_NAME__ methodName(__PRETTY_FUNCTION__)
+#elif defined(__clang__)
+    #define __METHOD_NAME__ methodName(__PRETTY_FUNCTION__)
+#else 
+    #define __METHOD_NAME__ methodName(__PRETTY_FUNCTION__)
+#endif
 
 #define PROFILE_SCOPE(Name) Spark::Timer time##__LINE__(Name, [&](std::pair<std::string, long long> ProfileResult){ Spark::Profiler::Get().PushBack(ProfileResult.first, ProfileResult.second); })
 #define PROFILE_FUNCTION() PROFILE_SCOPE(__METHOD_NAME__)
