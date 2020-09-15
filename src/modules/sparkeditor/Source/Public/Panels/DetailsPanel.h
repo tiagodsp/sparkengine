@@ -18,14 +18,24 @@ namespace Spark
             {
                 for(auto& c : actor->m_Components)
                 {
-                    ImGui::Text(c->GetStaticType().name);
+                    for(auto& m : c->GetDerivedType().members)
+                    {
+                        EditFieldFactory::Create((void*)((char*)c) + m->offset , m->type)->OnGUI();
+                    }
                 }
             }
-            if(actor != nullptr && actor->HasComponent<TransformComponent>())
-            {
-                TransformEditField(*actor->GetComponent<TransformComponent>()).OnGUI();
-            }
             ImGui::End();
+        }
+
+        void RenderGUIRecursive(void* memberPtr, TypeClass* type)
+        {
+            for(auto m : type->members)
+            {
+                if((TypeClass*)m.type)
+                {
+                    RenderGUIRecursive((void*)(((char*)c) + m->offset), type);
+                }
+            }
         }
     };
 

@@ -203,13 +203,13 @@ namespace Spark
         friend struct Spark::DefaultTypeResolver; \
         public: static Spark::TypeClass StaticType; \
         private: static void InitReflection(Spark::TypeClass*); \
-        public: virtual Spark::TypeClass& GetStaticType() { return StaticType; }; \
+        public: virtual const Spark::TypeClass GetDerivedType() const { return StaticType; }; \
 
 #define REFLECT_CLASS() \
         friend struct Spark::DefaultTypeResolver; \
         public: static Spark::TypeClass StaticType; \
         private: static void InitReflection(Spark::TypeClass*); \
-        public: virtual Spark::TypeClass& GetStaticType() override { return StaticType; }; \
+        public: virtual const Spark::TypeClass GetDerivedType() const override { return StaticType; }; \
 
 #define REFLECTION_STRUCT_BEGIN(TYPE) \
     Spark::TypeStruct TYPE::StaticType{ TYPE::InitReflection }; \
