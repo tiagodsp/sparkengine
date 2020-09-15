@@ -11,12 +11,16 @@ namespace Spark
     {
     protected:
         Type* m_Type;
+        const char* m_VarName;
     public:
         EditField() {};
-        EditField(Type* type) : m_Type(m_Type) {}
+        EditField(const char* varName, Type* type)
+            : m_Type(type)
+            , m_VarName(varName)
+        {}
 
         virtual void OnGUI() {
-            ImGui::Text(m_Type->name);
+            ImGui::Text(m_VarName);
         };
     };
 
@@ -24,7 +28,11 @@ namespace Spark
     {
         TransformComponent& m_TransformComponent;
     public:
-        TransformEditField(TransformComponent& transformComponent) : m_TransformComponent(transformComponent) {}
+        TransformEditField(const char* varName, TransformComponent& transformComponent)
+            : m_TransformComponent(transformComponent)
+        {
+            m_VarName = varName;
+        }
         virtual void OnGUI() override
         {
             ImGui::InputFloat3("Position", (float*)&m_TransformComponent.Position, 3);
@@ -38,31 +46,45 @@ namespace Spark
         void* m_primitivePtr;
     public:
         
-        PrimitivePropertyEditField(void* primitivePtr, Type* type)
+        PrimitivePropertyEditField(const char* varName, void* primitivePtr, Type* type)
             : m_primitivePtr(primitivePtr)
         {
             m_Type = type;
+            m_VarName = varName;
         }
 
         virtual void OnGUI() override
         {
-
+            std::string type = m_Type->name;
+            if(type == "float")
+            {
+                ImGui::InputFloat(m_VarName, (float*)m_primitivePtr);
+            }
+            else if(type == "int")
+            {
+                ImGui::InputInt(m_VarName, (int*)m_primitivePtr);
+            }
+            else if(type == "double")
+            {
+                ImGui::InputDouble(m_VarName, (double*)m_primitivePtr);
+            }
+            else
+            {
+                ImGui::Text(m_VarName);
+            }
         }
     };
 
     class EditFieldFactory
     {
     public:
-        static Ref<EditField> Create(void* memberPtr, Type* type)
+        static Ref<EditField> Create(const char* varName, void* memberPtr, Type* type)
         {
             std::string typeName = type->name;
-            // Check if the type is a Class.
-            if(dynamic_cast<TypeClass*>(type))
+            
+            if(typeName == "Spark::TransformComponent")
             {
-                if(typeName == "Spark::TransformComponent")
-                {
-                    return std::make_shared<TransformEditField>(*(TransformComponent*)memberPtr);
-                }
+                return std::make_shared<TransformEditField>(varName, *(TransformComponent*)memberPtr);
             }
             else if(
                 typeName == "float" ||
@@ -70,12 +92,11 @@ namespace Spark
                 typeName == "double"
             )
             {
-                //return std::make_shared<PrimitivePropertyEditField>(memberPtr, type);
-                return std::make_shared<EditField>(type);
+                return std::make_shared<PrimitivePropertyEditField>(varName, memberPtr, type);
             }
             else
             {
-                return std::make_shared<EditField>(type);
+                return std::make_shared<EditField>(varName, type);
             }
         }
     };

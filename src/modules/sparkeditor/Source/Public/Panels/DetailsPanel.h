@@ -18,24 +18,24 @@ namespace Spark
             {
                 for(auto& c : actor->m_Components)
                 {
-                    for(auto& m : c->GetDerivedType().members)
-                    {
-                        EditFieldFactory::Create((void*)((char*)c) + m->offset , m->type)->OnGUI();
-                    }
+                    Type& t = c->GetDerivedType();
+                    RenderGUIRecursive(t.name, (void*)c, &t);
                 }
             }
             ImGui::End();
         }
 
-        void RenderGUIRecursive(void* memberPtr, TypeClass* type)
+        void RenderGUIRecursive(const char* varName, void* memberPtr, Type* type)
         {
-            for(auto m : type->members)
+            auto t = dynamic_cast<TypeClass*>(type);
+            if(t != nullptr)
             {
-                if((TypeClass*)m.type)
+                for(auto& m : t->members)
                 {
-                    RenderGUIRecursive((void*)(((char*)c) + m->offset), type);
+                    RenderGUIRecursive(m.name, (void*)((char*)memberPtr + m.offset), m.type);   
                 }
             }
+            EditFieldFactory::Create(varName, (void*)memberPtr , type)->OnGUI();
         }
     };
 

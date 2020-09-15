@@ -134,7 +134,7 @@ namespace Spark
         std::function<void(void*)> destructor;
 
         TypeClass(void(*init)(TypeClass*))
-            : Type(nullptr, 0)
+            : Type(nullptr, 0), members(std::vector<Member>())
         {
             init(this);
         }
@@ -203,13 +203,13 @@ namespace Spark
         friend struct Spark::DefaultTypeResolver; \
         public: static Spark::TypeClass StaticType; \
         private: static void InitReflection(Spark::TypeClass*); \
-        public: virtual const Spark::TypeClass GetDerivedType() const { return StaticType; }; \
+        public: virtual Spark::TypeClass& GetDerivedType() { return StaticType; }; \
 
 #define REFLECT_CLASS() \
         friend struct Spark::DefaultTypeResolver; \
         public: static Spark::TypeClass StaticType; \
         private: static void InitReflection(Spark::TypeClass*); \
-        public: virtual const Spark::TypeClass GetDerivedType() const override { return StaticType; }; \
+        public: virtual Spark::TypeClass& GetDerivedType() override { return StaticType; }; \
 
 #define REFLECTION_STRUCT_BEGIN(TYPE) \
     Spark::TypeStruct TYPE::StaticType{ TYPE::InitReflection }; \
@@ -229,7 +229,8 @@ namespace Spark
         typeClass->size = sizeof(T); \
         typeClass->constructor =ConstructObject<T>; \
         typeClass->destructor = DestroyObject<T>; \
-        typeClass->members = {
+        typeClass->members.empty(); \
+        typeClass->members = { \
 
 #define REFLECTION_STRUCT_MEMBER(NAME) \
         {#NAME, offsetof(T, NAME), Spark::TypeResolver::Get<decltype(T::NAME)>() },
