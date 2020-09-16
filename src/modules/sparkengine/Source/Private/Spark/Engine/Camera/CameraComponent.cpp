@@ -69,13 +69,13 @@ namespace Spark
 
     bool CameraComponent::OnWindowsResize(WindowResizeEvent& e)
     {
-        m_AspectRatio = (float)e.GetWidth() / (float)e.GetHeight();
-        m_OrthoCamera->SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+        //m_AspectRatio = (float)e.GetWidth() / (float)e.GetHeight();
+        //m_OrthoCamera->SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
         return false;
     }
 }
 
 REFLECTION_CLASS_BEGIN(Spark::CameraComponent)
-//REFLECTION_CLASS_MEMBER(m_ZoomLevel)
-//REFLECTION_CLASS_MEMBER(m_AspectRatio)
+REFLECTION_CLASS_MEMBER(m_ZoomLevel)
+REFLECTION_CLASS_MEMBER(m_AspectRatio)
 REFLECTION_CLASS_END()

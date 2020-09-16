@@ -23,6 +23,7 @@ namespace Spark
         virtual uint32 GetDepthAttachmentRendererID() = 0;
         virtual const FramebufferProperties& GetProperties() const = 0;
         virtual void SetProperties(const FramebufferProperties& Properties) = 0;
+        virtual void Resize(uint32 width, uint32 height) = 0;
 
         static Ref<IFramebuffer> Create(const FramebufferProperties& Properties);
     };

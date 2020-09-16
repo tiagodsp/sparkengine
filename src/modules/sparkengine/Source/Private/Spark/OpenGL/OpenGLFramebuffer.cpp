@@ -19,6 +19,7 @@ namespace Spark
     void OpenGLFramebuffer::Bind()
     {
         glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID);
+        glViewport(0, 0, (uint32) m_Properties.Size.x, (uint32) m_Properties.Size.y);
     }
 
     void OpenGLFramebuffer::Unbind()
@@ -29,6 +30,14 @@ namespace Spark
     void OpenGLFramebuffer::Invalidate()
     {
 
+        if(m_RendererID)
+        {
+            glDeleteBuffers(1, &m_RendererID);
+            glDeleteTextures(1, &m_ColorAttachmentRendererID);
+            glDeleteTextures(1, &m_DepthAttachmentRendererID);
+        }
+
+        
         // Create color attachment:
         glGenTextures(1, &m_ColorAttachmentRendererID);
         glBindTexture(GL_TEXTURE_2D, m_ColorAttachmentRendererID);
@@ -70,4 +79,11 @@ namespace Spark
         m_Properties = Properties;
         Invalidate();
     }
+
+    void OpenGLFramebuffer::Resize(uint32 width, uint32 height)
+    {
+        m_Properties.Size = {(float)width, (float)height};
+        Invalidate();
+    }
+
 } // namespace Spark
