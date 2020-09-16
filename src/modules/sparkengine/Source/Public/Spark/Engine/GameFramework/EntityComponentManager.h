@@ -70,6 +70,18 @@ namespace Spark
             ASSERT(Has<T>(e), "Actor does not have the requested component!");
             return dynamic_cast<T*>(m_ComponentPoolArray[GetComponentID<T>()][e]);
         }
+
+        template<typename T>
+        void Each(std::function<void(Entity, T*)> forEachCallback)
+        {
+            size_t e = 0;
+            for(Component* c : m_ComponentPoolArray[GetComponentID<T>()])
+            {
+                if(c) forEachCallback(e, dynamic_cast<T*>(c));
+                e++;
+            }
+                
+        }
         
         template<typename T, typename... Args>
         T* Emplace(Entity e, Args&&... args)
