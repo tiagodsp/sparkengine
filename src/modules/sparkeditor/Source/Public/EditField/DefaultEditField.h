@@ -68,6 +68,10 @@ namespace Spark
             {
                 ImGui::InputDouble(m_VarName, (double*)m_primitivePtr);
             }
+            else if(type == "glm::vec3")
+            {
+                ImGui::InputFloat3(m_VarName, (float*)m_primitivePtr);
+            }
             else
             {
                 ImGui::Text(m_VarName);
@@ -81,23 +85,7 @@ namespace Spark
         static Ref<EditField> Create(const char* varName, void* memberPtr, Type* type)
         {
             std::string typeName = type->name;
-            
-            if(typeName == "Spark::TransformComponent")
-            {
-                return std::make_shared<TransformEditField>(varName, *(TransformComponent*)memberPtr);
-            }
-            else if(
-                typeName == "float" ||
-                typeName == "int" ||
-                typeName == "double"
-            )
-            {
-                return std::make_shared<PrimitivePropertyEditField>(varName, memberPtr, type);
-            }
-            else
-            {
-                return std::make_shared<EditField>(varName, type);
-            }
+            return std::make_shared<PrimitivePropertyEditField>(varName, memberPtr, type);
         }
     };
 }

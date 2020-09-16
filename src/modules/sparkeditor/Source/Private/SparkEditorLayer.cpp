@@ -145,8 +145,20 @@ namespace Spark
         
         // Viewport ---------------------------------------------------------------------
         ImGui::Begin("Viewport");
+        
+        ImVec2 regionAvail = ImGui::GetContentRegionAvail();
+        if(m_ViewportSize != *(glm::vec2*)&regionAvail)
+        {
+            m_ViewportSize = {regionAvail.x, regionAvail.y};
+            
+            FramebufferProperties fp;
+            fp.Size = {m_ViewportSize.x , m_ViewportSize.y};
+            m_MainViewportFramebuffer->SetProperties(fp);
+            
+            m_CameraActor->GetComponent<CameraComponent>()->SetAspectRatio(m_ViewportSize.x / m_ViewportSize.y);
+        }
         uint32 texid = m_MainViewportFramebuffer->GetColorAttachmentRendererID();
-        ImGui::Image((void*)texid, ImGui::GetContentRegionAvail());
+        ImGui::Image((void*)texid, ImVec2{m_ViewportSize.x , m_ViewportSize.y}, ImVec2{0,1}, ImVec2{1,0});
         ImGui::End();
         // -------------------------------------------------------------------------------
 

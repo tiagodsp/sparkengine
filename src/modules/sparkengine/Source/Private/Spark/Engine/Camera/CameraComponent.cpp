@@ -44,7 +44,12 @@ namespace Spark
         }
 
         //m_AspectRatio = (float)e.GetWidth() / (float)e.GetHeight();
-        //m_OrthoCamera->SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+    }
+
+    void CameraComponent::SetAspectRatio(float aspectRation)
+    {
+        m_AspectRatio = aspectRation;
+        m_OrthoCamera->SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
     }
 
     void CameraComponent::OnEvent(Event& e)
@@ -71,6 +76,6 @@ namespace Spark
 }
 
 REFLECTION_CLASS_BEGIN(Spark::CameraComponent)
-REFLECTION_STRUCT_MEMBER(m_ZoomLevel)
-REFLECTION_STRUCT_MEMBER(m_AspectRatio)
-REFLECTION_STRUCT_END()
+//REFLECTION_CLASS_MEMBER(m_ZoomLevel)
+//REFLECTION_CLASS_MEMBER(m_AspectRatio)
+REFLECTION_CLASS_END()

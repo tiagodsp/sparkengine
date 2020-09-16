@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include "sparkengine.api.gen.h"
+#include "glm/glm.hpp"
 
 namespace Spark
 {
@@ -178,16 +179,17 @@ namespace Spark
     }
     
     // --------------------------------------------------------
-    // struct SPARKENGINE_API Vec3Float : Type
-    // {
-    //     TypeFloat() : Type{"float", sizeof(float)} {}
-    // };
-    // template<>
-    // inline SPARKENGINE_API Type* GetPrimitiveType<float>()
-    // {
-    //     static TypeFloat type;
-    //     return &type;
-    // }
+    struct SPARKENGINE_API TypeVec3 : Type
+    {
+        TypeVec3()
+            : Type{"glm::vec3", sizeof(glm::vec3)} {}
+    };
+    template<>
+    inline SPARKENGINE_API Type* GetPrimitiveType<glm::vec3>()
+    {
+        static TypeVec3 type;
+        return &type;
+    }
 
 
 

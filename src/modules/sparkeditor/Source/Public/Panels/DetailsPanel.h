@@ -19,6 +19,7 @@ namespace Spark
                 for(auto& c : actor->m_Components)
                 {
                     Type& t = c->GetDerivedType();
+                    ImGui::TextColored({1,1,0,1}, t.name);
                     RenderGUIRecursive(t.name, (void*)c, &t);
                 }
             }
@@ -35,7 +36,11 @@ namespace Spark
                     RenderGUIRecursive(m.name, (void*)((char*)memberPtr + m.offset), m.type);   
                 }
             }
-            EditFieldFactory::Create(varName, (void*)memberPtr , type)->OnGUI();
+            else
+            {
+                EditFieldFactory::Create(varName, (void*)memberPtr , type)->OnGUI();
+            }
+            
         }
     };
 

@@ -25,6 +25,8 @@ namespace Spark
         virtual void Update(Timestep ts) override;
         virtual void OnEvent(Event& e) override;
 
+        void SetAspectRatio(float aspectRation);
+
         bool OnMouseScroll(MouseScrollEvent& e);
         bool OnWindowsResize(WindowResizeEvent& e);
 

@@ -26,6 +26,7 @@ namespace Spark
         Ref<World> m_World;
         Ref<Texture> m_Texture;
         Ref<IFramebuffer> m_MainViewportFramebuffer;
+        glm::vec2 m_ViewportSize;
 
     public:
         SparkEditorLayer();
