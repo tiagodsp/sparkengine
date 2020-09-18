@@ -59,6 +59,7 @@ namespace Spark
         SelectionManager::Get().OnSelectionChange.Add(this, &SparkEditorLayer::Hue);
 
         Actor* mesh = (Actor*) NewObject("Spark::Actor");
+        //mesh->AddComponent<MeshComponent>("D:/aquelamaquinala.glb");
         mesh->AddComponent<MeshComponent>("./Assets/Meshes/monkey.glb");
         mesh->AddComponent<TransformComponent>();
         auto texshader = m_ShaderLibrary->Load("./Assets/Shaders/TextureMesh.glsl");
@@ -88,9 +89,10 @@ namespace Spark
         Renderer::BeginScene(*m_CameraActor->GetComponent<CameraComponent>()->GetOrthoCamera());
 
         GWorld->GetContext().Each<MeshComponent>([&](Entity e, MeshComponent* meshComponent){
+            auto transform = GWorld->GetContext().Get<TransformComponent>(e);
             m_Texture->Bind();
             for(auto va : meshComponent->GetVertexArrays())
-                Renderer::Submit(m_ShaderLibrary->Get("TextureMesh"), va, glm::mat4(1.0f));
+                Renderer::Submit(m_ShaderLibrary->Get("TextureMesh"), va, transform->GetMatrix());
             m_Texture->Unbind();
         });
 
