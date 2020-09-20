@@ -19,7 +19,7 @@ namespace Spark
 
     }
 
-    void Renderer::BeginScene(OrthographicCamera &camera)
+    void Renderer::BeginScene(Camera &camera)
     {
         s_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatix();
     }

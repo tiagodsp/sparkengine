@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Spark/Engine/Components/Component.h"
-#include "Spark/Renderer/OrthographicCamera.h"
+#include "Spark/Renderer/Camera.h"
 #include "Spark/Events/MouseEvent.h"
 #include "Spark/Events/ApplicationEvent.h"
 #include "Spark/Core/Reflection.h"
@@ -11,14 +11,15 @@ namespace Spark
 {
     class SPARKENGINE_API CameraComponent : public Component
     {
+        REFLECT_CLASS()
     private:
-        float m_AspectRatio;
+        float m_AspectRatio = 1.0f;
         float m_ZoomLevel = 1.0f;
         float m_CameraSpeed = 10.0f;
-        Ref<OrthographicCamera> m_OrthoCamera;
-    public:
-        CameraComponent(float AspectRation = 16.0f/9.0f);
-        CameraComponent(Ref<OrthographicCamera> orthoCamera);
+        Ref<Camera> m_Camera;
+    public:        
+        CameraComponent();
+        CameraComponent(Ref<Camera> camera);
         ~CameraComponent();
 
         virtual void Begin() override;
@@ -30,9 +31,8 @@ namespace Spark
         bool OnMouseScroll(MouseScrollEvent& e);
         bool OnWindowsResize(WindowResizeEvent& e);
 
-        inline Ref<OrthographicCamera> GetOrthoCamera() { return m_OrthoCamera; }
+        inline Ref<Camera> GetCamera() { return m_Camera; }
 
-        REFLECT_CLASS()
     };
 } // namespace Spark
 

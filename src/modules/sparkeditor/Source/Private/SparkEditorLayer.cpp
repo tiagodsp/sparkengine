@@ -8,6 +8,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "Spark/Engine/World.h"
 #include "Spark/Engine/Camera/CameraComponent.h"
+#include "Spark/Renderer/PerspectiveCamera.h"
 #include "Spark/Engine/Mesh/MeshComponent.h"
 #include "Spark/Engine/GameFramework/Actor.h"
 #include "Spark/Renderer/Renderer2D.h"
@@ -52,8 +53,11 @@ namespace Spark
         
         Actor* actorobj = (Actor*) NewObject("Spark::Actor");
         m_CameraActor.reset(actorobj);
-        m_CameraActor->AddComponent<Spark::TransformComponent>();
-        m_CameraActor->AddComponent<Spark::CameraComponent>();
+        m_CameraActor->AddComponent<TransformComponent>();
+        PerspectiveCameraParameters params(45.0f, 16.0f/9.0f, 1.0f, -1000.0f);
+        m_CameraActor->AddComponent<CameraComponent>(std::make_shared<PerspectiveCamera>(params));
+        //m_CameraActor->AddComponent<CameraComponent>(std::make_shared<OrthographicCamera>(-100,100,-100,100));
+
         //m_Texture = Spark::Texture2D::Create("Assets/Textures/digital.png");
 
         SelectionManager::Get().OnSelectionChange.Add(this, &SparkEditorLayer::Hue);
@@ -86,7 +90,7 @@ namespace Spark
         RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
         RenderCommand::Clear();
 
-        Renderer::BeginScene(*m_CameraActor->GetComponent<CameraComponent>()->GetOrthoCamera());
+        Renderer::BeginScene(*m_CameraActor->GetComponent<CameraComponent>()->GetCamera());
 
         GWorld->GetContext().Each<MeshComponent>([&](Entity e, MeshComponent* meshComponent){
             auto transform = GWorld->GetContext().Get<TransformComponent>(e);

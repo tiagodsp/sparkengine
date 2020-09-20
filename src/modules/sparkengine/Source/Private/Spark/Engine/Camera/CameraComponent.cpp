@@ -7,13 +7,13 @@
 
 namespace Spark
 {
-    CameraComponent::CameraComponent(float AspectRation)
-        : m_AspectRatio(AspectRation)
-        , m_OrthoCamera(std::make_shared<OrthographicCamera>(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel))
-    {}
+    CameraComponent::CameraComponent()
+    {
+        CORE_ASSERT(false, "Can not initialize camera without a default camera.");
+    }
     
-    CameraComponent::CameraComponent(Ref<OrthographicCamera> orthoCamera)
-            : m_OrthoCamera(orthoCamera)
+    CameraComponent::CameraComponent(Ref<Camera> camera)
+            : m_Camera(camera)
     {}
     
     CameraComponent::~CameraComponent()
@@ -40,7 +40,7 @@ namespace Spark
             else if (Spark::Input::IsKeyPressed(SPARK_KEY_DOWN))
                 t->Position += glm::vec3(0, -m_CameraSpeed * ts, 0);
             
-            m_OrthoCamera->SetPosition(t->Position);
+            m_Camera->SetPosition(t->Position);
         }
 
         //m_AspectRatio = (float)e.GetWidth() / (float)e.GetHeight();
@@ -49,7 +49,7 @@ namespace Spark
     void CameraComponent::SetAspectRatio(float aspectRation)
     {
         m_AspectRatio = aspectRation;
-        m_OrthoCamera->SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+        m_Camera->SetAspectRatio(m_AspectRatio);
     }
 
     void CameraComponent::OnEvent(Event& e)
@@ -63,7 +63,7 @@ namespace Spark
     {
         float zoom = (float)m_ZoomLevel + (float)e.GetYOffset();
         m_ZoomLevel = zoom > 1.0f ? zoom : 1.0f;
-        m_OrthoCamera->SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel , m_ZoomLevel);
+        // m_OrthoCamera->SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel , m_ZoomLevel);
         return true;
     }
 
