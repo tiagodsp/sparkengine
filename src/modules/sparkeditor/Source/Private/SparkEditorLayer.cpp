@@ -63,7 +63,7 @@ namespace Spark
         SelectionManager::Get().OnSelectionChange.Add(this, &SparkEditorLayer::Hue);
 
         Actor* mesh = (Actor*) NewObject("Spark::Actor");
-        //mesh->AddComponent<MeshComponent>("D:/aquelamaquinala.glb");
+        //mesh->AddComponent<MeshComponent>("E:/aquelamaquinala.glb");
         mesh->AddComponent<MeshComponent>("./Assets/Meshes/monkey.glb");
         mesh->AddComponent<TransformComponent>();
         auto texshader = m_ShaderLibrary->Load("./Assets/Shaders/TextureMesh.glsl");

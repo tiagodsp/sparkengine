@@ -20,7 +20,16 @@ namespace Spark
                 {
                     Type& t = c->GetDerivedType();
                     ImGui::TextColored({1,1,0,1}, t.name);
-                    RenderGUIRecursive(t.name, (void*)c, &t);
+                    std::string typeName(t.name);
+                    if(typeName == "Spark::TransformComponent")
+                    {
+                        TransformEditField transformEditField(t.name, *(Spark::TransformComponent*)c);
+                        transformEditField.OnGUI();
+                    }
+                    else
+                    {
+                        RenderGUIRecursive(t.name, (void*)c, &t);
+                    }
                 }
             }
             ImGui::End();
