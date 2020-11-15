@@ -4,13 +4,13 @@ namespace Spark
 {
     SelectionManager SelectionManager::s_Instance;
 
-    void SelectionManager::SetCurrentSelection(Actor* selection)
+    void SelectionManager::SetCurrentSelection(Entity* selection)
     {
         m_CurrentSelection = selection;
         OnSelectionChange(selection);
     }
 
-    Actor* SelectionManager::GetCurrentSelection()
+    Entity* SelectionManager::GetCurrentSelection()
     {
         return m_CurrentSelection;
     }

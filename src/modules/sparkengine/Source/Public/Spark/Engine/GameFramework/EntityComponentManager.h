@@ -12,10 +12,10 @@
 
 namespace Spark
 {
-    class Actor;
+    class Entity;
     
     constexpr std::size_t MaxComponents{32};
-    using Entity = std::size_t;
+    using EntityID = std::size_t;
     
     using ComponentBitset = std::bitset<MaxComponents>;
     using Pool = std::vector<Component*>;
@@ -44,13 +44,13 @@ namespace Spark
         std::array<Pool, MaxComponents> m_ComponentPoolArray;
         
         
-        Entity m_LastID = -1;
+        EntityID m_LastID = -1;
 
     public:
         EntityComponentManager(/* args */){}
         ~EntityComponentManager() {}
 
-        Entity Create()
+        EntityID Create()
         {
             m_EntityComponentsBitset.push_back(ComponentBitset());
             for(auto& pool : m_ComponentPoolArray)
@@ -59,20 +59,20 @@ namespace Spark
         }
         
         template<typename T>
-        bool Has(Entity e)
+        bool Has(EntityID e)
         {
             return m_EntityComponentsBitset[e][GetComponentID<T>()];
         }
         
         template<typename T>
-        T* Get(Entity e)
+        T* Get(EntityID e)
         {
-            ASSERT(Has<T>(e), "Actor does not have the requested component!");
+            ASSERT(Has<T>(e), "Entity does not have the requested component!");
             return dynamic_cast<T*>(m_ComponentPoolArray[GetComponentID<T>()][e]);
         }
 
         template<typename T>
-        void Each(std::function<void(Entity, T*)> forEachCallback)
+        void Each(std::function<void(EntityID, T*)> forEachCallback)
         {
             size_t e = 0;
             for(Component* c : m_ComponentPoolArray[GetComponentID<T>()])
@@ -84,7 +84,7 @@ namespace Spark
         }
         
         template<typename T, typename... Args>
-        T* Emplace(Entity e, Args&&... args)
+        T* Emplace(EntityID e, Args&&... args)
         {
             CORE_ASSERT(!Has<T>(e), "Entity already contains this component!");
             T* c(new T(std::forward<Args>(args)...));

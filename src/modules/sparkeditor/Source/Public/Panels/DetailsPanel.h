@@ -13,7 +13,7 @@ namespace Spark
         void OnGUI()
         {
             ImGui::Begin("Details");
-            Actor* actor = SelectionManager::Get().GetCurrentSelection();
+            Entity* actor = SelectionManager::Get().GetCurrentSelection();
             if(actor)
             {
                 for(auto& c : actor->m_Components)

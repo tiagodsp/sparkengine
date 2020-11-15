@@ -22,7 +22,7 @@ namespace Spark
     class SparkEditorLayer : public Layer
     {
     private:
-        Ref<Actor> m_CameraActor;
+        Ref<Entity> m_CameraActor;
         Ref<World> m_World;
         Ref<Texture> m_Texture;
         Ref<IFramebuffer> m_MainViewportFramebuffer;
@@ -42,7 +42,7 @@ namespace Spark
         // ------------------------------------------------
 
         //TO DELETE
-        void SparkEditorLayer::Hue(Actor* ref);
+        void SparkEditorLayer::Hue(Entity* ref);
 
     private:
         bool HandleKeyInputEvents(Event &event);

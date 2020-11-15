@@ -23,7 +23,7 @@ namespace Spark
     class SPARKENGINE_API Component : public Object
     {
     public:
-        class Actor* m_Parent;
+        class Entity* m_Parent;
     public:
         
         Component(/* args */) {}

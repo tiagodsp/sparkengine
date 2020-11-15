@@ -9,7 +9,7 @@
 
 #include "Spark/Engine/Level.h"
 #include "Spark/Engine/World.h"
-#include "Spark/Engine/GameFramework/Actor.h"
+#include "Spark/Engine/GameFramework/Entity.h"
 #include "Spark/Engine/Components/Component.h"
 #include "Spark/Engine/Object/Object.h"
 

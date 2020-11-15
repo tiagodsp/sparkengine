@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Spark/Core/Delegate.h"
-#include "Spark/Engine/GameFramework/Actor.h"
+#include "Spark/Engine/GameFramework/Entity.h"
 #include <map>
 
 namespace Spark
@@ -10,13 +10,13 @@ namespace Spark
     {
     private:
         static SelectionManager s_Instance;
-        Actor* m_CurrentSelection;
+        Entity* m_CurrentSelection;
     public:
         static SelectionManager& Get() { return s_Instance; }
-        void SetCurrentSelection(Actor* selection);
-        Actor* GetCurrentSelection();
+        void SetCurrentSelection(Entity* selection);
+        Entity* GetCurrentSelection();
 
-        Delegate<Actor*> OnSelectionChange;
+        Delegate<Entity*> OnSelectionChange;
 
     };
     

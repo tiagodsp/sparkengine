@@ -15,12 +15,12 @@ namespace Spark
 
     void Level::Update(Timestep ts)
     {
-        for(auto& a : m_Actors) a->Update(ts);
+        for(auto& a : m_Entities) a->Update(ts);
     }
 
     void Level::OnEvent(Event& e)
     {
-        for(auto& a : m_Actors) a->OnEvent(e);
+        for(auto& a : m_Entities) a->OnEvent(e);
     }
 
     World* Level::GetWotld()
@@ -33,9 +33,9 @@ namespace Spark
         return GetWotld()->GetContext();
     }
 
-    void Level::RegisterActor(Actor* Actor)
+    void Level::RegisterEntity(Entity* Entity)
     {
-        m_Actors.push_back(Actor);
+        m_Entities.push_back(Entity);
     }
 
 

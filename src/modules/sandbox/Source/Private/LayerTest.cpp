@@ -9,7 +9,7 @@
 #include "Spark/Engine/World.h"
 #include "Spark/Engine/Camera/CameraComponent.h"
 #include "Spark/Engine/Mesh/MeshComponent.h"
-#include "Spark/Engine/GameFramework/Actor.h"
+#include "Spark/Engine/GameFramework/Entity.h"
 
 DECLARE_LOG_CATEGORY(LayerTest);
 
@@ -27,12 +27,12 @@ LayerTest::LayerTest()
     textureShader->UploadUniformInt("u_Texture", 0);
     
     m_World.reset<Spark::World>(new Spark::World());
-    Spark::Actor* camera = new Spark::Actor(m_World->GetCurrentLevel());
+    Spark::Entity* camera = new Spark::Entity(m_World->GetCurrentLevel());
     camera->AddComponent<Spark::TransformComponent>();
     auto& cameraComponent = camera->AddComponent<Spark::CameraComponent>();
     m_Camera = cameraComponent.GetOrthoCamera();
 
-    mesh = new Spark::Actor(m_World->GetCurrentLevel());
+    mesh = new Spark::Entity(m_World->GetCurrentLevel());
     mesh->AddComponent<Spark::TransformComponent>();
     mesh->AddComponent<Spark::MeshComponent>("./Assets/Meshes/monkey.glb");
     //mesh.AddComponent<Spark::MeshComponent>("E:/coffee.gltf");

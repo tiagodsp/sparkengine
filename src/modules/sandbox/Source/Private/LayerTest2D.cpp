@@ -18,7 +18,7 @@ namespace Sandbox
 
     void LayerTest2D::OnAttach()
     {
-        m_CameraActor = std::make_shared<Spark::Actor>(m_World->GetCurrentLevel());
+        m_CameraActor = std::make_shared<Spark::Entity>(m_World->GetCurrentLevel());
         m_CameraActor->AddComponent<Spark::CameraComponent>();
         m_Texture = Spark::Texture2D::Create("Assets/Textures/digital.png");
     }

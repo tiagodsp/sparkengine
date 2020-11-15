@@ -34,7 +34,7 @@ namespace Spark
     
     class Level;
 
-    class SPARKENGINE_API Actor : public Object
+    class SPARKENGINE_API Entity : public Object
     {
         REFLECT_CLASS()
     private:
@@ -43,9 +43,9 @@ namespace Spark
 
     public:
         std::vector<Component*> m_Components;
-        Actor();
-        Actor(Level* Level);
-        ~Actor();
+        Entity();
+        Entity(Level* Level);
+        ~Entity();
 
         virtual void Begin() {}
         virtual void Update(Timestep ts);

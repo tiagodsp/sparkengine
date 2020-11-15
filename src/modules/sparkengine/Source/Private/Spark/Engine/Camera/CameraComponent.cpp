@@ -1,7 +1,7 @@
 #include "sparkengine.PCH.h"
 #include "Spark/Engine/Camera/CameraComponent.h"
 #include "Spark/Engine/Level.h"
-#include "Spark/Engine/GameFramework/Actor.h"
+#include "Spark/Engine/GameFramework/Entity.h"
 #include "Spark/Core/Input.h"
 #include "Spark/Core/KeyCodes.h"
 

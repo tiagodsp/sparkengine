@@ -4,7 +4,7 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"
 #include "Spark/Engine/Object/Object.h"
-#include "Spark/Engine/GameFramework/Actor.h"
+#include "Spark/Engine/GameFramework/Entity.h"
 
 namespace Spark
 {

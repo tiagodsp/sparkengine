@@ -27,7 +27,7 @@ private:
     Spark::Ref<Spark::Texture2D> m_Texture, m_AlphaTexture;
     Spark::Ref<Spark::World> m_World;
     
-    Spark::Actor* mesh;
+    Spark::Entity* mesh;
     
     Spark::Ref<Spark::OrthographicCamera> m_Camera;
 

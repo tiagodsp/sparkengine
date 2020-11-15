@@ -10,7 +10,7 @@
 #include "Spark/Engine/Camera/CameraComponent.h"
 #include "Spark/Renderer/PerspectiveCamera.h"
 #include "Spark/Engine/Mesh/MeshComponent.h"
-#include "Spark/Engine/GameFramework/Actor.h"
+#include "Spark/Engine/GameFramework/Entity.h"
 #include "Spark/Renderer/Renderer2D.h"
 #include "Spark/Core/Profiling.h"
 #include "imgui.h"
@@ -42,7 +42,7 @@ namespace Spark
 
     // Spark::Layer interface implementation ---------
 
-    void SparkEditorLayer::Hue(Actor* ref)
+    void SparkEditorLayer::Hue(Entity* ref)
     {
         CORE_LOGI(ref->StaticType.name);
     }
@@ -51,7 +51,7 @@ namespace Spark
     {
         m_ShaderLibrary.reset(new ShaderLibrary());
         
-        Actor* actorobj = (Actor*) NewObject("Spark::Actor");
+        Entity* actorobj = (Entity*) NewObject("Spark::Entity");
         m_CameraActor.reset(actorobj);
         m_CameraActor->AddComponent<TransformComponent>();
         PerspectiveCameraParameters params(45.0f, 16.0f/9.0f, 1.0f, -1000.0f);
@@ -62,7 +62,7 @@ namespace Spark
 
         SelectionManager::Get().OnSelectionChange.Add(this, &SparkEditorLayer::Hue);
 
-        Actor* mesh = (Actor*) NewObject("Spark::Actor");
+        Entity* mesh = (Entity*) NewObject("Spark::Entity");
         //mesh->AddComponent<MeshComponent>("E:/aquelamaquinala.glb");
         mesh->AddComponent<MeshComponent>("./Assets/Meshes/monkey.glb");
         mesh->AddComponent<TransformComponent>();
@@ -92,7 +92,7 @@ namespace Spark
 
         Renderer::BeginScene(*m_CameraActor->GetComponent<CameraComponent>()->GetCamera());
 
-        GWorld->GetContext().Each<MeshComponent>([&](Entity e, MeshComponent* meshComponent){
+        GWorld->GetContext().Each<MeshComponent>([&](EntityID e, MeshComponent* meshComponent){
             auto transform = GWorld->GetContext().Get<TransformComponent>(e);
             m_Texture->Bind();
             for(auto va : meshComponent->GetVertexArrays())

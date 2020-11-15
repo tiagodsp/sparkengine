@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Spark/Core/CoreTypes.h"
-#include "Spark/Engine/GameFramework/Actor.h"
+#include "Spark/Engine/GameFramework/Entity.h"
 #include "Spark/Engine/World.h"
 #include "Spark/Core/Layer.h"
 #include "Spark/Renderer/Renderer.h"
@@ -14,7 +14,7 @@ namespace Sandbox
     class LayerTest2D : public Spark::Layer
     {
     private:
-        Spark::Ref<Spark::Actor> m_CameraActor;
+        Spark::Ref<Spark::Entity> m_CameraActor;
         Spark::Ref<Spark::World> m_World;
         Spark::Ref<Spark::Texture> m_Texture;
 

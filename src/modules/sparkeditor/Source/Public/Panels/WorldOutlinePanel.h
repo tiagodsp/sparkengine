@@ -11,7 +11,7 @@ namespace Spark
         void OnGUI()
         {
             ImGui::Begin("World Outliner");
-            auto& actors = GWorld->GetCurrentLevel()->GetActors();
+            auto& actors = GWorld->GetCurrentLevel()->GetEntities();
             
             for(auto& actor : actors)
             {

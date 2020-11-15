@@ -1,5 +1,5 @@
 #include "sparkengine.PCH.h"
-#include "Spark/Engine/GameFramework/Actor.h"
+#include "Spark/Engine/GameFramework/Entity.h"
 #include "Spark/Engine/Level.h"
 #include "Spark/Engine/Camera/CameraComponent.h"
 #include "Spark/Engine/World.h"
@@ -10,31 +10,31 @@ REFLECTION_CLASS_MEMBER(Rotation)
 REFLECTION_CLASS_MEMBER(Scale)
 REFLECTION_CLASS_END()
 
-REFLECTION_CLASS_BEGIN(Spark::Actor)
+REFLECTION_CLASS_BEGIN(Spark::Entity)
 REFLECTION_CLASS_END()
 
 namespace Spark
 {
 
-    Actor::Actor()
+    Entity::Entity()
         : m_Level(GWorld->GetCurrentLevel())
     {
         m_EntityHandle = m_Level->GetWorldContext().Create();
-        m_Level->RegisterActor(this);
+        m_Level->RegisterEntity(this);
     }
 
-    Actor::Actor(Level* Level)
+    Entity::Entity(Level* Level)
         : m_Level(Level)
     {
         m_EntityHandle = m_Level->GetWorldContext().Create();
-        m_Level->RegisterActor(this);
+        m_Level->RegisterEntity(this);
     }
 
-    Actor::~Actor()
+    Entity::~Entity()
     {
     }
 
-    void Actor::Update(Timestep ts)
+    void Entity::Update(Timestep ts)
     {
         for(auto c : m_Components) c->Update(ts);
         
@@ -51,7 +51,7 @@ namespace Spark
         // }
     }
 
-    void Actor::OnEvent(Event& e)
+    void Entity::OnEvent(Event& e)
     {
         for(auto c : m_Components) c->OnEvent(e);
     }

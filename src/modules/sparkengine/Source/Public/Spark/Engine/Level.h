@@ -3,7 +3,7 @@
 #include "Spark/Engine/Object/Object.h"
 #include "Spark/Engine/GameFramework/EntityComponentManager.h"
 #include "Spark/Events/Event.h"
-#include "Spark/Engine/GameFramework/Actor.h"
+#include "Spark/Engine/GameFramework/Entity.h"
 
 #include "sparkengine.api.gen.h"
 
@@ -17,7 +17,7 @@ namespace Spark
     {
     private:
         World* m_WorldRef;
-        std::vector<Actor*> m_Actors;
+        std::vector<Entity*> m_Entities;
 
     public:
         Level(World* WorldReference);
@@ -29,8 +29,8 @@ namespace Spark
 
         World* GetWotld();
         EntityComponentManager& GetWorldContext();
-        void RegisterActor(Actor* Actor);
-        const std::vector<Actor*>& GetActors() { return m_Actors; }
+        void RegisterEntity(Entity* Entity);
+        const std::vector<Entity*>& GetEntities() { return m_Entities; }
 
     };
 } // namespace Spark
