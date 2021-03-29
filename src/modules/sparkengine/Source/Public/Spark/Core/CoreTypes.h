@@ -4,9 +4,16 @@
 #include "Spark/Core/Log.h"
 #include <memory>
 
+#ifdef _MSC_VER
+#define DEBUG_BREAK __debugbreak()
+#else
+#include <signal.h>
+#define DEBUG_BREAK raise(SIGTRAP)
+#endif
+
 #ifdef SPARKENGINE_ENABLE_ASSERTS
-    #define ASSERT(x, ...) { if(!(x)) {LOGF(Core, "Assertion Failed: {0}", __VA_ARGS__); __debugbreak();} }
-    #define CORE_ASSERT(x, ...) { if(!(x)) {CORE_LOGF("Assertion Failed: {0}", __VA_ARGS__); __debugbreak();} }
+    #define ASSERT(x, ...) { if(!(x)) {LOGF(Core, "Assertion Failed: {0}", __VA_ARGS__); DEBUG_BREAK;} }
+    #define CORE_ASSERT(x, ...) { if(!(x)) {CORE_LOGF("Assertion Failed: {0}", __VA_ARGS__); DEBUG_BREAK;} }
 #else
     #define ASSERT(x, ...) 
     #define CORE_ASSERT(x, ...)
@@ -20,6 +27,7 @@
 //typedef unsigned int        DWORD;
 //typedef int                 BOOL;
 
+#ifndef __GNUG__
 typedef signed char         int8_t;
 typedef signed short int    int16_t;
 typedef signed int          int32_t;
@@ -29,6 +37,7 @@ typedef unsigned char       uint8_t;
 typedef unsigned short int  uint16_t;
 typedef unsigned int        uint32_t;
 typedef unsigned long long  uint64_t;
+#endif
 
 typedef int8_t              int8;
 typedef int16_t             int16;

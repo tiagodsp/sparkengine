@@ -24,6 +24,6 @@ namespace Spark
     template<typename TYPE>
     TYPE* CreateObject(const char* name)
     {
-        return dynamic_cast<TYPE*>(NewObject(name, TypeResolver<TYPE>::Get()));
+        return dynamic_cast<TYPE*>(NewObject(name, TypeResolver::Get<TYPE>()));
     }
 } // namespace Spark

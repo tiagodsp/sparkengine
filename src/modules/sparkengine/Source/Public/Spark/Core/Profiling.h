@@ -25,7 +25,7 @@ namespace Spark
     private:
         std::string m_Name;
         Fn m_Callback;
-        std::chrono::time_point<std::chrono::steady_clock> m_StartTimepoint;
+        std::chrono::time_point<std::chrono::system_clock> m_StartTimepoint;
         bool m_Stopped;
 
     public:

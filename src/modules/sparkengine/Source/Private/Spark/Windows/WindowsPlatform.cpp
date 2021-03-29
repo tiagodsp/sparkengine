@@ -1,3 +1,4 @@
+#ifdef BUILD_WINDOWS
 #include "Spark/Windows/WindowsPlatform.h"
 #include "glfw/glfw3.h"
 
@@ -19,3 +20,4 @@ Timestep WindowsPlatform::GetTime() const
 }
 
 } // namespace Spark
+#endif //BUILD_WINDOWS

@@ -1,7 +1,7 @@
-#ifdef BUILD_WINDOWS
+#ifdef BUILD_LINUX
 
 #include "sparkengine.PCH.h"
-#include "WindowsPlatformWindow.h"
+#include "LinuxPlatformWindow.h"
 
 #include "Spark/Core/Log.h"
 
@@ -21,21 +21,21 @@ namespace Spark
     // PlatformWindow interface method implementation
     IPlatformWindow* IPlatformWindow::Create(const WindowProps& props)
     {
-        return new WindowsPlatformWindow(props);
+        return new LinuxPlatformWindow(props);
     }
     // ------------------------------------------------------------------
 
-    WindowsPlatformWindow::WindowsPlatformWindow(const WindowProps& props)
+    LinuxPlatformWindow::LinuxPlatformWindow(const WindowProps& props)
     {
         Init(props);
     }
 
-    WindowsPlatformWindow::~WindowsPlatformWindow()
+    LinuxPlatformWindow::~LinuxPlatformWindow()
     {
         Shutdown();
     }
 
-    void WindowsPlatformWindow::Init(const WindowProps& props)
+    void LinuxPlatformWindow::Init(const WindowProps& props)
     {
         m_Data.Title = props.Title;
         m_Data.Width = props. Width;
@@ -154,18 +154,18 @@ namespace Spark
 
     }
 
-    void WindowsPlatformWindow::Shutdown()
+    void LinuxPlatformWindow::Shutdown()
     {
         glfwDestroyWindow(m_Window);
     }
 
-    void WindowsPlatformWindow::OnUpdate()
+    void LinuxPlatformWindow::OnUpdate()
     {
         glfwPollEvents();
         m_GraphicsContext->SwapBuffers();
     }
 
-    void WindowsPlatformWindow::SetVSync(bool enabled)
+    void LinuxPlatformWindow::SetVSync(bool enabled)
     {
         if(enabled)
             glfwSwapInterval(1);
@@ -175,10 +175,10 @@ namespace Spark
         m_Data.VSync = enabled;
     }
 
-    bool WindowsPlatformWindow::IsVSync() const
+    bool LinuxPlatformWindow::IsVSync() const
     {
         return m_Data.VSync;
     }
 }
 
-#endif //BUILD_WINDOWS
+#endif //BUILD_LINUX

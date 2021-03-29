@@ -17,8 +17,7 @@ namespace Spark
             m_Functions.push_back([=](Args... args){ (obj->*func)(args...); });
         }
         
-        template<typename... Args>
-        void operator() (Args&&... args)
+        void operator() (Args... args)
         {
             for(auto& fn : m_Functions)
             {

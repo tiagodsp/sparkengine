@@ -7,7 +7,7 @@ namespace Spark
     void SelectionManager::SetCurrentSelection(Entity* selection)
     {
         m_CurrentSelection = selection;
-        OnSelectionChange(selection);
+        OnSelectionChange(m_CurrentSelection);
     }
 
     Entity* SelectionManager::GetCurrentSelection()

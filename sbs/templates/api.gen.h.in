@@ -4,6 +4,7 @@
 
 // Define EXPORTED for any platform
 #if defined _WIN32 || defined __CYGWIN__
+  #define ${SBS_MODULE_NAME_UPPER}_WINDOWS_BUILD
   #ifdef DLLEXPORT
     // Exporting...
     #ifdef __GNUC__
@@ -18,14 +19,14 @@
       #define ${SBS_MODULE_NAME_UPPER}_API __declspec(dllimport) // Note: actually gcc seems to also supports this syntax.
     #endif
   #endif
-  #define ${SBS_MODULE_NAME_UPPER}_API_PRIVATE
 #else
+  #define ${SBS_MODULE_NAME_UPPER}_LINUX_BUILD
   #if __GNUC__ >= 4
-    #define ${SBS_MODULE_NAME_UPPER}_API __attribute__ ((visibility ("default")))
-    #define ${SBS_MODULE_NAME_UPPER}_API_PRIVATE  __attribute__ ((visibility ("hidden")))
-  #else
-    #define ${SBS_MODULE_NAME_UPPER}_API
-    #define ${SBS_MODULE_NAME_UPPER}_API_PRIVATE
+    #ifdef DLLEXPORT
+      #define ${SBS_MODULE_NAME_UPPER}_API __attribute__ ((visibility ("default")))
+    #else
+      #define ${SBS_MODULE_NAME_UPPER}_API
+    #endif
   #endif
 #endif
 

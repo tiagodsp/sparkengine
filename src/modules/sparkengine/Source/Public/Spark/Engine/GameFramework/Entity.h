@@ -54,19 +54,19 @@ namespace Spark
         template<typename T>
         bool HasComponent()
         {
-            return m_Level->GetWorldContext().Has<T>(m_EntityHandle);
+            return m_Level->GetWorldContext().template Has<T>(m_EntityHandle);
         }
 
         template<typename T>
         T* GetComponent()
         {
-            return m_Level->GetWorldContext().Get<T>(m_EntityHandle);
+            return m_Level->GetWorldContext().template Get<T>(m_EntityHandle);
         }
 
         template<typename T, typename... Args>
         T& AddComponent(Args&&... args)
         {
-            T* c = m_Level->GetWorldContext().Emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
+            T* c = m_Level->GetWorldContext().template Emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
             CORE_ASSERT(dynamic_cast<Component*>(c) != nullptr, "Class is not a valid Component class!");
             c->m_Parent = this;
             m_Components.push_back(c);

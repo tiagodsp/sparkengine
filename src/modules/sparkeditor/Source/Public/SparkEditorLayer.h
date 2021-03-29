@@ -42,7 +42,7 @@ namespace Spark
         // ------------------------------------------------
 
         //TO DELETE
-        void SparkEditorLayer::Hue(Entity* ref);
+        void Hue(Entity* ref);
 
     private:
         bool HandleKeyInputEvents(Event &event);

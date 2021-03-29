@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.10)
 
 #list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/sbs/cmake/cmakepch)
 
@@ -17,7 +17,7 @@ endif()
 message("[${SBS_MODULE_NAME}] - Setting compilation options for ${CMAKE_CXX_COMPILER_ID}")
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     # G++
-    add_compile_options(-MDd -Wall -Wextra -fvisibility=hidden -Wno-unused-parameter -Wno-unused-variable -fcxx-exceptions -Wno-documentation -Wno-reorder)
+    add_compile_options(-MD -fPIC -Wall -Wextra -fvisibility=hidden -Wno-unused-parameter -Wno-unused-variable -Wno-documentation -Wno-reorder)
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "LLVM")
     #Clang
     add_compile_options(-MDd -Wall -Wextra -fvisibility=hidden -Wno-unused-parameter -Wno-unused-variable -fcxx-exceptions -Wno-documentation -Wno-reorder)
@@ -39,11 +39,18 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Emscripten")
     set(CMAKE_FIND_LIBRARY_SUFFIXES ".bc")
 endif()
 
+message(STATUS "Checking support for ${CMAKE_SYSTEM_NAME} platform.")
+if("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
+    add_definitions("-DBUILD_WINDOWS")
+elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
+    add_definitions("-DBUILD_LINUX")
+else()
+    message( FATAL_ERROR "Platform not supported, CMake will exit." )
+endif()
+message(STATUS "Building for ${CMAKE_SYSTEM_NAME} platform.")
 
 
-
-
-#set(CMAKE_CXX_FLAGS "-std=c++17")
+set(CMAKE_CXX_FLAGS "-lstdc++fs")
 
 #Variable definitions:
 set(SPARKBUILDSYSTEM_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)

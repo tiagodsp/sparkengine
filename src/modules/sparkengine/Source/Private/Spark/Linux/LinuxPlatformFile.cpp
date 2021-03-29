@@ -1,45 +1,46 @@
-#ifdef BUILD_WINDOWS
 
+#ifdef BUILD_LINUX
 #include "sparkengine.PCH.h"
 
-#include "WindowsPlatformFile.h"
+#include "LinuxPlatformFile.h"
+
 #include "Spark/Core/GenericPlatform/GenericPlatformFile.h"
 #include <fstream>
 #include <filesystem>
 
 namespace Spark
 {
-    FileHandleWindows::FileHandleWindows(std::fstream& Handle)
+    FileHandleLinux::FileHandleLinux(std::fstream& Handle)
         : m_Handle(Handle)
     {
     }
 
-    FileHandleWindows::~FileHandleWindows()
+    FileHandleLinux::~FileHandleLinux()
     {
         m_Handle.close();
     }
 
 
-    int64 FileHandleWindows::Tell()
+    int64 FileHandleLinux::Tell()
     {
         return m_Handle.tellg();
     }
 
-    bool FileHandleWindows::Seek(int64 NewPosition)
+    bool FileHandleLinux::Seek(int64 NewPosition)
     {
         if(m_Handle.seekg(NewPosition, m_Handle.beg))
             return true;
         return false;
     }
     
-    bool FileHandleWindows::SeekFromEnd(int64 NewPositionRelativeToEnd)
+    bool FileHandleLinux::SeekFromEnd(int64 NewPositionRelativeToEnd)
     {
         if(m_Handle.seekg(NewPositionRelativeToEnd, m_Handle.end))
             return true;
         return false;
     }
 
-    bool FileHandleWindows::Read(uint8 *Destination, uint64 BytesToRead)
+    bool FileHandleLinux::Read(uint8 *Destination, uint64 BytesToRead)
     {
         CORE_ASSERT(m_Handle.is_open(), "File handle is closed.");
         if(m_Handle.read(reinterpret_cast<char*>(Destination), BytesToRead))
@@ -47,7 +48,7 @@ namespace Spark
         return false;
     }
 
-    bool FileHandleWindows::Write(const uint8 *Source, int64 BytesToWrite)
+    bool FileHandleLinux::Write(const uint8 *Source, int64 BytesToWrite)
     {
         CORE_ASSERT(m_Handle.is_open(), "File handle is closed.");
         if(m_Handle.write(reinterpret_cast<const char*>(Source), BytesToWrite))
@@ -55,7 +56,7 @@ namespace Spark
         return false;
     }
     
-    bool FileHandleWindows::Flush()
+    bool FileHandleLinux::Flush()
     {
         CORE_ASSERT(m_Handle.is_open(), "File handle is closed.");
         if(m_Handle.flush())
@@ -63,34 +64,34 @@ namespace Spark
         return false;
     }
 
-    bool FileHandleWindows::Truncate(int64 NewSize)
+    bool FileHandleLinux::Truncate(int64 NewSize)
     {
-        CORE_ASSERT(false, "FileHandleWindows::Truncate not impelemented!");
+        CORE_ASSERT(false, "FileHandleLinux::Truncate not impelemented!");
         return false;
     }
 
-    bool PlatformFileWindows::FileExists(const char *Filename)
+    bool PlatformFileLinux::FileExists(const char *Filename)
     {
         return std::filesystem::exists(Filename);
     }
 
-    int64 PlatformFileWindows::FileSize(const char *Filename)
+    int64 PlatformFileLinux::FileSize(const char *Filename)
     {
         return std::filesystem::file_size(Filename);
     }
 
-    bool PlatformFileWindows::DeleteFile(const char *Filename)
+    bool PlatformFileLinux::DeleteFile(const char *Filename)
     {
         return std::filesystem::remove(Filename);
     }
 
-    bool PlatformFileWindows::IsReadOnly(const char *Filename)
+    bool PlatformFileLinux::IsReadOnly(const char *Filename)
     {
         std::filesystem::perms perm = std::filesystem::status(Filename).permissions();
-        return (perm & std::filesystem::perms::_File_attribute_readonly) != std::filesystem::perms::none;
+        return (perm & std::filesystem::perms::owner_read) != std::filesystem::perms::none;
     }
 
-    bool PlatformFileWindows::MoveFile(const char* To, const char* From)
+    bool PlatformFileLinux::MoveFile(const char* To, const char* From)
     {
         bool result = true;
         std::filesystem::perms p = std::filesystem::status(From).permissions();
@@ -101,55 +102,55 @@ namespace Spark
         return result;
     }
 
-    bool PlatformFileWindows::SetReadOnly(const char* Filename, bool NewReadOnlyValue)
+    bool PlatformFileLinux::SetReadOnly(const char* Filename, bool NewReadOnlyValue)
     {
-        CORE_ASSERT(false, "FileHandleWindows::SetReadOnly not impelemented!");
+        CORE_ASSERT(false, "FileHandleLinux::SetReadOnly not impelemented!");
         return false;
     }
 
-    std::string PlatformFileWindows::GetFilenameOnDisk(const char* Filename)
+    std::string PlatformFileLinux::GetFilenameOnDisk(const char* Filename)
     {
         return std::filesystem::absolute(Filename).string();
     }
 
-    IFileHandle* PlatformFileWindows::OpenRead(const char* Filename, bool AllowWrite)
+    IFileHandle* PlatformFileLinux::OpenRead(const char* Filename, bool AllowWrite)
     {
         std::ios_base::openmode mode = std::ios::in | std::ios::binary;
         if(AllowWrite)
             mode |= std::ios::out;
         std::fstream* handle = new std::fstream(Filename, mode);
         if(*handle)
-            return new FileHandleWindows(*handle);
+            return new FileHandleLinux(*handle);
         return nullptr;
     }
 
-    IFileHandle* PlatformFileWindows::OpenWrite(const char* Filename, bool Append, bool AllowRead)
+    IFileHandle* PlatformFileLinux::OpenWrite(const char* Filename, bool Append, bool AllowRead)
     {
         std::ios_base::openmode mode = std::ios::out| std::ios::binary;
         if(AllowRead)
             mode |= std::ios::in;
         std::fstream* handle = new std::fstream(Filename, mode);
         if(*handle)
-            return new FileHandleWindows(*handle);
+            return new FileHandleLinux(*handle);
         return nullptr;
     }
 
-    bool PlatformFileWindows::DirectoryExists(const char* Directory)
+    bool PlatformFileLinux::DirectoryExists(const char* Directory)
     {
         return std::filesystem::is_directory(Directory);
     }
 
-    bool PlatformFileWindows::CreateDirectory(const char* Directory)
+    bool PlatformFileLinux::CreateDirectory(const char* Directory)
     {
         return std::filesystem::create_directory(Directory);
     }
 
-    bool PlatformFileWindows::DeleteDirectory(const char* Directory)
+    bool PlatformFileLinux::DeleteDirectory(const char* Directory)
     {
         return std::filesystem::remove(Directory);
     }
 
-    void PlatformFileWindows::FindFiles(std::vector<std::string>& FoundFiles, const char* Directory, const char* FileExtension)
+    void PlatformFileLinux::FindFiles(std::vector<std::string>& FoundFiles, const char* Directory, const char* FileExtension)
     {
         for(auto entry : std::filesystem::directory_iterator(Directory))
         {
@@ -163,7 +164,7 @@ namespace Spark
         }
     }
     
-    void PlatformFileWindows::FindFilesRecursively(std::vector<std::string>& FoundFiles, const char* Directory, const char* FileExtension)
+    void PlatformFileLinux::FindFilesRecursively(std::vector<std::string>& FoundFiles, const char* Directory, const char* FileExtension)
     {
         FindFiles(FoundFiles, Directory, FileExtension);
         for(auto entry : std::filesystem::directory_iterator(Directory))
@@ -175,7 +176,7 @@ namespace Spark
         }
     }
     
-    bool PlatformFileWindows::DeleteDirectoryRecursively(const char* Directory)
+    bool PlatformFileLinux::DeleteDirectoryRecursively(const char* Directory)
     {
         bool result = true;
         for(auto entry : std::filesystem::directory_iterator(Directory))
@@ -189,29 +190,29 @@ namespace Spark
         return result;
     }
     
-    bool PlatformFileWindows::CreateDirectoryTree(const char* Directory)
+    bool PlatformFileLinux::CreateDirectoryTree(const char* Directory)
     {
         return std::filesystem::create_directories(Directory);
     }
 
-    bool PlatformFileWindows::CopyFile(const char* To, const char* From, EPlatformFileRead ReadFlags, EPlatformFileWrite WriteFlags)
+    bool PlatformFileLinux::CopyFile(const char* To, const char* From, EPlatformFileRead ReadFlags, EPlatformFileWrite WriteFlags)
     {
         return std::filesystem::copy_file(From, To, std::filesystem::copy_options::update_existing);
     }
 
-    bool PlatformFileWindows::CopyDirectoryTree(const char* DestinationDirectory, const char* Source, bool OverwriteAllExisting)
+    bool PlatformFileLinux::CopyDirectoryTree(const char* DestinationDirectory, const char* Source, bool OverwriteAllExisting)
     {
-        CORE_ASSERT(false, "FileHandleWindows::CopyDirectoryTree not impelemented!");
+        CORE_ASSERT(false, "FileHandleLinux::CopyDirectoryTree not impelemented!");
         return false;
     }
 
-    // IPlatformFile Windows Implementation ------------------------
+    // IPlatformFile Linux Implementation ------------------------
     IPlatformFile* IPlatformFile::Get()
     {
-        static PlatformFileWindows singleton;
+        static PlatformFileLinux singleton;
         return &singleton;
     }
     // -------------------------------------------------------------
 }
 
-#endif //BUILD_WINDOWS
+#endif //BUILD_LINUX
