@@ -182,7 +182,7 @@ function(sbs_add_module)
     #Add ThirdParty dependencies;
     if(EXISTS ${SBS_MODULE_DIR}/ThirdParty)
         message("Third party folder for module ${SBS_MODULE_NAME} found. Checking...")
-        file(GLOB folders RELATIVE ${SBS_MODULE_DIR}/ThirdParty ${SBS_MODULE_DIR}/ThirdParty/*)
+        file(GLOB folders RELATIVE ${SBS_MODULE_DIR}/ThirdParty ${SBS_MODULE_DIR}/ThirdParty/[a-zA-Z0-9]*)
         foreach(folder ${folders})
             add_subdirectory(${SBS_MODULE_DIR}/ThirdParty/${folder})
             #target_link_libraries(${SBS_MODULE_NAME} ${folder})

@@ -6,6 +6,8 @@
 #include "Spark/Windows/WindowsPlatform.h"
 #elif BUILD_LINUX
 #include "Spark/Linux/LinuxPlatform.h"
+#elif BUILD_MAC
+#include "Spark/Mac/MacPlatform.h"
 #endif
 
 
@@ -27,6 +29,8 @@ Platform *Platform::Create()
     return new WindowsPlatform();
 #elif BUILD_LINUX
     return new LinuxPlatform();
+#elif BUILD_MAC
+    return new MacPlatform();
 #else
     CORE_ASSERT(false, "Unsupported platform!");
     return nullptr;
