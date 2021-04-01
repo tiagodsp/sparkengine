@@ -1,9 +1,8 @@
 #pragma once
 
 #include "Spark/Engine/Object/Object.h"
-#include "Spark/Engine/GameFramework/EntityComponentManager.h"
 #include "Spark/Events/Event.h"
-#include "Spark/Engine/GameFramework/Entity.h"
+// #include "Spark/Engine/GameFramework/Entity.h"
 
 #include "sparkengine.api.gen.h"
 
@@ -12,6 +11,7 @@ namespace Spark
     class World;
     class Timestep;
     class EntityComponentManager;
+    class Entity;
 
     class SPARKENGINE_API Level : public Object
     {

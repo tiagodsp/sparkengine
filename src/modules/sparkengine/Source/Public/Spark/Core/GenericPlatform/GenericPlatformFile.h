@@ -24,7 +24,7 @@ namespace Spark
     class SPARKENGINE_API IFileHandle
     {
     public:
-        ~IFileHandle(){}
+        virtual ~IFileHandle(){}
 
         /** 
          * Return the current write or read position. 

@@ -1,5 +1,6 @@
 #include "sparkengine.PCH.h"
 #include "Spark/Engine/World.h"
+#include "Spark/Engine/Level.h"
 
 REFLECTION_CLASS_BEGIN(Spark::World)
 REFLECTION_CLASS_END()

@@ -4,6 +4,8 @@
 #include "Spark/Engine/Components/Component.h"
 #include "Spark/Core/Timestep.h"
 #include "Spark/Events/Event.h"
+#include "Spark/Engine/GameFramework/EntityComponentManager.h"
+#include "Spark/Engine/Level.h"
 
 #include "Spark/Engine/Object/Object.h"
 #include "glm/glm.hpp"
@@ -32,7 +34,7 @@ namespace Spark
     };
     
     
-    class Level;
+    // class Level;
 
     class SPARKENGINE_API Entity : public Object
     {

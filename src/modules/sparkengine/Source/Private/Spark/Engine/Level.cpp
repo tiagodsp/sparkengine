@@ -1,6 +1,7 @@
 #include "sparkengine.PCH.h"
 #include "Spark/Engine/Level.h"
 #include "Spark/Engine/World.h"
+#include "Spark/Engine/GameFramework/Entity.h"
 
 namespace Spark
 {

@@ -11,9 +11,7 @@
 #include "sparkengine.api.gen.h"
 
 namespace Spark
-{
-    class Entity;
-    
+{    
     constexpr std::size_t MaxComponents{32};
     using EntityID = std::size_t;
     
