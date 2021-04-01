@@ -23,7 +23,21 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "LLVM")
     add_compile_options(-MDd -Wall -Wextra -fvisibility=hidden -Wno-unused-parameter -Wno-unused-variable -fcxx-exceptions -Wno-documentation -Wno-reorder)
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     #Clang
-    add_compile_options(-MDd -Wno-unused-parameter -Wno-unused-variable -Wno-documentation -Wno-reorder -Wno-c++98-compat-pedantic -Wno-documentation-unknown-command -Wno-deprecated-declarations -Wno-reserved-id-macro)
+    add_compile_options(
+        -MDd
+        -fPIC
+        -fms-compatibility
+        -fdiagnostics-show-template-tree
+        -fdelayed-template-parsing
+        -Wno-unused-parameter
+        -Wno-unused-variable
+        -Wno-documentation
+        -Wno-reorder
+        -Wno-c++98-compat-pedantic
+        -Wno-documentation-unknown-command
+        -Wno-deprecated-declarations
+        -Wno-reserved-id-macro
+    )
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     # MSVC
     add_compile_options(/EHsc /MDd /W2 /c)
@@ -44,13 +58,15 @@ if("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
     add_definitions("-DBUILD_WINDOWS")
 elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
     add_definitions("-DBUILD_LINUX")
+elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
+    add_definitions("-DBUILD_MAC")
 else()
     message( FATAL_ERROR "Platform not supported, CMake will exit." )
 endif()
 message(STATUS "Building for ${CMAKE_SYSTEM_NAME} platform.")
 
 
-set(CMAKE_CXX_FLAGS "-lstdc++fs")
+# set(CMAKE_CXX_FLAGS "-lstdc++fs")
 
 #Variable definitions:
 set(SPARKBUILDSYSTEM_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
