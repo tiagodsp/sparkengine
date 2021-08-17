@@ -13,7 +13,7 @@ namespace Spark
         float zNear;
         float zFar;
         
-        PerspectiveCameraParameters(float fov, float aspectRation, float zNear, float zFar)
+        PerspectiveCameraParameters(float fov, float aspectRatio, float zNear, float zFar)
             : fov(fov), aspectRatio(aspectRatio), zNear(zNear), zFar(zFar)
         {}
     };
@@ -37,7 +37,7 @@ namespace Spark
 
         void SetProjection(PerspectiveCameraParameters parameters);
 
-        virtual void SetAspectRatio(float aspectRation) override { m_Parameters.aspectRatio = aspectRation; RecalculateViewMatrix(); }
+        virtual void SetAspectRatio(float aspectRatio) override { m_Parameters.aspectRatio = aspectRatio; RecalculateViewMatrix(); }
 
         const glm::vec3& GetPosition() const override { return m_Position; }
         void SetPosition(const glm::vec3& position) override { m_Position = position; RecalculateViewMatrix(); }

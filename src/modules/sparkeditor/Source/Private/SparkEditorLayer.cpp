@@ -33,7 +33,7 @@ namespace Spark
         
         FramebufferProperties props;        
         props.Size = { Application::Get().GetWindow().GetWidth(), Application::Get().GetWindow().GetHeight() };
-        m_MainViewportFramebuffer = IFramebuffer::Create(props);
+//        m_MainViewportFramebuffer = IFramebuffer::Create(props);
     }
 
     SparkEditorLayer::~SparkEditorLayer()
@@ -54,9 +54,9 @@ namespace Spark
         Entity* actorobj = (Entity*) NewObject("Spark::Entity");
         m_CameraActor.reset(actorobj);
         m_CameraActor->AddComponent<TransformComponent>();
-        PerspectiveCameraParameters params(45.0f, 16.0f/9.0f, 1.0f, -1000.0f);
+        PerspectiveCameraParameters params(45.0f, 16.0f / 9.0f, 0.1f, -1000.0f);
         m_CameraActor->AddComponent<CameraComponent>(std::make_shared<PerspectiveCamera>(params));
-        //m_CameraActor->AddComponent<CameraComponent>(std::make_shared<OrthographicCamera>(-100,100,-100,100));
+//        m_CameraActor->AddComponent<CameraComponent>(std::make_shared<OrthographicCamera>(-100,100,-100,100));
 
         //m_Texture = Spark::Texture2D::Create("Assets/Textures/digital.png");
 
@@ -65,12 +65,13 @@ namespace Spark
         Entity* mesh = (Entity*) NewObject("Spark::Entity");
         //mesh->AddComponent<MeshComponent>("E:/aquelamaquinala.glb");
         mesh->AddComponent<MeshComponent>("./Assets/Meshes/monkey.glb");
+//        mesh->AddComponent<MeshComponent>("./Assets/Meshes/uvcube.glb");
         mesh->AddComponent<TransformComponent>();
-        auto texshader = m_ShaderLibrary->Load("./Assets/Shaders/TextureMesh.glsl");
+        auto texshader = m_ShaderLibrary->Load("./Assets/Shaders/TextureMesh.metal");
 
         m_Texture = Spark::Texture2D::Create("./Assets/Textures/UV_Grid_Sm.jpg");
-        texshader->Bind();
-        texshader->UploadUniformInt("u_Texture", 0);
+//        texshader->Bind();
+//        texshader->UploadUniformInt("u_Texture", 0);
 
 
 
@@ -86,25 +87,37 @@ namespace Spark
 
         GWorld->Update(delta);
 
-        m_MainViewportFramebuffer->Bind();
+//        m_MainViewportFramebuffer->Bind();
         RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
         RenderCommand::Clear();
 
         Renderer::BeginScene(*m_CameraActor->GetComponent<CameraComponent>()->GetCamera());
+//        Renderer2D::BeginScene(*m_CameraActor->GetComponent<CameraComponent>()->GetCamera());
 
+//        GWorld->GetContext().Each<CameraComponent>([&](EntityID e, CameraComponent* meshComponent){
+//            auto transform = GWorld->GetContext().Get<TransformComponent>(e);
+//            Renderer2D::DrawQuad(transform->Position, {1,1}, glm::vec4(transform->Position.x,transform->Position.y,transform->Position.z,1));
+////            m_Texture->Bind();
+////            for(auto va : meshComponent->GetVertexArrays())
+////                Renderer::Submit(m_ShaderLibrary->Get("TextureMesh"), va, transform->GetMatrix());
+////            m_Texture->Unbind();
+//        });
+        
         GWorld->GetContext().Each<MeshComponent>([&](EntityID e, MeshComponent* meshComponent){
-            auto transform = GWorld->GetContext().Get<TransformComponent>(e);
-            m_Texture->Bind();
-            for(auto va : meshComponent->GetVertexArrays())
-                Renderer::Submit(m_ShaderLibrary->Get("TextureMesh"), va, transform->GetMatrix());
-            m_Texture->Unbind();
-        });
+                    auto transform = GWorld->GetContext().Get<TransformComponent>(e);
+            transform->Scale = glm::vec3(.01f,.01f,.01f);
+//                    m_Texture->Bind();
+//                    Renderer2D::DrawQuad(transform->Position, {10,10}, glm::vec4(1,0,0,1));
+                    for(auto va : meshComponent->GetVertexArrays())
+                        Renderer::Submit(m_ShaderLibrary->Get("TextureMesh"), va, transform->GetMatrix());
+//                    m_Texture->Unbind();
+                });
 
-        //Renderer2D::DrawQuad(glm::vec3({0.0f, 0.0f, 0.0f}), glm::vec2({1.0f, 1.0f}), glm::vec4({1.0f, 1.0f, 1.0f, 1.0f}), m_Texture);
-        //Renderer2D::DrawQuad(glm::vec3({0.1f, 0.0f, -0.1f}), glm::vec2({1.0f, 1.0f}), glm::vec4({1.0f, 0.0f, 0.0f, 1.0f}));
+//        Renderer2D::DrawQuad(glm::vec3({0.0f, 0.0f, 0.0f}), glm::vec2({1.0f, 1.0f}), glm::vec4({1.0f, 1.0f, 1.0f, 1.0f}), m_Texture);
+//        Renderer2D::DrawQuad(glm::vec3({0.1f, 0.0f, -0.1f}), glm::vec2({1.0f, 1.0f}), glm::vec4({1.0f, 0.0f, 0.0f, 1.0f}));
 
         Renderer::EndScene();
-        m_MainViewportFramebuffer->Unbind();
+//        m_MainViewportFramebuffer->Unbind();
     }
 
     void SparkEditorLayer::OnImGuiRender(ImGuiContext* context)

@@ -4,6 +4,6 @@
 namespace Spark
 {
 
-PlatformRendererAPI::API PlatformRendererAPI::s_API = PlatformRendererAPI::API::OpenGL;
+PlatformRendererAPI::API PlatformRendererAPI::s_API = PlatformRendererAPI::API::None;
 
 } // namespace Spark

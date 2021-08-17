@@ -1,19 +1,27 @@
 #pragma once
 #include "Spark/Renderer/IShader.h"
+#include <Metal/Metal.h>
 #include "glad/glad.h"
 
 namespace Spark
 {
+
+struct UniformData {
+    size_t size;
+    const char* data;
+};
+
+
 /**
- * OpenGL Shader implementation
+ * Metal Shader implementation
  */
-class OpenGLShader final : public IShader
+class MetalShader final : public IShader
 {
 public:
-    OpenGLShader(const std::string &filepath);
-    OpenGLShader(const std::string &name, const std::string &vertexSource, const std::string &fragmentSource);
+    MetalShader(const std::string &filepath);
+    MetalShader(const std::string &name, const std::string &sourceShader);
     
-    ~OpenGLShader();
+    ~MetalShader();
 
     virtual void Bind() override;
     virtual void Unbind() const override;
@@ -36,10 +44,14 @@ public:
 private:
     std::string ReadFile(const std::string& filepath);
     std::unordered_map<GLenum, std::string> PreProcess(const std::string& filepath);
-    void Compile(std::unordered_map<GLenum, std::string> sourceShaders);
+    void Compile(std::string sourceShader);
 
 private:
-    GLuint m_RendererID;
     std::string m_Name;
+    MTLRenderPipelineDescriptor* m_PipelineDescriptor;
+    id<MTLRenderPipelineState> m_RenderPipelineState;
+    id<MTLBuffer> m_UniformsBuffer;
+    std::vector<UniformData> m_UniformsData;
+    
 };
 } // namespace Spark

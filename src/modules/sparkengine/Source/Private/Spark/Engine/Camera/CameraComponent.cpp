@@ -36,9 +36,9 @@ namespace Spark
                 t->Position += glm::vec3(-m_CameraSpeed * ts, 0, 0);
 
             if (Spark::Input::IsKeyPressed(SPARK_KEY_UP))
-                t->Position += glm::vec3(0, m_CameraSpeed * ts, 0);
+                t->Position += glm::vec3(0, 0, m_CameraSpeed * ts);
             else if (Spark::Input::IsKeyPressed(SPARK_KEY_DOWN))
-                t->Position += glm::vec3(0, -m_CameraSpeed * ts, 0);
+                t->Position += glm::vec3(0, 0, -m_CameraSpeed * ts);
             
             m_Camera->SetPosition(t->Position);
         }

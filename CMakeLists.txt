@@ -17,10 +17,30 @@ endif()
 message("[${SBS_MODULE_NAME}] - Setting compilation options for ${CMAKE_CXX_COMPILER_ID}")
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     # G++
-    add_compile_options(-MD -fPIC -Wall -Wextra -fvisibility=hidden -Wno-unused-parameter -Wno-unused-variable -Wno-documentation -Wno-reorder)
+    add_compile_options(
+        -MD
+        -fPIC
+        -Wall
+        -Wextra
+        -fvisibility=hidden
+        -Wno-unused-parameter
+        -Wno-unused-variable
+        -Wno-documentation
+        -Wno-reorder
+    )
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "LLVM")
     #Clang
-    add_compile_options(-MDd -Wall -Wextra -fvisibility=hidden -Wno-unused-parameter -Wno-unused-variable -fcxx-exceptions -Wno-documentation -Wno-reorder)
+    add_compile_options(
+        -MDd
+        -Wall
+        -Wextra
+        -fvisibility=hidden
+        -Wno-unused-parameter
+        -Wno-unused-variable
+        -fcxx-exceptions
+        -Wno-documentation
+        -Wno-reorder
+    )
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     #Clang
     add_compile_options(
@@ -65,9 +85,6 @@ else()
 endif()
 message(STATUS "Building for ${CMAKE_SYSTEM_NAME} platform.")
 
-
-# set(CMAKE_CXX_FLAGS "-lstdc++fs")
-
 #Variable definitions:
 set(SPARKBUILDSYSTEM_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
 
@@ -97,6 +114,34 @@ function(addfileslist result dir extensions)
 endfunction()
 
 ##
+#   Group source files in its folder structure inteded to display correctly in IDEs
+##
+function(GroupSourcesByFolder target)
+    set(SOURCE_GROUP_DELIMITER "/")
+    set(last_dir "")
+    set(files "")
+
+    get_target_property(sources ${target} SOURCES)
+
+    foreach(file ${sources})
+        file(RELATIVE_PATH relative_file "${CMAKE_CURRENT_LIST_DIR}" ${file})
+        get_filename_component(dir "${relative_file}" PATH)
+        if(NOT "${dir}" STREQUAL "${last_dir}")
+            if(files)
+                source_group("${last_dir}" FILES ${files})
+            endif()
+            set(files "")
+        endif()
+        set(files ${files} ${file})
+        set(last_dir "${dir}")
+    endforeach()
+
+    if(files)
+        source_group("${last_dir}" FILES ${files})
+    endif()
+endfunction()
+
+##
 #   Function to help a configure a module.
 ##
 function(sbs_add_module)
@@ -105,6 +150,7 @@ function(sbs_add_module)
         PROGRAM
         MODULE
         USE_PCH
+        OBJECTIVE_CXX
     )
     set(lists_params
         DEPENDS
@@ -128,7 +174,7 @@ function(sbs_add_module)
     # Add source files
     message("[${SBS_MODULE_NAME}] - Searching source files (${SBS_MODULE_DIR}).")
     foreach(sourcepath ${sbs_add_module_SOURCE_PATHS})
-        addfileslist(module_source_files "${SBS_MODULE_DIR}/${sourcepath}" "cpp;cxx;c;cc")
+        addfileslist(module_source_files "${SBS_MODULE_DIR}/${sourcepath}" "h;hpp;cpp;cxx;c;cc;m;mm")
     endforeach()
     foreach(file ${module_source_files})
         message("[${SBS_MODULE_NAME}] -    ++ ${file}")
@@ -143,6 +189,7 @@ function(sbs_add_module)
         message("[${SBS_MODULE_NAME}] - Building mode set as Program")
         add_executable(${SBS_MODULE_NAME} ${module_source_files})
     endif()
+    GroupSourcesByFolder(${SBS_MODULE_NAME})
 
     target_compile_definitions(${SBS_MODULE_NAME} PRIVATE ${SBS_MODULE_NAME_UPPER}_BUILD)
 
@@ -185,6 +232,13 @@ function(sbs_add_module)
         file(GLOB folders RELATIVE ${SBS_MODULE_DIR}/ThirdParty ${SBS_MODULE_DIR}/ThirdParty/[a-zA-Z0-9]*)
         foreach(folder ${folders})
             add_subdirectory(${SBS_MODULE_DIR}/ThirdParty/${folder})
+            set_target_properties(
+                ${folder} PROPERTIES
+                # RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
+                # LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
+                # ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
+                FOLDER "Modules/${SBS_MODULE_NAME}/ThirdParty"
+            )
             #target_link_libraries(${SBS_MODULE_NAME} ${folder})
         endforeach()
     endif()
@@ -208,8 +262,15 @@ function(sbs_add_module)
         endif()
     endif()
 
-    
-    
+    if(sbs_add_module_OBJECTIVE_CXX)
+        target_compile_options(${SBS_MODULE_NAME} PRIVATE -x objective-c++)
+        # target_link_options(${SBS_MODULE_NAME} PRIVATE -framework Foundation)
+        # TODO - Remove MacOS library dependencies from here and declare them on target CMakeList.txt
+        target_link_options(${SBS_MODULE_NAME} PRIVATE "SHELL:-framework AppKit")
+        target_link_options(${SBS_MODULE_NAME} PRIVATE "SHELL:-framework Metal")
+        target_link_options(${SBS_MODULE_NAME} PRIVATE "SHELL:-framework QuartzCore")
+    endif()
+
     # Set target output paths.
     set_target_properties(
         ${SBS_MODULE_NAME} PROPERTIES

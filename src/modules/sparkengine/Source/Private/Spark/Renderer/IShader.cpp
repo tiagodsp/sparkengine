@@ -2,6 +2,7 @@
 #include "Spark/Renderer/IShader.h"
 #include "Spark/Renderer/Renderer.h"
 #include "Spark/OpenGL/OpenGLShader.h"
+#include "Spark/Metal/MetalShader.h"
 
 namespace Spark
 {
@@ -14,6 +15,8 @@ namespace Spark
             CORE_ASSERT(false, "PlatformRendererAPI::API::None is currently not supported!");
         case PlatformRendererAPI::API::OpenGL:
             return std::make_shared<OpenGLShader>(filepath);
+        case PlatformRendererAPI::API::Metal:
+            return std::make_shared<MetalShader>(filepath);
         default:
             CORE_ASSERT(false, "PlatformRendererAPI::API not supported!");
         }
@@ -28,6 +31,8 @@ namespace Spark
             CORE_ASSERT(false, "PlatformRendererAPI::API::None is currently not supported!");
         case PlatformRendererAPI::API::OpenGL:
             return std::make_shared<OpenGLShader>(name, vertexSource, fragmentSource);
+        case PlatformRendererAPI::API::Metal:
+            return std::make_shared<MetalShader>(name, vertexSource);
         default:
             CORE_ASSERT(false, "PlatformRendererAPI::API not supported!");
         }

@@ -32,8 +32,8 @@ namespace Spark
 
         Renderer::Init();
 
-        m_ImGuiLayer.reset(new ImGuiLayer());
-        m_ImGuiLayer->OnAttach();
+//        m_ImGuiLayer.reset(new ImGuiLayer());
+//        m_ImGuiLayer->OnAttach();
         //PushLayer(m_ImGuiLayer.get());
     }
 
@@ -61,12 +61,12 @@ namespace Spark
                 }
             }
             
-            m_ImGuiLayer->Begin();
-            for (Layer *layer : m_LayerStack)
-            {   
-                layer->OnImGuiRender(m_ImGuiLayer->GetImGuiContext());
-            }
-            m_ImGuiLayer->End();
+//            m_ImGuiLayer->Begin();
+//            for (Layer *layer : m_LayerStack)
+//            {   
+//                layer->OnImGuiRender(m_ImGuiLayer->GetImGuiContext());
+//            }
+//            m_ImGuiLayer->End();
             
             // Update Window.
             m_PlatformWindow->OnUpdate();
@@ -81,7 +81,7 @@ namespace Spark
         dispatcher.Dispatch<WindowResizeEvent>(std::bind(&Application::OnWindowResize, this, std::placeholders::_1));
 
         //Dispatch events to GUI.
-        m_ImGuiLayer->OnEvent(e);
+//        m_ImGuiLayer->OnEvent(e);
         
         // Dispatch events to each layer.
         for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)

@@ -2,6 +2,7 @@
 #include "Spark/Renderer/Texture.h"
 #include "Spark/Renderer/Renderer.h"
 #include "Spark/OpenGL/OpenGLTexture2D.h"
+#include "Spark/Metal/MetalTexture2D.h"
 
 namespace Spark
 {
@@ -14,6 +15,9 @@ namespace Spark
             break;
         case PlatformRendererAPI::API::OpenGL:
             return std::make_shared<OpenGLTexture2D>(Width, Height, TextureFormat);
+            break;
+        case PlatformRendererAPI::API::Metal:
+            return std::make_shared<MetalTexture2D>(Width, Height, TextureFormat);
             break;
         default:
             return nullptr;
@@ -29,6 +33,9 @@ namespace Spark
             break;
         case PlatformRendererAPI::API::OpenGL:
             return std::make_shared<OpenGLTexture2D>(filepath);
+            break;
+        case PlatformRendererAPI::API::Metal:
+            return std::make_shared<MetalTexture2D>(filepath);
             break;
         default:
             return nullptr;

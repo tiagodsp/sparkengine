@@ -3,6 +3,7 @@
 #include "Spark/Renderer/Renderer.h"
 
 #include "Spark/OpenGL/OpenGLVertexArray.h"
+#include "Spark/Metal/MetalVertexArray.h"
 
 namespace Spark
 {
@@ -16,6 +17,9 @@ Ref<IVertexArray> IVertexArray::Create()
         return nullptr;
     case PlatformRendererAPI::API::OpenGL:
         return std::make_shared<OpenGLVertexArray>();
+        break;
+    case PlatformRendererAPI::API::Metal:
+        return std::make_shared<MetalVertexArray>();
         break;
     }
 }

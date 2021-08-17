@@ -1,0 +1,12 @@
+sbs_add_module(
+    PROGRAM
+    USE_PCH
+    OBJECTIVE_CXX
+    SOURCE_PATHS
+        "Source/Public/"
+        "Source/Private/"
+    PUBLIC_INCLUDE_PATHS
+        "Source/Public/"
+    PRIVATE_INCLUDE_PATHS
+        "Source/Private/"
+)

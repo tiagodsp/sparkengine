@@ -16,6 +16,8 @@ namespace Spark
 
     void OpenGLPlatformRendererAPI::Init()
     {
+        s_API = API::OpenGL; // Set current render as OpenGL;
+        
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         

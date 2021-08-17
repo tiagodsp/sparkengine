@@ -25,13 +25,14 @@ namespace Spark
     }
     void Renderer::EndScene()
     {
+        RenderCommand::Commit();
     }
 
     void Renderer::Submit(const Ref<IShader> &shader, const Ref<IVertexArray> &vertexArray, const glm::mat4 &transform)
     {
-        shader->Bind();
         shader->UploadUniformMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
         shader->UploadUniformMat4("u_Transform", transform);
+        shader->Bind();
 
         vertexArray->Bind();
         RenderCommand::DrawIndexed(vertexArray);
@@ -43,6 +44,21 @@ namespace Spark
     void Renderer::OnWindowResize(uint32 Width, uint32 Height)
     {
         RenderCommand::SetViewport(0, 0, Width, Height);
+    }
+
+    Ref<IGraphicsContext> Renderer::GetGraphicsContext()
+    {
+        return RenderCommand::GetGraphicsContext();
+    }
+
+    void Renderer::SetGraphicsContext(Ref<IGraphicsContext> context)
+    {
+        RenderCommand::SetGraphicsContext(context);
+    }
+
+    Ref<PlatformRendererAPI> Renderer::GetLowLevelAPI()
+    {
+        return RenderCommand::s_RendererAPI;
     }
 
 } // namespace Spark

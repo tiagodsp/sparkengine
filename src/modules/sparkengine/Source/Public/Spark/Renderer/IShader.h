@@ -11,7 +11,7 @@ namespace Spark
     class SPARKENGINE_API IShader
     {
     public:
-        virtual void Bind() const = 0;
+        virtual void Bind() = 0;
         virtual void Unbind() const = 0;
 
         virtual const std::string& GetName() const = 0;
@@ -21,8 +21,8 @@ namespace Spark
 
         // Float Uniforms -----------------
         virtual void UploadUniformFloat(const std::string &name, float f) = 0;
-        virtual void UploadUniformFloat3(const std::string &name, const glm::vec2 &vector) = 0;
-        virtual void UploadUniformFloat2(const std::string &name, const glm::vec3 &vector) = 0;
+        virtual void UploadUniformFloat2(const std::string &name, const glm::vec2 &vector) = 0;
+        virtual void UploadUniformFloat3(const std::string &name, const glm::vec3 &vector) = 0;
         virtual void UploadUniformFloat4(const std::string &name, const glm::vec4 &vector) = 0;
 
         // Interger uniforms -----------------

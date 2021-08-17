@@ -32,7 +32,8 @@ namespace Spark
 
     private:
         GLFWwindow* m_Window;
-        IGraphicsContext* m_GraphicsContext;
+    public:
+        Ref<IGraphicsContext> m_GraphicsContext;
         
         struct WindowData
         {

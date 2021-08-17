@@ -13,6 +13,8 @@ OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32 size)
     glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
     glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+    m_Offset = 0;
+    m_Size = size;
 }
 
 OpenGLVertexBuffer::~OpenGLVertexBuffer()

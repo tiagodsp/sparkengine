@@ -50,7 +50,7 @@ OpenGLShader::~OpenGLShader()
     glDeleteProgram(m_RendererID);
 }
 
-void OpenGLShader::Bind() const
+void OpenGLShader::Bind()
 {
     glUseProgram(m_RendererID);
 }
@@ -66,13 +66,13 @@ void OpenGLShader::UploadUniformFloat(const std::string &name, float f)
     glUniform1f(location, f);
 }
 
-void OpenGLShader::UploadUniformFloat3(const std::string &name, const glm::vec2 &vector)
+void OpenGLShader::UploadUniformFloat2(const std::string &name, const glm::vec2 &vector)
 {
     GLint location = glGetUniformLocation(m_RendererID, name.c_str());
     glUniform2fv(location, 1, glm::value_ptr(vector));
 }
 
-void OpenGLShader::UploadUniformFloat2(const std::string &name, const glm::vec3 &vector)
+void OpenGLShader::UploadUniformFloat3(const std::string &name, const glm::vec3 &vector)
 {
     GLint location = glGetUniformLocation(m_RendererID, name.c_str());
     glUniform3fv(location, 1, glm::value_ptr(vector));

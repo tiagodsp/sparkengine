@@ -1,15 +1,17 @@
 #pragma once
 
 #include "Spark/Renderer/IBuffer.h"
+#include <Metal/Metal.h>
 
 namespace Spark
 {
     
-class OpenGLVertexBuffer : public IVertexBuffer
+class MetalVertexBuffer : public IVertexBuffer
 {
+    friend class MetalPlatformRendererAPI;
 public:
-    OpenGLVertexBuffer(float* vertices, uint32 size);
-    virtual ~OpenGLVertexBuffer();
+    MetalVertexBuffer(float* vertices, uint32 size);
+    virtual ~MetalVertexBuffer();
 
     virtual void Bind() const override;
     virtual void Unbind() const override;
@@ -17,29 +19,31 @@ public:
     virtual void SetOffset(uint32 offset) override { m_Offset = offset; }
     virtual uint32 GetOffset() override { return m_Offset; }
     virtual uint32 GetSize() override {return m_Size; };
+                           
 
     virtual BufferLayout GetLayout() const override;
     virtual void SetLayout(const BufferLayout& layout) override;
 
 private:
     BufferLayout m_Layout = {};
-    uint32 m_RendererID;
+    id<MTLBuffer> m_Buffer;
     uint32 m_Offset;
     uint32 m_Size;
 };
 
-class OpenGLIndexBuffer : public IIndexBuffer
+class MetalIndexBuffer : public IIndexBuffer
 {
+    friend class MetalPlatformRendererAPI;
 public:
-    OpenGLIndexBuffer(uint32* indices, uint32 count);
-    virtual ~OpenGLIndexBuffer();
+    MetalIndexBuffer(uint32* indices, uint32 count);
+    virtual ~MetalIndexBuffer();
 
     virtual void Bind() const override;
     virtual void Unbind() const override;
 
     virtual inline uint32 GetCount() const override { return m_Count; }
 private:
-    uint32 m_RendererID;
+    id<MTLBuffer> m_Buffer;
     uint32 m_Count;
 };
 

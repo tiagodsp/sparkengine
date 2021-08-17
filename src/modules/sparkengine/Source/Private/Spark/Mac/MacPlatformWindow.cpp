@@ -9,7 +9,9 @@
 #include "Spark/Events/KeyEvent.h"
 #include "Spark/Events/MouseEvent.h"
 
+#include "Spark/Renderer/Renderer.h"
 #include "Spark/OpenGL/OpenGLGraphicsContext.h"
+#include "Spark/Metal/MetalGraphicsContext.h"
 
 #include "GLFW/glfw3.h"
 
@@ -48,10 +50,11 @@ namespace Spark
         {
             // TODO: glfwTerminate on system shutdown
             int success = glfwInit();
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-            glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+            glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+//            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+//            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+//            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+//            glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
             CORE_ASSERT(success, "Could not initialize GLFW");
             glfwSetErrorCallback([](int error, const char* description){
@@ -62,8 +65,9 @@ namespace Spark
 
         m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
         
-        m_GraphicsContext = new OpenGLGraphicsContext(m_Window);
+        m_GraphicsContext = std::make_shared<MetalGraphicsContext>(m_Window);
         m_GraphicsContext->Init();
+        Renderer::SetGraphicsContext(m_GraphicsContext);
         
         glfwSetWindowUserPointer(m_Window, &m_Data);
         SetVSync(true);

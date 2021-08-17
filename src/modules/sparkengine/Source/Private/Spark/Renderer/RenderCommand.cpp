@@ -2,10 +2,11 @@
 #include "Spark/Renderer/RenderCommand.h"
 
 #include "Spark/OpenGL/OpenGLPlatformRendererAPI.h"
+#include "Spark/Metal/MetalPlatformRendererAPI.h"
 
 namespace Spark
 {
 
-PlatformRendererAPI* RenderCommand::s_RendererAPI = new OpenGLPlatformRendererAPI();
+Ref<PlatformRendererAPI> RenderCommand::s_RendererAPI = std::make_shared<MetalPlatformRendererAPI>();
 
 }

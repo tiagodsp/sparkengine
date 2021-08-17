@@ -143,6 +143,10 @@ public:
 
     virtual BufferLayout GetLayout() const = 0;
     virtual void SetLayout(const BufferLayout& layout) = 0;
+    
+    virtual void SetOffset(uint32 offset) = 0;
+    virtual uint32 GetOffset() = 0;
+    virtual uint32 GetSize() = 0;
 
     static Ref<IVertexBuffer> Create(float* vertices, uint32 size);
 };
