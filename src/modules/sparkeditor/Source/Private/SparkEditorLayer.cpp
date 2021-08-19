@@ -64,8 +64,9 @@ namespace Spark
 
         Entity* mesh = (Entity*) NewObject("Spark::Entity");
         //mesh->AddComponent<MeshComponent>("E:/aquelamaquinala.glb");
-        mesh->AddComponent<MeshComponent>("./Assets/Meshes/monkey.glb");
+       mesh->AddComponent<MeshComponent>("./Assets/Meshes/monkey.glb");
 //        mesh->AddComponent<MeshComponent>("./Assets/Meshes/uvcube.glb");
+        // mesh->AddComponent<MeshComponent>("/Users/tiagodsp/Downloads/aquelaturbinala.glb");
         mesh->AddComponent<TransformComponent>();
         auto texshader = m_ShaderLibrary->Load("./Assets/Shaders/TextureMesh.metal");
 

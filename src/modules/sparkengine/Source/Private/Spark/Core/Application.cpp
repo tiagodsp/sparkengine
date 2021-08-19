@@ -61,12 +61,12 @@ namespace Spark
                 }
             }
             
-//            m_ImGuiLayer->Begin();
-//            for (Layer *layer : m_LayerStack)
-//            {   
-//                layer->OnImGuiRender(m_ImGuiLayer->GetImGuiContext());
-//            }
-//            m_ImGuiLayer->End();
+        //    m_ImGuiLayer->Begin();
+        //    for (Layer *layer : m_LayerStack)
+        //    {   
+        //        layer->OnImGuiRender(m_ImGuiLayer->GetImGuiContext());
+        //    }
+        //    m_ImGuiLayer->End();
             
             // Update Window.
             m_PlatformWindow->OnUpdate();

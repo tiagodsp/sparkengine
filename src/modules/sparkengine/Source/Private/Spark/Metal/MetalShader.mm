@@ -34,7 +34,7 @@ MetalShader::~MetalShader()
 
 void MetalShader::Bind()
 {
-    Ref<MetalPlatformRendererAPI> metalApi = std::static_pointer_cast<MetalPlatformRendererAPI>(Renderer::GetLowLevelAPI());
+    Ref<MetalGraphicsContext> context = std::static_pointer_cast<MetalGraphicsContext>(Renderer::GetGraphicsContext());
     
     uint32 uniformBufferSize = 0;
     for(auto u : m_UniformsData)
@@ -51,13 +51,12 @@ void MetalShader::Bind()
         offset += u.size;
     }
 
-    id<MTLBuffer> buffer = [metalApi->m_Device newBufferWithBytes:bufferData length:uniformBufferSize options:MTLResourceOptionCPUCacheModeDefault];
+    id<MTLBuffer> buffer = [context->m_Device newBufferWithBytes:bufferData length:uniformBufferSize options:MTLResourceOptionCPUCacheModeDefault];
     delete bufferData;
     m_UniformsData.clear();
     
-    id<MTLRenderCommandEncoder> encoder = metalApi->m_CommandEncoder;
-    [encoder setRenderPipelineState:m_RenderPipelineState];
-    [encoder setVertexBuffer:buffer offset:0 atIndex:1];
+    [context->m_CommandEncoder setRenderPipelineState:m_RenderPipelineState];
+    [context->m_CommandEncoder setVertexBuffer:buffer offset:0 atIndex:1];
 }
 
 void MetalShader::Unbind() const
@@ -130,9 +129,10 @@ void MetalShader::Compile(std::string sourceShader)
 {
     NSString* source = [NSString stringWithCString:sourceShader.c_str() encoding:[NSString defaultCStringEncoding]];
     
-    id<MTLDevice> device = std::static_pointer_cast<MetalPlatformRendererAPI>(Renderer::GetLowLevelAPI())->m_Device;
+    Ref<MetalGraphicsContext> context = std::static_pointer_cast<MetalGraphicsContext>(Renderer::GetGraphicsContext());
+    
     NSError* errors = nil;
-    id<MTLLibrary> library = [device newLibraryWithSource:source options:nil error:&errors];
+    id<MTLLibrary> library = [context->m_Device newLibraryWithSource:source options:nil error:&errors];
     if(errors)
     {
         CORE_LOGF("Shader \"{0}\" compilation failure!", m_Name);
@@ -140,38 +140,13 @@ void MetalShader::Compile(std::string sourceShader)
         CORE_ASSERT(false, "Shader compilation failure!");
     }
     
-    // Preprare Vertex Descriptor -------
-    MTLVertexDescriptor* vertexDesc = [[MTLVertexDescriptor alloc] init];
-    // Position
-    vertexDesc.attributes[0].format = MTLVertexFormatFloat3;
-    vertexDesc.attributes[0].bufferIndex = 0;
-    vertexDesc.attributes[0].offset = 0;
-
-    // Normal
-//    vertexDesc.attributes[1].format = MTLVertexFormatFloat3;
-//    vertexDesc.attributes[1].bufferIndex = 0;
-//    vertexDesc.attributes[1].offset = 3 * sizeof(float);
-    // TexCoord
-//    vertexDesc.attributes[1].format = MTLVertexFormatFloat2;
-//    vertexDesc.attributes[1].bufferIndex = 0;
-//    vertexDesc.attributes[1].offset = 3 * sizeof(float);
-    // Color
-//    vertexDesc.attributes[3].format = MTLVertexFormatFloat4;
-//    vertexDesc.attributes[3].bufferIndex = 0;
-//    vertexDesc.attributes[3].offset = 2 * sizeof(float);
-    
-    vertexDesc.layouts[0].stride = 3 * sizeof(float);
-    vertexDesc.layouts[0].stepRate = 1;
-    vertexDesc.layouts[0].stepFunction = MTLVertexStepFunctionPerVertex;
-    
     // Prepare Pipeline Descriptor -------
     m_PipelineDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
     m_PipelineDescriptor.vertexFunction = [library newFunctionWithName:@"vertexFunction"];
     m_PipelineDescriptor.fragmentFunction = [library newFunctionWithName:@"fragmentFunction"];
-    m_PipelineDescriptor.vertexDescriptor = vertexDesc;
     m_PipelineDescriptor.colorAttachments[0].pixelFormat = MTLPixelFormatBGRA8Unorm;
     
-    m_RenderPipelineState = [device newRenderPipelineStateWithDescriptor:m_PipelineDescriptor error:nil];
+    m_RenderPipelineState = [context->m_Device newRenderPipelineStateWithDescriptor:m_PipelineDescriptor error:nil];
 }
 
 

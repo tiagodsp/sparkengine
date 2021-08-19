@@ -21,5 +21,9 @@ public:
     id<MTLDevice> m_Device;
     CAMetalLayer* m_Layer;
     id<CAMetalDrawable> m_Surface;
+    id<MTLCommandQueue> m_CommandQueue;
+    id<MTLCommandBuffer> m_CommandBuffer;
+    id<MTLRenderCommandEncoder> m_CommandEncoder;
+    MTLRenderPassDescriptor* m_DefaultPass;
 };
 

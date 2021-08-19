@@ -11,8 +11,8 @@ namespace Spark
 // MetalVertexBuffer methods definitions ----------------
 MetalVertexBuffer::MetalVertexBuffer(float* vertices, uint32 size)
 {
-    Ref<MetalPlatformRendererAPI> renderer = std::static_pointer_cast<MetalPlatformRendererAPI>(Renderer::GetLowLevelAPI());
-    m_Buffer = [renderer->m_Device newBufferWithBytes:vertices length:size options:MTLResourceOptionCPUCacheModeDefault];
+    Ref<MetalGraphicsContext> context = std::static_pointer_cast<MetalGraphicsContext>(Renderer::GetGraphicsContext());
+    m_Buffer = [context->m_Device newBufferWithBytes:vertices length:size options:MTLResourceOptionCPUCacheModeDefault];
     m_Offset = 0;
     m_Size = size;
 }
@@ -24,8 +24,8 @@ MetalVertexBuffer::~MetalVertexBuffer()
 
 void MetalVertexBuffer::Bind() const
 {
-    Ref<MetalPlatformRendererAPI> renderer = std::static_pointer_cast<MetalPlatformRendererAPI>(Renderer::GetLowLevelAPI());
-    [renderer->m_CommandEncoder setVertexBuffer:m_Buffer offset:m_Offset atIndex:0];
+    Ref<MetalGraphicsContext> context = std::static_pointer_cast<MetalGraphicsContext>(Renderer::GetGraphicsContext());
+    [context->m_CommandEncoder setVertexBuffer:m_Buffer offset:m_Offset atIndex:0];
 }
 
 void MetalVertexBuffer::Unbind() const
@@ -50,8 +50,8 @@ MetalIndexBuffer::MetalIndexBuffer(uint32* indices, uint32 count)
 {
     m_Count = count;
     
-    Ref<MetalPlatformRendererAPI> renderer = std::static_pointer_cast<MetalPlatformRendererAPI>(Renderer::GetLowLevelAPI());
-    m_Buffer = [renderer->m_Device newBufferWithBytes:indices length:count * sizeof(uint32) options:MTLResourceOptionCPUCacheModeDefault];
+    Ref<MetalGraphicsContext> context = std::static_pointer_cast<MetalGraphicsContext>(Renderer::GetGraphicsContext());
+    m_Buffer = [context->m_Device newBufferWithBytes:indices length:count * sizeof(uint32) options:MTLResourceOptionCPUCacheModeDefault];
 }
 
 MetalIndexBuffer::~MetalIndexBuffer()

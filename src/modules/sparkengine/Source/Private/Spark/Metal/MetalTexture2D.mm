@@ -79,8 +79,8 @@ namespace Spark
 
     void MetalTexture2D::Bind(uint32 slot) const
     {
-        Ref<MetalPlatformRendererAPI> metalApi = std::static_pointer_cast<MetalPlatformRendererAPI>(Renderer::GetLowLevelAPI());
-        [metalApi->m_CommandEncoder setFragmentTexture:m_Texture atIndex:slot];
+        Ref<MetalGraphicsContext> context = std::static_pointer_cast<MetalGraphicsContext>(Renderer::GetGraphicsContext());
+        [context ->m_CommandEncoder setFragmentTexture:m_Texture atIndex:slot];
     }
 
     void MetalTexture2D::Unbind() const
@@ -92,7 +92,7 @@ namespace Spark
     {
         m_PixelFormat = PixelFormat;
         
-        Ref<MetalPlatformRendererAPI> metalApi = std::static_pointer_cast<MetalPlatformRendererAPI>(Renderer::GetLowLevelAPI());
+        Ref<MetalGraphicsContext> context = std::static_pointer_cast<MetalGraphicsContext>(Renderer::GetGraphicsContext());
         
         // Create texture descriptor -------------
         MTLTextureDescriptor* textureDescriptor = [[MTLTextureDescriptor alloc] init];
@@ -101,7 +101,7 @@ namespace Spark
         textureDescriptor.pixelFormat = GetMetalInternalFormatPerTexFormat(m_TextureFormat);
         textureDescriptor.mipmapLevelCount = 1;
         
-        m_Texture = [metalApi->m_Device newTextureWithDescriptor:textureDescriptor];
+        m_Texture = [context->m_Device newTextureWithDescriptor:textureDescriptor];
         
         MTLRegion region = {
             { 0, 0, 0 },                   // MTLOrigin

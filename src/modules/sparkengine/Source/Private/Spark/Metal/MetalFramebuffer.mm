@@ -1,7 +1,7 @@
 #include "Spark/Metal/MetalFramebuffer.h"
 #include <Metal/Metal.h>
 #include "Spark/Renderer/Renderer.h"
-#include "Spark/Metal/MetalPlatformRendererAPI.h"
+#include "Spark/Metal/MetalGraphicsContext.h"
 namespace Spark
 {
     MetalFramebuffer::MetalFramebuffer(const FramebufferProperties &Properties)
@@ -19,9 +19,9 @@ namespace Spark
 
     void MetalFramebuffer::Bind()
     {
-        Ref<MetalPlatformRendererAPI> metalApi = std::static_pointer_cast<MetalPlatformRendererAPI>(Renderer::GetLowLevelAPI());
-        m_CommandBuffer = [metalApi->m_CommandQueue commandBuffer];
-        metalApi->m_CommandEncoder = [m_CommandBuffer renderCommandEncoderWithDescriptor:m_RenderPassDescriptor];
+        Ref<MetalGraphicsContext> context = std::static_pointer_cast<MetalGraphicsContext>(Renderer::GetGraphicsContext());
+        m_CommandBuffer = [context->m_CommandQueue commandBuffer];
+        context->m_CommandEncoder = [m_CommandBuffer renderCommandEncoderWithDescriptor:m_RenderPassDescriptor];
     }
 
     void MetalFramebuffer::Unbind()
@@ -38,7 +38,7 @@ namespace Spark
             [m_RenderPassDescriptor release];
         }
         
-        id<MTLDevice> device = std::static_pointer_cast<MetalPlatformRendererAPI>(Renderer::GetLowLevelAPI())->m_Device;
+        Ref<MetalGraphicsContext> context = std::static_pointer_cast<MetalGraphicsContext>(Renderer::GetGraphicsContext());
         
         // Color attachment texture -------------
         MTLTextureDescriptor* colorTextureDescriptor = [[MTLTextureDescriptor alloc] init];
@@ -48,7 +48,7 @@ namespace Spark
         colorTextureDescriptor.mipmapLevelCount = 1;
         colorTextureDescriptor.usage = MTLTextureUsageRenderTarget;
         
-        m_ColorTexture = [device newTextureWithDescriptor:colorTextureDescriptor];
+        m_ColorTexture = [context->m_Device newTextureWithDescriptor:colorTextureDescriptor];
         
         // Depth attachment texture --------------
         MTLTextureDescriptor* depthTextureDescriptor = [[MTLTextureDescriptor alloc] init];
@@ -58,9 +58,7 @@ namespace Spark
         depthTextureDescriptor.mipmapLevelCount = 1;
         depthTextureDescriptor.usage = MTLTextureUsageRenderTarget;
         
-        m_DepthTexture = [device newTextureWithDescriptor:colorTextureDescriptor];
-        
-        
+        m_DepthTexture = [context->m_Device newTextureWithDescriptor:colorTextureDescriptor];
         
         // Create render pass ----------
         m_RenderPassDescriptor = [[MTLRenderPassDescriptor alloc] init];

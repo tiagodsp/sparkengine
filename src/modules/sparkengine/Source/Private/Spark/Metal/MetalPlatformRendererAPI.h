@@ -16,13 +16,6 @@ class MetalPlatformRendererAPI : public PlatformRendererAPI
     
 private:
     Ref<MetalGraphicsContext> m_GraphicsContext;
-    id<MTLDevice> m_Device;
-    MTLRenderPipelineDescriptor* m_PipelineStateDescriptor;
-    id<MTLCommandQueue> m_CommandQueue;
-    id<MTLCommandBuffer> m_CommandBuffer;
-    id<MTLRenderCommandEncoder> m_CommandEncoder;
-    MTLRenderPassDescriptor* m_DefaultPass;
-    
     glm::vec4 m_ClearColor;
 public:
     MetalPlatformRendererAPI(/* args */);
