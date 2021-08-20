@@ -200,7 +200,7 @@ function(sbs_add_module)
     
 
     # Add user defined definitions
-    if(NOT ${sbs_add_module_DEFINITIONS})
+    if(sbs_add_module_DEFINITIONS)
         message("[${SBS_MODULE_NAME}] - Setting custom definitions:")
         foreach(definition ${sbs_add_module_DEFINITIONS})
             message("[${SBS_MODULE_NAME}] -    ++ ${definition}")
@@ -263,7 +263,7 @@ function(sbs_add_module)
     endif()
 
     if(sbs_add_module_OBJECTIVE_CXX)
-        target_compile_options(${SBS_MODULE_NAME} PRIVATE -x objective-c++)
+        target_compile_options(${SBS_MODULE_NAME} PRIVATE -x objective-c++ -fobjc-weak)
         # target_link_options(${SBS_MODULE_NAME} PRIVATE -framework Foundation)
         # TODO - Remove MacOS library dependencies from here and declare them on target CMakeList.txt
         target_link_options(${SBS_MODULE_NAME} PRIVATE "SHELL:-framework AppKit")
