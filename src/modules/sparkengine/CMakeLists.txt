@@ -14,6 +14,8 @@ sbs_add_module(
         "CRCpp"
     DEFINITIONS
         "SPARKENGINE_ENABLE_ASSERTS"
+        "SPARKENGINE_ENABLE_RENDERER_OPENGL"
+        "SPARKENGINE_ENABLE_RENDERER_METAL"
     SOURCE_PATHS
         "Source/Public/"
         "Source/Private/"

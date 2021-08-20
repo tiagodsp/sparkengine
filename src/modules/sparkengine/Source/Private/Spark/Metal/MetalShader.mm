@@ -1,3 +1,5 @@
+#ifdef SPARKENGINE_ENABLE_RENDERER_METAL
+
 #include "sparkengine.PCH.h"
 #include "MetalShader.h"
 
@@ -151,3 +153,5 @@ void MetalShader::Compile(std::string sourceShader)
 
 
 } // namespace Spark
+
+#endif //SPARKENGINE_ENABLE_RENDERER_METAL

@@ -1,3 +1,5 @@
+#ifdef SPARKENGINE_ENABLE_RENDERER_METAL
+
 #include "Spark/Metal/MetalFramebuffer.h"
 #include <Metal/Metal.h>
 #include "Spark/Renderer/Renderer.h"
@@ -87,3 +89,5 @@ namespace Spark
     }
 
 } // namespace Spark
+
+#endif //SPARKENGINE_ENABLE_RENDERER_METAL

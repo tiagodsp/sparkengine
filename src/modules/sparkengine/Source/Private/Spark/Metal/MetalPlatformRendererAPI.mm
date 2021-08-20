@@ -1,3 +1,5 @@
+#ifdef SPARKENGINE_ENABLE_RENDERER_METAL
+
 #include "sparkengine.PCH.h"
 #include "MetalPlatformRendererAPI.h"
 #include "MetalGraphicsContext.h"
@@ -30,11 +32,11 @@ namespace Spark
     {
         Ref<MetalGraphicsContext> context = std::static_pointer_cast<MetalGraphicsContext>(GetGraphicsContext());
         
-        m_GraphicsContext->m_Surface = [m_GraphicsContext->m_Layer nextDrawable];
-        m_GraphicsContext->m_DefaultPass.colorAttachments[0].texture = m_GraphicsContext->m_Surface.texture;
+        // m_GraphicsContext->m_Surface = [m_GraphicsContext->m_Layer nextDrawable];
+        // m_GraphicsContext->m_DefaultPass.colorAttachments[0].texture = m_GraphicsContext->m_Surface.texture;
 
-        context->m_CommandBuffer = [context->m_CommandQueue commandBuffer];
-        context->m_CommandEncoder = [context->m_CommandBuffer renderCommandEncoderWithDescriptor:m_GraphicsContext->m_DefaultPass];
+        // context->m_CommandBuffer = [context->m_CommandQueue commandBuffer];
+        // context->m_CommandEncoder = [context->m_CommandBuffer renderCommandEncoderWithDescriptor:m_GraphicsContext->m_DefaultPass];
     }
 
     void MetalPlatformRendererAPI::DrawIndexed(const Ref<IVertexArray> &vertexArray)
@@ -59,9 +61,17 @@ namespace Spark
         [context->m_CommandBuffer commit];
         [context->m_CommandBuffer waitUntilCompleted];
         
-        //        [context->m_Surface release];
         [context->m_CommandBuffer release];
         [context->m_CommandEncoder release];
+
+        context->m_Surface = [context->m_Layer nextDrawable];
+        context->m_DefaultPass.colorAttachments[0].texture = context->m_Surface.texture;
+
+        context->m_CommandBuffer = [context->m_CommandQueue commandBuffer];
+        context->m_CommandEncoder = [context->m_CommandBuffer renderCommandEncoderWithDescriptor:context->m_DefaultPass];
+        //        [context->m_Surface release];
     }
 
 } // namespace Spark
+
+#endif //SPARKENGINE_ENABLE_RENDERER_METAL

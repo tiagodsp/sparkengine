@@ -1,3 +1,5 @@
+#ifdef SPARKENGINE_ENABLE_RENDERER_METAL
+
 #include "sparkengine.PCH.h"
 #include "MetalBuffer.h"
 
@@ -70,3 +72,5 @@ void MetalIndexBuffer::Unbind() const
 }
 
 } // namespace Spark
+
+#endif //SPARKENGINE_ENABLE_RENDERER_METAL

@@ -1,3 +1,5 @@
+#ifdef SPARKENGINE_ENABLE_RENDERER_METAL
+
 #include "sparkengine.PCH.h"
 #include "MetalVertexArray.h"
 
@@ -67,3 +69,5 @@ void MetalVertexArray::SetIndexBuffer(const Ref<IIndexBuffer>& indexBuffer)
 
 
 } // namespace Spark
+
+#endif //SPARKENGINE_ENABLE_RENDERER_METAL

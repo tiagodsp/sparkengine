@@ -1,3 +1,5 @@
+#ifdef SPARKENGINE_ENABLE_RENDERER_METAL
+
 #include "sparkengine.PCH.h"
 #include "MetalGraphicsContext.h"
 
@@ -54,3 +56,5 @@ void MetalGraphicsContext::SwapBuffers()
 {
     //m_Surface = [m_Layer nextDrawable];
 }
+
+#endif //SPARKENGINE_ENABLE_RENDERER_METAL
