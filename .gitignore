@@ -3,3 +3,5 @@ bin/
 build
 intermediate/
 .DS_Store
+compile_commands.json
+.cache
