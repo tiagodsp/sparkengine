@@ -17,7 +17,7 @@ namespace Spark
         id<MTLTexture> m_ColorTexture;
         id<MTLTexture> m_DepthTexture;
         id<MTLCommandBuffer> m_CommandBuffer;
-        id<MTLCommandEncoder> m_CommandEncoder;
+        id<MTLRenderCommandEncoder> m_CommandEncoder;
 
     public:
         MetalFramebuffer(const FramebufferProperties& Properties);

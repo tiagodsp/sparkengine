@@ -56,20 +56,16 @@ namespace Spark
     {
         Ref<MetalGraphicsContext> context = std::static_pointer_cast<MetalGraphicsContext>(GetGraphicsContext());
 
+        // End the command buffer
         [context->m_CommandEncoder endEncoding];
+
+        // Schedule a present once the framebuffer is complete using the current drawable
         [context->m_CommandBuffer presentDrawable:context->m_Surface];
+
+        // Finalize rendering here & push the command buffer to the GPU
         [context->m_CommandBuffer commit];
         [context->m_CommandBuffer waitUntilCompleted];
-        
-        [context->m_CommandBuffer release];
-        [context->m_CommandEncoder release];
 
-        context->m_Surface = [context->m_Layer nextDrawable];
-        context->m_DefaultPass.colorAttachments[0].texture = context->m_Surface.texture;
-
-        context->m_CommandBuffer = [context->m_CommandQueue commandBuffer];
-        context->m_CommandEncoder = [context->m_CommandBuffer renderCommandEncoderWithDescriptor:context->m_DefaultPass];
-        //        [context->m_Surface release];
     }
 
 } // namespace Spark

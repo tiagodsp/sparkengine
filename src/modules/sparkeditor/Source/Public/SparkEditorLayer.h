@@ -26,6 +26,7 @@ namespace Spark
         Ref<World> m_World;
         Ref<Texture> m_Texture;
         Ref<IFramebuffer> m_MainViewportFramebuffer;
+        Ref<IFramebuffer> m_ImGuiFramebuffer;
         Ref<ShaderLibrary> m_ShaderLibrary;
         glm::vec2 m_ViewportSize;
 
