@@ -7,6 +7,7 @@
 #include <array>
 #include <memory>
 #include <functional>
+#include <unordered_map>
 
 #include "Spark/Core/CoreTypes.h"
 #include "Spark/Core/Log.h"
