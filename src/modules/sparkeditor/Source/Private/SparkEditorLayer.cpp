@@ -194,19 +194,19 @@ namespace Spark
 
 		// Viewport ---------------------------------------------------------------------
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0, 0});
-		//        ImGui::Begin("Viewport");
-		//        ImVec2 regionAvail = ImGui::GetContentRegionAvail();
-		//        if(m_ViewportSize != *(glm::vec2*)&regionAvail) // Check if the viewport size changed.
-		//        {
-		//            // Resize viewport and framebuffers.
-		//            m_ViewportSize = {regionAvail.x, regionAvail.y};
-		//            m_MainViewportFramebuffer->Resize(m_ViewportSize.x, m_ViewportSize.y);
-		//            m_CameraActor->GetComponent<CameraComponent>()->SetAspectRatio(m_ViewportSize.x /
-		//            m_ViewportSize.y);
-		//        }
-		//        uint32 texid = m_MainViewportFramebuffer->GetColorAttachmentRendererID();
-		//        ImGui::Image((void*)texid, ImVec2{m_ViewportSize.x , m_ViewportSize.y}, ImVec2{0,1}, ImVec2{1,0}); //
-		//        Set the viewport image ImGui::End();
+		ImGui::Begin("Viewport");
+		ImVec2 regionAvail = ImGui::GetContentRegionAvail();
+		if (m_ViewportSize != *(glm::vec2 *)&regionAvail) // Check if the viewport size changed.
+		{
+			// Resize viewport and framebuffers.
+			m_ViewportSize = {regionAvail.x, regionAvail.y};
+			m_MainViewportFramebuffer->Resize(m_ViewportSize.x, m_ViewportSize.y);
+			m_CameraActor->GetComponent<CameraComponent>()->SetAspectRatio(m_ViewportSize.x / m_ViewportSize.y);
+		}
+		uint64 texid = m_MainViewportFramebuffer->GetColorAttachmentRendererID();
+		ImGui::Image((void *)texid, ImVec2{m_ViewportSize.x, m_ViewportSize.y}, ImVec2{0, 1}, ImVec2{1, 0}); //
+		// Set the viewport image ImGui::End();
+		ImGui::End();
 		ImGui::PopStyleVar();
 		// -------------------------------------------------------------------------------
 

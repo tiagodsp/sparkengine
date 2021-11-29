@@ -60,7 +60,7 @@ namespace Spark
         [context->m_CommandEncoder endEncoding];
 
         // Schedule a present once the framebuffer is complete using the current drawable
-        [context->m_CommandBuffer presentDrawable:context->m_Surface];
+        // [context->m_CommandBuffer presentDrawable:context->m_Surface];
 
         // Finalize rendering here & push the command buffer to the GPU
         [context->m_CommandBuffer commit];

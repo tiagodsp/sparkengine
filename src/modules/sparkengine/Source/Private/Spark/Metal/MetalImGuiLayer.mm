@@ -77,8 +77,8 @@ namespace Spark
 		metal_context->m_CommandEncoder =
 			[metal_context->m_CommandBuffer renderCommandEncoderWithDescriptor:metal_context->m_DefaultPass];
 
-		ImGui_ImplMetal_RenderDrawData(ImGui::GetDrawData(), metal_context->m_CommandBuffer,
-									   metal_context->m_CommandEncoder);
+		ImGui_ImplMetal_RenderDrawData(
+			ImGui::GetDrawData(), metal_context->m_CommandBuffer, metal_context->m_CommandEncoder);
 
 		// End command encoder and commit command buffer
 		[metal_context->m_CommandEncoder endEncoding];

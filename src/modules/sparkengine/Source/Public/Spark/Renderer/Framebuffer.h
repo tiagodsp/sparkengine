@@ -19,8 +19,8 @@ namespace Spark
         virtual void Unbind() = 0;
         virtual void Invalidate() = 0;
         virtual uint32 GetRendererID() = 0;
-        virtual uint32 GetColorAttachmentRendererID() = 0;
-        virtual uint32 GetDepthAttachmentRendererID() = 0;
+        virtual uint64 GetColorAttachmentRendererID() = 0;
+        virtual uint64 GetDepthAttachmentRendererID() = 0;
         virtual const FramebufferProperties& GetProperties() const = 0;
         virtual void SetProperties(const FramebufferProperties& Properties) = 0;
         virtual void Resize(uint32 width, uint32 height) = 0;
