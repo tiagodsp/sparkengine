@@ -1,5 +1,6 @@
 ﻿---
 BasedOnStyle: Microsoft
-UseTab: ForIndentation
+NamespaceIndentation: All
+UseTab: Always
 
 ...
