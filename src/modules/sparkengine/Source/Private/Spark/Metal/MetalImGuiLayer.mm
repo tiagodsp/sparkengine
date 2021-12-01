@@ -77,6 +77,9 @@ namespace Spark
 		metal_context->m_CommandEncoder =
 			[metal_context->m_CommandBuffer renderCommandEncoderWithDescriptor:metal_context->m_DefaultPass];
 
+		auto draw_data = ImGui::GetDrawData();
+		draw_data->FramebufferScale = ImVec2(1.0f, 1.0f);
+
 		ImGui_ImplMetal_RenderDrawData(
 			ImGui::GetDrawData(), metal_context->m_CommandBuffer, metal_context->m_CommandEncoder);
 
