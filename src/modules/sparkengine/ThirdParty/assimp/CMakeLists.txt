@@ -1,7 +1,7 @@
 get_filename_component(LIBRARY_NAME ${CMAKE_CURRENT_LIST_DIR} NAME)
 message("Importing library: ${LIBRARY_NAME}")
 
-add_subdirectory(./assimp501)
+add_subdirectory(./assimp501 EXCLUDE_FROM_ALL)
 
  # Let's set compiler-specific flags
  if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")

@@ -12,6 +12,7 @@ sbs_add_module(
         "entt"
         "assimp"
         "CRCpp"
+        "ShaderConductor"
     DEFINITIONS
         "SPARKENGINE_ENABLE_ASSERTS"
         "SPARKENGINE_ENABLE_RENDERER_OPENGL"

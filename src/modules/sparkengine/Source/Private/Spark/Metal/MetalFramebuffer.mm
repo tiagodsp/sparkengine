@@ -34,6 +34,9 @@ namespace Spark
 		m_CommandBuffer = [context->m_CommandQueue commandBuffer];
 		m_CommandEncoder = [m_CommandBuffer renderCommandEncoderWithDescriptor:m_RenderPassDescriptor];
 
+		// Set culling mode to back face culling
+		[m_CommandEncoder setCullMode:MTLCullModeBack];
+
 		context->m_CommandBuffer = m_CommandBuffer;
 		context->m_CommandEncoder = m_CommandEncoder;
 	}

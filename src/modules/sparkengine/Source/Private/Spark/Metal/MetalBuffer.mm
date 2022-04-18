@@ -1,3 +1,4 @@
+#include <cstddef>
 #ifdef SPARKENGINE_ENABLE_RENDERER_METAL
 
 #include "sparkengine.PCH.h"
@@ -27,7 +28,7 @@ MetalVertexBuffer::~MetalVertexBuffer()
 void MetalVertexBuffer::Bind() const
 {
     Ref<MetalGraphicsContext> context = std::static_pointer_cast<MetalGraphicsContext>(Renderer::GetGraphicsContext());
-    [context->m_CommandEncoder setVertexBuffer:m_Buffer offset:m_Offset atIndex:0];
+    [context->m_CommandEncoder setVertexBuffer:m_Buffer offset:m_Offset atIndex:1];
 }
 
 void MetalVertexBuffer::Unbind() const

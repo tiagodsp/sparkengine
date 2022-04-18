@@ -6,6 +6,7 @@ project(sparkengine C CXX)
 
 set(CMAKE_CXX_STANDARD  17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # set export compile commands generation
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 if(CMAKE_CXX_COMPILER MATCHES "em\\+\\+(-[a-zA-Z0-9.])?(.[a-zA-Z0-9.]*)?$")
   message(" * C++ compiler: Emscripten")
@@ -240,7 +241,7 @@ function(sbs_add_module)
                 # ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
                 FOLDER "Modules/${SBS_MODULE_NAME}/ThirdParty"
             )
-            #target_link_libraries(${SBS_MODULE_NAME} ${folder})
+            # target_link_libraries(${SBS_MODULE_NAME} PRIVATE ${folder})
         endforeach()
     endif()
 

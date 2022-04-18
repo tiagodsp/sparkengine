@@ -52,7 +52,7 @@ namespace Spark
         s_Data->WhiteTexture->SetTextureData(&whitePixel, sizeof(uint32), Texture::PixelFormat::RGBA);
 
 
-        s_Data->TextureShader = IShader::Create("Assets/Shaders/Texture.metal");
+        s_Data->TextureShader = IShader::Create("Assets/Shaders/Texture.hlsl");
     }
 
     void Renderer2D::Shutdown()
