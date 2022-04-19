@@ -29,7 +29,7 @@ public:
     virtual const std::string &GetName() const override { return m_Name; };
 
     // Float Uniforms -----------------
-    virtual void UploadUniformFloat(const std::string &name, float f) override;
+    virtual void UploadUniformFloat(const std::string &name, const float& f) override;
     virtual void UploadUniformFloat2(const std::string &name, const glm::vec2 &vector) override;
     virtual void UploadUniformFloat3(const std::string &name, const glm::vec3 &vector) override;
     virtual void UploadUniformFloat4(const std::string &name, const glm::vec4 &vector) override;

@@ -20,7 +20,7 @@ namespace Spark
         static Ref<IShader> Create(const std::string &name, const std::string &vertexSource, const std::string &fragmentSource);
 
         // Float Uniforms -----------------
-        virtual void UploadUniformFloat(const std::string &name, float f) = 0;
+        virtual void UploadUniformFloat(const std::string &name, const float& f) = 0;
         virtual void UploadUniformFloat2(const std::string &name, const glm::vec2 &vector) = 0;
         virtual void UploadUniformFloat3(const std::string &name, const glm::vec3 &vector) = 0;
         virtual void UploadUniformFloat4(const std::string &name, const glm::vec4 &vector) = 0;

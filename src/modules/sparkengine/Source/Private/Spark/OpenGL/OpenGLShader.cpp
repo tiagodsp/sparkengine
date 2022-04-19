@@ -60,7 +60,7 @@ void OpenGLShader::Unbind() const
     glUseProgram(0);
 }
 
-void OpenGLShader::UploadUniformFloat(const std::string &name, float f)
+void OpenGLShader::UploadUniformFloat(const std::string &name, const float& f)
 {
     GLint location = glGetUniformLocation(m_RendererID, name.c_str());
     glUniform1f(location, f);

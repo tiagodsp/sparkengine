@@ -66,6 +66,7 @@ void MetalShader::Bind()
     
     [context->m_CommandEncoder setRenderPipelineState:m_RenderPipelineState];
     [context->m_CommandEncoder setVertexBuffer:buffer offset:0 atIndex:0];
+    [context->m_CommandEncoder setFragmentBuffer:buffer offset:0 atIndex:0];
 }
 
 void MetalShader::Unbind() const
@@ -73,7 +74,7 @@ void MetalShader::Unbind() const
     
 }
 
-void MetalShader::UploadUniformFloat(const std::string &name, float f)
+void MetalShader::UploadUniformFloat(const std::string &name, const float& f)
 {
     const char* p = (char*)&f;
     m_UniformsData.push_back({sizeof(float), p});
@@ -82,19 +83,19 @@ void MetalShader::UploadUniformFloat(const std::string &name, float f)
 void MetalShader::UploadUniformFloat2(const std::string &name, const glm::vec2 &vector)
 {
     const char* p = (char*)glm::value_ptr(vector);
-    m_UniformsData.push_back({sizeof(glm::vec2), p});
+    m_UniformsData.push_back({sizeof(simd::float2), p});
 }
 
 void MetalShader::UploadUniformFloat3(const std::string &name, const glm::vec3 &vector)
 {
     const char* p = (char*)glm::value_ptr(vector);
-    m_UniformsData.push_back({sizeof(glm::vec3), p});
+    m_UniformsData.push_back({sizeof(simd::float3), p});
 }
 
 void MetalShader::UploadUniformFloat4(const std::string &name, const glm::vec4 &vector)
 {
     const char* p = (char*)glm::value_ptr(vector);
-    m_UniformsData.push_back({sizeof(glm::vec4), p});
+    m_UniformsData.push_back({sizeof(simd::float4), p});
 }
 
 void MetalShader::UploadUniformInt(const std::string &name, int i)
@@ -106,13 +107,13 @@ void MetalShader::UploadUniformInt(const std::string &name, int i)
 void MetalShader::UploadUniformMat3(const std::string &name, const glm::mat3 &matrix)
 {
     const char* p = (char*)glm::value_ptr(matrix);
-    m_UniformsData.push_back({sizeof(glm::mat3), p});
+    m_UniformsData.push_back({sizeof(simd::float3x3), p});
 }
 
 void MetalShader::UploadUniformMat4(const std::string &name, const glm::mat4 &matrix)
 {
     const char* p = (char*)glm::value_ptr(matrix);
-    m_UniformsData.push_back({sizeof(glm::mat4), p});
+    m_UniformsData.push_back({sizeof(simd::float4x4), p});
 }
 
 
@@ -152,8 +153,8 @@ void MetalShader::Compile(std::string sourceShader)
 
 
     // Compile Vertex Shader
-    sourceDesc.stage = ShaderConductor::ShaderStage::PixelShader;
-    sourceDesc.entryPoint = "PSMain";
+    sourceDesc.stage = ShaderConductor::ShaderStage::VertexShader;
+    sourceDesc.entryPoint = "VSMain";
     ShaderConductor::Compiler::ResultDesc result = compiler.Compile(sourceDesc, options, targetDesc);
     if(result.hasError)
     {
@@ -165,10 +166,11 @@ void MetalShader::Compile(std::string sourceShader)
         CORE_ASSERT(false, "Vertex Shader stage compilation failure!");
     }
     std::string compiledVertexShaderSource = std::string(reinterpret_cast<const char*>(result.target.Data()), result.target.Size());
+    NSString* VSSource = [NSString stringWithCString:compiledVertexShaderSource.c_str() encoding:[NSString defaultCStringEncoding]];
 
     // Compile Pixel Shader
-    sourceDesc.stage = ShaderConductor::ShaderStage::VertexShader;
-    sourceDesc.entryPoint = "VSMain";
+    sourceDesc.stage = ShaderConductor::ShaderStage::PixelShader;
+    sourceDesc.entryPoint = "PSMain";
     result = compiler.Compile(sourceDesc, options, targetDesc);
     if(result.hasError)
     {
@@ -180,18 +182,18 @@ void MetalShader::Compile(std::string sourceShader)
         CORE_ASSERT(false, "Pixel Shader stage compilation failure!");
     }
     std::string compiledPixelShaderSource = std::string(reinterpret_cast<const char*>(result.target.Data()), result.target.Size());
+    NSString* PSSource = [NSString stringWithCString:compiledPixelShaderSource.c_str() encoding:[NSString defaultCStringEncoding]];
 
-    // Concat Shader Sources
-    std::string finalShaderSource = compiledVertexShaderSource + "\n" + compiledPixelShaderSource;
-
-    
-    NSString* source = [NSString stringWithCString:finalShaderSource.c_str() encoding:[NSString defaultCStringEncoding]];
     
     Ref<MetalGraphicsContext> context = std::static_pointer_cast<MetalGraphicsContext>(Renderer::GetGraphicsContext());
     
     // Write generated shader source to file for debugging
     // TODO - Enable this when debugging is needed
     {
+        // Concat Shader Sources
+        std::string finalShaderSource = compiledVertexShaderSource + "\n" + compiledPixelShaderSource;
+        NSString* source = [NSString stringWithCString:finalShaderSource.c_str() encoding:[NSString defaultCStringEncoding]];
+
         IPlatformFile *platformFile = IPlatformFile::Get();
         char* filename = (char*)malloc(strlen(m_Name.c_str()) + 13);
         strcpy(filename, m_Name.c_str());
@@ -203,7 +205,8 @@ void MetalShader::Compile(std::string sourceShader)
     }
 
     NSError* errors = nil;
-    id<MTLLibrary> library = [context->m_Device newLibraryWithSource:source options:nil error:&errors];
+    id<MTLLibrary> VSLibrary = [context->m_Device newLibraryWithSource:VSSource options:nil error:&errors];
+    id<MTLLibrary> PSLibrary = [context->m_Device newLibraryWithSource:PSSource options:nil error:&errors];
     if(errors)
     {
         CORE_LOGF("Shader \"{0}\" compilation failure!", m_Name);
@@ -213,8 +216,8 @@ void MetalShader::Compile(std::string sourceShader)
 
     // Prepare Pipeline Descriptor -------
     m_PipelineDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
-    m_PipelineDescriptor.vertexFunction = [library newFunctionWithName:@"VSMain"];
-    m_PipelineDescriptor.fragmentFunction = [library newFunctionWithName:@"PSMain"];
+    m_PipelineDescriptor.vertexFunction = [VSLibrary newFunctionWithName:@"VSMain"];
+    m_PipelineDescriptor.fragmentFunction = [PSLibrary newFunctionWithName:@"PSMain"];
     m_PipelineDescriptor.colorAttachments[0].pixelFormat = MTLPixelFormatBGRA8Unorm;
     
     m_PipelineDescriptor.vertexDescriptor = [[MTLVertexDescriptor alloc] init];
@@ -236,9 +239,6 @@ void MetalShader::Compile(std::string sourceShader)
     m_PipelineDescriptor.vertexDescriptor.attributes[3].bufferIndex = 1;
 
     m_PipelineDescriptor.vertexDescriptor.layouts[1].stride = sizeof(VertexData);
-    
-
-
     
     m_RenderPipelineState = [context->m_Device newRenderPipelineStateWithDescriptor:m_PipelineDescriptor error:nil];
 }

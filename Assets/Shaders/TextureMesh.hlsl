@@ -10,8 +10,12 @@ struct VS_INPUT{
 
 cbuffer uniforms : register(b1)
 {
-    float4x4 viewProjection;
-    float4x4 transform;
+    float4x4 u_ViewProjection;
+    float4x4 u_Transform;
+    float2 u_Resolution;
+    float u_Time;
+    float u_TimeDelta;
+    float2 u_Mouse;
 }
 
 struct VS_OUTPUT {
@@ -23,9 +27,10 @@ struct VS_OUTPUT {
 VS_OUTPUT VSMain(const uint vertexId : SV_VERTEXID, VS_INPUT v)
 {
     VS_OUTPUT output;
-    output.position = mul(float4(v.position, 1.0), transform);
-    output.position = mul(output.position, viewProjection);
-    output.color = float4(v.texcoord, 1.0, 1.0);
+    output.position = mul(float4(v.position, 1.0), u_Transform);
+    output.position = mul(output.position, u_ViewProjection);
+    // output.position.x *= abs(sin(u_Time));
+    output.color = float4(abs(sin(u_Mouse.x / u_Resolution.x)), 0.0, 1.0, 1.0);
     return output;
 }
 
